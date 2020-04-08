@@ -2,6 +2,7 @@
 *Lexer.*
 *Parser.*
 *.tokens
+*.interp
 /.vscode
 /.antlr
 

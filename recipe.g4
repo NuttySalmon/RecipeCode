@@ -6,63 +6,82 @@ data: DECLARATION_SYM declaration_list;
 
 //Declaration section
 declaration_list: declaration (declaration)*; 
-declaration: '-' (single_declaration | array_declaration);
-/* */
-single_declaration: number 'kg of' IDENTIFIER;
-array_declaration: INTEGER ARRAY_OF number type IDENTIFIER; 
-type: INT_SYM | DEC_SYM;
+declaration: '-' number type OF IDENTIFIER;
+type: INT_TYPE | DEC_TYPE | ARR_DEC_TYPE| ARR_INT_TYPE;
+
 
 //Code section
 code: CODE_SYM code_line_list?;
 code_line_list: code_line (code_line)*;
-code_line: INTEGER '.' statement_list '.';
-statement_list: statement (statement)*;
-statement: add_stm | sub_stm | while_stm | until_stm | function;
+code_line: INTEGER '.' statement_list PERIOD;
+statement_list: statement ((THEN) statement)*;
+statement:  | add_stm 
+        | sub_stm 
+        | mult_stm
+        | div_stm
+        | inc_stm
+        | dec_stm
+        | while_stm 
+        | until_stm 
+        | function
+        | if_stm
+        | while_stm
+        | for_stm
+        | print_stm;
 
 //function
-function: FUNCTION_CALL IDENTIFIER 'for' IDENTIFIER ', ' call;
-call: 'with' (IDENTIFIER ((',' | 'and' | ', and') IDENTIFIER)*)?;
+function: FUNCTION_CALL IDENTIFIER 'for' variable call?;
+call: 'with' variable ((','|','?'and') variable)*;
 
 //arithmetics 
-add_stm: ADD IDENTIFIER (AND IDENTIFIER)* TO IDENTIFIER;
-sub_stm: SUB IDENTIFIER (AND IDENTIFIER)* FROM IDENTIFIER;
-mult_stm: MULT IDENTIFIER (AND IDENTIFIER)* TO IDENTIFIER;
-div_stm: DIV IDENTIFIER TO ('size of' IDENTIFIER | INTEGER);
-inc_stm: INC IDENTIFIER 'for' INTEGER 'min' | 'mins';
-dec_stm: DEC IDENTIFIER 'for' INTEGER 'min' | 'mins';
+add_stm: ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER;
+sub_stm: SUB variable (AND variable)* DEST variable;
+mult_stm: MULT variable (AND variable)* DEST variable;
+div_stm: DIV variable SRC ('size of' variable | INTEGER);
+inc_stm: INC variable ('for' variable 'min' | 'mins')?;
+dec_stm: DEC variable ('for' variable 'min' | 'mins')?;
 
 //Logic
-if_stm: IF condition_list ',' THEN (DO step | statement_list) ',' (ELSE (DO step| statement_list))?;
-while_stm: condition_list ',' (DO step | statement_list);
-until_stm: REPEAT (statement_list | step) UNTIL condition;
+if_stm: IF condition COMMA statement_list;
+while_stm: WHILE condition_list COMMA WHILE_DO statement_list;
+until_stm: REPEAT statement_list UNTIL condition;
 for_stm: ;
-step: STEP_SYM INTEGER;
+print_stm: PRINT variable (AND variable)*;
+// step: STEP_SYM INTEGER;
 
 //Logic expressions
 condition_list: condition ((AND | OR) condition)*;
-condition: IDENTIFIER IS NOT? comperator (IDENTIFIER| number);
+condition: variable IS NOT? (comperator (variable| number) | TRUE);
 comperator:  GT | LT | EQ;
 
 number: INTEGER ('.' INTEGER)?;
 
+variable: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
+
 //Keywords
+PERIOD: '.';
+COMMA: ',';
 FUNCTION_CALL: 'See recipe';
+INT_TYPE: 'kg' | 'L';
+DEC_TYPE: 'g' | 'mL';
+ARR_INT_TYPE: 'pieces';
+ARR_DEC_TYPE: 'packs';
+ARRAY_ELEM: ('st'|'nd'|'th')('piece'|'pack');
 OF: 'of';
-ARRAY_OF: 'pieces of';
 HEADER_SYM: 'Recipe:';
 DECLARATION_SYM: 'Ingredients:';
 CODE_SYM: 'Directions:';
-IDENTIFIER: [a-zA-Z]+;
-INTEGER: [0-9]+;
-INT_SYM: 'kg' | 'l';
-DEC_SYM: 'g' | 'ml';
+
 IF: [Ii]'f';
 THEN: 'then';
 ELSE: 'otherwise';
 WHILE: [Ww]'hile';
-DO: 'do';
+WHILE_DO: 'keep';
+
 REPEAT: [Rr]'peat''edly'?;
 UNTIL: 'until';
+
+
 ADD: [Aa]'dd''ing'?;
 SUB: [Rr] 'emov'('e'|'ing');
 MULT: 'Mix''ing'?;
@@ -70,8 +89,9 @@ DIV: 'Divide';
 STEP_SYM: 'step';
 AND: 'and';
 OR: 'or';
-TO: 'in'?'to';
-FROM: 'from';
+DEST: 'in''to'? | 'to' | 'from';
+SRC: 'into';
+PRINT: 'Serve';
 
 IS: 'is';
 TRUE: 'done';
@@ -80,9 +100,14 @@ GT: 'morethan';
 LT: 'less than';
 EQ: 'as much as';
 
-WS: [\t]+ -> skip ; 
+
+INC: [Bb]'ak'('e'|'ing');
+DEC: [Cc]'chill'('e'|'ing');
+
+WS: [ \t]+ -> skip ; 
 NEWLINE : '\r'? '\n' -> skip;
 COMMENT: ('(' .* ')') -> skip;
 
-INC: 'Bake';
-DEC: 'Chill';
+
+IDENTIFIER: [a-zA-Z]+;
+INTEGER: [0-9]+;
