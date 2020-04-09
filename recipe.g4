@@ -25,11 +25,13 @@ statement:  | add_stm
         | until_stm 
         | function
         | if_stm
-        | print_stm;
+        | print_stm
+        | return_stm;
 
 //function
 function: FUNCTION_CALL IDENTIFIER 'for' variable call?;
 call: 'with' variable ((','|','?'and') variable)*;
+return_stm: RETURN IDENTIFIER;
 
 //arithmetics 
 add_stm: ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER;
@@ -68,6 +70,7 @@ OF: 'of';
 HEADER_SYM: 'Recipe:';
 DECLARATION_SYM: 'Ingredients:';
 CODE_SYM: 'Directions:';
+RETURN: 'Serve';
 
 IF: [Ii]'f';
 THEN: 'then';
@@ -88,7 +91,7 @@ AND: 'and';
 OR: 'or';
 DEST: 'in''to'? | 'to' | 'from';
 SRC: 'into';
-PRINT: 'Serve';
+PRINT: [Cc]'heck';
 
 IS: 'is';
 TRUE: 'done';
