@@ -5,14 +5,14 @@ header  : HEADER_SYM IDENTIFIER call?;
 data: DECLARATION_SYM declaration_list;
 
 //Declaration section
-declaration_list: declaration (declaration)*; 
+declaration_list: (declaration)+; 
 declaration: '-' number type OF IDENTIFIER;
 type: INT_TYPE | DEC_TYPE | ARR_DEC_TYPE| ARR_INT_TYPE;
 
 
 //Code section
 code: CODE_SYM code_line_list?;
-code_line_list: code_line (code_line)*;
+code_line_list: (code_line)+;
 code_line: INTEGER '.' statement_list PERIOD;
 statement_list: statement ((THEN) statement)*;
 statement:  | add_stm 
@@ -25,8 +25,6 @@ statement:  | add_stm
         | until_stm 
         | function
         | if_stm
-        | while_stm
-        | for_stm
         | print_stm;
 
 //function
@@ -42,10 +40,9 @@ inc_stm: INC variable ('for' variable 'min' | 'mins')?;
 dec_stm: DEC variable ('for' variable 'min' | 'mins')?;
 
 //Logic
-if_stm: IF condition COMMA statement_list;
+if_stm: IF condition COMMA statement_list (COMMA ELSE statement_list)?;
 while_stm: WHILE condition_list COMMA WHILE_DO statement_list;
 until_stm: REPEAT statement_list UNTIL condition;
-for_stm: ;
 print_stm: PRINT variable (AND variable)*;
 // step: STEP_SYM INTEGER;
 
@@ -96,7 +93,7 @@ PRINT: 'Serve';
 IS: 'is';
 TRUE: 'done';
 NOT: 'not';
-GT: 'morethan';
+GT: 'more than';
 LT: 'less than';
 EQ: 'as much as';
 
