@@ -1,4 +1,4 @@
-grammar recipe;
+grammar Recipe;
 
 program : header data code?;
 header  : HEADER_SYM IDENTIFIER call?;
@@ -8,7 +8,6 @@ data: DECLARATION_SYM declaration_list;
 declaration_list: (declaration)+; 
 declaration: '-' number type OF IDENTIFIER;
 type: INT_TYPE | DEC_TYPE | ARR_DEC_TYPE| ARR_INT_TYPE;
-
 
 //Code section
 code: CODE_SYM code_line_list?;
@@ -54,7 +53,6 @@ condition: variable IS NOT? (comperator (variable| number) | TRUE);
 comperator:  GT | LT | EQ;
 
 number: INTEGER ('.' INTEGER)?;
-
 variable: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
 
 //Keywords
@@ -102,12 +100,10 @@ EQ: 'as much as';
 
 
 INC: [Bb]'ak'('e'|'ing');
-DEC: [Cc]'chill'('e'|'ing');
-
+DEC: [Cc]'hill''ing'?;
 WS: [ \t]+ -> skip ; 
 NEWLINE : '\r'? '\n' -> skip;
-COMMENT: ('(' .* ')') -> skip;
-
+COMMENT: '(' .*? ')' -> skip;
 
 IDENTIFIER: [a-zA-Z]+;
 INTEGER: [0-9]+;
