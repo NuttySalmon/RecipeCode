@@ -1,5 +1,4 @@
 Recipe: Meatball
-(This is a comment)
 
 Ingredients:
 - 1 kg of beef 
@@ -17,5 +16,4 @@ Directions:
 otherwise add breadcrumbs to mixture. (If-else statement)
 4. While mixture is not done, keep baking mixture. (While statement, baking is incrementing)
 5. Chill water. (decrement)
-5. Check mixture. (print)
 6. Serve mixture. (return)
