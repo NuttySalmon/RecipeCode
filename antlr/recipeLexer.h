@@ -1,5 +1,5 @@
 
-// Generated from c:\Users\thoma\repos\recipe_code_win\recipe.g4 by ANTLR 4.7.1
+// Generated from c:\Users\thoma\repos\recipe_code_win\Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
 
@@ -9,7 +9,7 @@
 
 
 
-class  recipeLexer : public antlr4::Lexer {
+class  RecipeLexer : public antlr4::Lexer {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PERIOD = 7, 
@@ -22,8 +22,8 @@ public:
     WS = 45, NEWLINE = 46, COMMENT = 47, IDENTIFIER = 48, INTEGER = 49
   };
 
-  recipeLexer(antlr4::CharStream *input);
-  ~recipeLexer();
+  RecipeLexer(antlr4::CharStream *input);
+  ~RecipeLexer();
 
   virtual std::string getGrammarFileName() const override;
   virtual const std::vector<std::string>& getRuleNames() const override;

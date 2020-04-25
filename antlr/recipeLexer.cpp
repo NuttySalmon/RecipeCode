@@ -1,50 +1,50 @@
 
-// Generated from c:\Users\thoma\repos\recipe_code_win\recipe.g4 by ANTLR 4.7.1
+// Generated from c:\Users\thoma\repos\recipe_code_win\Recipe.g4 by ANTLR 4.7.1
 
 
-#include "recipeLexer.h"
+#include "RecipeLexer.h"
 
 
 using namespace antlr4;
 
 
-recipeLexer::recipeLexer(CharStream *input) : Lexer(input) {
+RecipeLexer::RecipeLexer(CharStream *input) : Lexer(input) {
   _interpreter = new atn::LexerATNSimulator(this, _atn, _decisionToDFA, _sharedContextCache);
 }
 
-recipeLexer::~recipeLexer() {
+RecipeLexer::~RecipeLexer() {
   delete _interpreter;
 }
 
-std::string recipeLexer::getGrammarFileName() const {
-  return "recipe.g4";
+std::string RecipeLexer::getGrammarFileName() const {
+  return "Recipe.g4";
 }
 
-const std::vector<std::string>& recipeLexer::getRuleNames() const {
+const std::vector<std::string>& RecipeLexer::getRuleNames() const {
   return _ruleNames;
 }
 
-const std::vector<std::string>& recipeLexer::getChannelNames() const {
+const std::vector<std::string>& RecipeLexer::getChannelNames() const {
   return _channelNames;
 }
 
-const std::vector<std::string>& recipeLexer::getModeNames() const {
+const std::vector<std::string>& RecipeLexer::getModeNames() const {
   return _modeNames;
 }
 
-const std::vector<std::string>& recipeLexer::getTokenNames() const {
+const std::vector<std::string>& RecipeLexer::getTokenNames() const {
   return _tokenNames;
 }
 
-dfa::Vocabulary& recipeLexer::getVocabulary() const {
+dfa::Vocabulary& RecipeLexer::getVocabulary() const {
   return _vocabulary;
 }
 
-const std::vector<uint16_t> recipeLexer::getSerializedATN() const {
+const std::vector<uint16_t> RecipeLexer::getSerializedATN() const {
   return _serializedATN;
 }
 
-const atn::ATN& recipeLexer::getATN() const {
+const atn::ATN& RecipeLexer::getATN() const {
   return _atn;
 }
 
@@ -52,14 +52,14 @@ const atn::ATN& recipeLexer::getATN() const {
 
 
 // Static vars and initialization.
-std::vector<dfa::DFA> recipeLexer::_decisionToDFA;
-atn::PredictionContextCache recipeLexer::_sharedContextCache;
+std::vector<dfa::DFA> RecipeLexer::_decisionToDFA;
+atn::PredictionContextCache RecipeLexer::_sharedContextCache;
 
 // We own the ATN which in turn owns the ATN states.
-atn::ATN recipeLexer::_atn;
-std::vector<uint16_t> recipeLexer::_serializedATN;
+atn::ATN RecipeLexer::_atn;
+std::vector<uint16_t> RecipeLexer::_serializedATN;
 
-std::vector<std::string> recipeLexer::_ruleNames = {
+std::vector<std::string> RecipeLexer::_ruleNames = {
   u8"T__0", u8"T__1", u8"T__2", u8"T__3", u8"T__4", u8"T__5", u8"PERIOD", 
   u8"COMMA", u8"FUNCTION", u8"INT_TYPE", u8"DEC_TYPE", u8"ARR_INT_TYPE", 
   u8"ARR_DEC_TYPE", u8"ARRAY_ELEM", u8"OF", u8"HEADER_SYM", u8"DECLARATION_SYM", 
@@ -70,15 +70,15 @@ std::vector<std::string> recipeLexer::_ruleNames = {
   u8"IDENTIFIER", u8"INTEGER"
 };
 
-std::vector<std::string> recipeLexer::_channelNames = {
+std::vector<std::string> RecipeLexer::_channelNames = {
   "DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 };
 
-std::vector<std::string> recipeLexer::_modeNames = {
+std::vector<std::string> RecipeLexer::_modeNames = {
   u8"DEFAULT_MODE"
 };
 
-std::vector<std::string> recipeLexer::_literalNames = {
+std::vector<std::string> RecipeLexer::_literalNames = {
   "", u8"'-'", u8"'size of'", u8"'for'", u8"'min'", u8"'mins'", u8"'with'", 
   u8"'.'", u8"','", u8"'See recipe'", "", "", u8"'pieces'", u8"'packs'", 
   "", u8"'of'", u8"'Recipe:'", u8"'Ingredients:'", u8"'Directions:'", u8"'Serve'", 
@@ -88,7 +88,7 @@ std::vector<std::string> recipeLexer::_literalNames = {
   u8"'as much as'"
 };
 
-std::vector<std::string> recipeLexer::_symbolicNames = {
+std::vector<std::string> RecipeLexer::_symbolicNames = {
   "", "", "", "", "", "", "", u8"PERIOD", u8"COMMA", u8"FUNCTION", u8"INT_TYPE", 
   u8"DEC_TYPE", u8"ARR_INT_TYPE", u8"ARR_DEC_TYPE", u8"ARRAY_ELEM", u8"OF", 
   u8"HEADER_SYM", u8"DECLARATION_SYM", u8"CODE_SYM", u8"RETURN", u8"IF", 
@@ -98,11 +98,11 @@ std::vector<std::string> recipeLexer::_symbolicNames = {
   u8"DEC", u8"WS", u8"NEWLINE", u8"COMMENT", u8"IDENTIFIER", u8"INTEGER"
 };
 
-dfa::Vocabulary recipeLexer::_vocabulary(_literalNames, _symbolicNames);
+dfa::Vocabulary RecipeLexer::_vocabulary(_literalNames, _symbolicNames);
 
-std::vector<std::string> recipeLexer::_tokenNames;
+std::vector<std::string> RecipeLexer::_tokenNames;
 
-recipeLexer::Initializer::Initializer() {
+RecipeLexer::Initializer::Initializer() {
   // This code could be in a static initializer lambda, but VS doesn't allow access to private class members from there.
 	for (size_t i = 0; i < _symbolicNames.size(); ++i) {
 		std::string name = _vocabulary.getLiteralName(i);
@@ -438,4 +438,4 @@ recipeLexer::Initializer::Initializer() {
   }
 }
 
-recipeLexer::Initializer recipeLexer::_init;
+RecipeLexer::Initializer RecipeLexer::_init;

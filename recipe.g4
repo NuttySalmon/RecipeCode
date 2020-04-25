@@ -1,4 +1,4 @@
-grammar recipe;
+grammar Recipe;
 
 program : header data code?;
 header  : HEADER_SYM IDENTIFIER call?;

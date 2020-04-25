@@ -1,5 +1,5 @@
 
-// Generated from c:\Users\thoma\repos\recipe_code_win\recipe.g4 by ANTLR 4.7.1
+// Generated from c:\Users\thoma\repos\recipe_code_win\Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
 
@@ -9,7 +9,7 @@
 
 
 
-class  recipeParser : public antlr4::Parser {
+class  RecipeParser : public antlr4::Parser {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PERIOD = 7, 
@@ -30,8 +30,8 @@ public:
     RuleVariable = 16
   };
 
-  recipeParser(antlr4::TokenStream *input);
-  ~recipeParser();
+  RecipeParser(antlr4::TokenStream *input);
+  ~RecipeParser();
 
   virtual std::string getGrammarFileName() const override;
   virtual const antlr4::atn::ATN& getATN() const override { return _atn; };
