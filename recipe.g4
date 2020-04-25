@@ -15,52 +15,37 @@ code: CODE_SYM code_line_list?;
 code_line_list: (code_line)+;
 code_line: INTEGER '.' statement_list PERIOD;
 statement_list: statement ((THEN) statement)*;
-statement:  | add_stm 
-        | sub_stm 
-        | mult_stm
-        | div_stm
-        | inc_stm
-        | dec_stm
-        | while_stm 
-        | until_stm 
-        | function
-        | if_stm
-        | print_stm
-        | return_stm;
+statement:                                                                   # empty
+        | ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER                   # add
+        | SUB variable (AND variable)* DEST variable                         # sub
+        | MULT variable (AND variable)* DEST variable                        # mult
+        | DIV variable SRC ('size of' variable | INTEGER)                    # div
+        | INC variable ('for' variable 'min' | 'mins')?                      # inc
+        | DEC variable ('for' variable 'min' | 'mins')?                      # dec
+        | WHILE condition_list COMMA WHILE_DO statement_list                 # while
+        | REPEAT statement_list UNTIL condition                              # repeat
+        | FUNCTION IDENTIFIER 'for' variable call?                           # func_call
+        | IF condition COMMA statement_list (COMMA ELSE statement_list)?     # if
+        | PRINT variable (AND variable)*                                     # print
+        | RETURN IDENTIFIER                                                  # return
+        ;
 
 //function
-function: FUNCTION_CALL IDENTIFIER 'for' variable call?;
 call: 'with' variable ((','|','?'and') variable)*;
-return_stm: RETURN IDENTIFIER;
-
-//arithmetics 
-add_stm: ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER;
-sub_stm: SUB variable (AND variable)* DEST variable;
-mult_stm: MULT variable (AND variable)* DEST variable;
-div_stm: DIV variable SRC ('size of' variable | INTEGER);
-inc_stm: INC variable ('for' variable 'min' | 'mins')?;
-dec_stm: DEC variable ('for' variable 'min' | 'mins')?;
-
-//Logic
-if_stm: IF condition COMMA statement_list (COMMA ELSE statement_list)?;
-while_stm: WHILE condition_list COMMA WHILE_DO statement_list;
-until_stm: REPEAT statement_list UNTIL condition;
-print_stm: PRINT variable (AND variable)*;
-// step: STEP_SYM INTEGER;
 
 //Logic expressions
 condition_list: condition ((AND | OR) condition)*;
 condition: variable IS NOT? (comperator (variable| number) | TRUE);
 comperator:  GT | LT | EQ;
 
-number: INTEGER ('.' INTEGER)?;
-
+number: INTEGER                   # int 
+        | INTEGER ('.' INTEGER)   # float;
 variable: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
 
 //Keywords
 PERIOD: '.';
 COMMA: ',';
-FUNCTION_CALL: 'See recipe';
+FUNCTION: 'See recipe';
 INT_TYPE: 'kg' | 'L';
 DEC_TYPE: 'g' | 'mL';
 ARR_INT_TYPE: 'pieces';
