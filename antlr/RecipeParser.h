@@ -1,5 +1,5 @@
 
-// Generated from f:\repos\recipe_code\Recipe.g4 by ANTLR 4.7.1
+// Generated from /mnt/f/repos/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
 
@@ -13,8 +13,8 @@ class  RecipeParser : public antlr4::Parser {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PERIOD = 7, 
-    COMMA = 8, FUNCTION = 9, INT_TYPE = 10, DEC_TYPE = 11, ARR_INT_TYPE = 12, 
-    ARR_DEC_TYPE = 13, ARRAY_ELEM = 14, OF = 15, HEADER_SYM = 16, DECLARATION_SYM = 17, 
+    COMMA = 8, FUNCTION = 9, INT_TYPE = 10, FLOAT_TYPE = 11, ARR_INT_TYPE = 12, 
+    ARR_FLOAT_TYPE = 13, ARRAY_ELEM = 14, OF = 15, HEADER_SYM = 16, DECLARATION_SYM = 17, 
     CODE_SYM = 18, RETURN = 19, IF = 20, THEN = 21, ELSE = 22, WHILE = 23, 
     WHILE_DO = 24, REPEAT = 25, UNTIL = 26, ADD = 27, SUB = 28, MULT = 29, 
     DIV = 30, STEP_SYM = 31, AND = 32, OR = 33, DEST = 34, SRC = 35, PRINT = 36, 
@@ -24,10 +24,9 @@ public:
 
   enum {
     RuleProgram = 0, RuleHeader = 1, RuleData = 2, RuleDeclaration_list = 3, 
-    RuleDeclaration = 4, RuleType = 5, RuleCode = 6, RuleCode_line_list = 7, 
-    RuleCode_line = 8, RuleStatement_list = 9, RuleStatement = 10, RuleCall = 11, 
-    RuleCondition_list = 12, RuleCondition = 13, RuleComperator = 14, RuleNumber = 15, 
-    RuleVariable = 16
+    RuleDeclaration = 4, RuleCode = 5, RuleCode_line_list = 6, RuleCode_line = 7, 
+    RuleStatement_list = 8, RuleStatement = 9, RuleCall = 10, RuleCondition_list = 11, 
+    RuleCondition = 12, RuleNumber = 13, RuleVariable = 14
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -45,7 +44,6 @@ public:
   class DataContext;
   class Declaration_listContext;
   class DeclarationContext;
-  class TypeContext;
   class CodeContext;
   class Code_line_listContext;
   class Code_lineContext;
@@ -54,7 +52,6 @@ public:
   class CallContext;
   class Condition_listContext;
   class ConditionContext;
-  class ComperatorContext;
   class NumberContext;
   class VariableContext; 
 
@@ -114,33 +111,22 @@ public:
 
   class  DeclarationContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *dtype = nullptr;;
     DeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     NumberContext *number();
-    TypeContext *type();
     antlr4::tree::TerminalNode *OF();
     antlr4::tree::TerminalNode *IDENTIFIER();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  DeclarationContext* declaration();
-
-  class  TypeContext : public antlr4::ParserRuleContext {
-  public:
-    TypeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *INT_TYPE();
-    antlr4::tree::TerminalNode *DEC_TYPE();
-    antlr4::tree::TerminalNode *ARR_DEC_TYPE();
+    antlr4::tree::TerminalNode *FLOAT_TYPE();
+    antlr4::tree::TerminalNode *ARR_FLOAT_TYPE();
     antlr4::tree::TerminalNode *ARR_INT_TYPE();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  TypeContext* type();
+  DeclarationContext* declaration();
 
   class  CodeContext : public antlr4::ParserRuleContext {
   public:
@@ -391,14 +377,17 @@ public:
 
   class  ConditionContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *comp = nullptr;;
     ConditionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
     antlr4::tree::TerminalNode *IS();
-    ComperatorContext *comperator();
     antlr4::tree::TerminalNode *TRUE();
     antlr4::tree::TerminalNode *NOT();
+    antlr4::tree::TerminalNode *GT();
+    antlr4::tree::TerminalNode *LT();
+    antlr4::tree::TerminalNode *EQ();
     NumberContext *number();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -406,20 +395,6 @@ public:
   };
 
   ConditionContext* condition();
-
-  class  ComperatorContext : public antlr4::ParserRuleContext {
-  public:
-    ComperatorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *GT();
-    antlr4::tree::TerminalNode *LT();
-    antlr4::tree::TerminalNode *EQ();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  ComperatorContext* comperator();
 
   class  NumberContext : public antlr4::ParserRuleContext {
   public:

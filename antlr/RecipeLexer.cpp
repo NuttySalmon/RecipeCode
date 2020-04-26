@@ -1,5 +1,5 @@
 
-// Generated from f:\repos\recipe_code\Recipe.g4 by ANTLR 4.7.1
+// Generated from /mnt/f/repos/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 
 #include "RecipeLexer.h"
@@ -61,8 +61,8 @@ std::vector<uint16_t> RecipeLexer::_serializedATN;
 
 std::vector<std::string> RecipeLexer::_ruleNames = {
   u8"T__0", u8"T__1", u8"T__2", u8"T__3", u8"T__4", u8"T__5", u8"PERIOD", 
-  u8"COMMA", u8"FUNCTION", u8"INT_TYPE", u8"DEC_TYPE", u8"ARR_INT_TYPE", 
-  u8"ARR_DEC_TYPE", u8"ARRAY_ELEM", u8"OF", u8"HEADER_SYM", u8"DECLARATION_SYM", 
+  u8"COMMA", u8"FUNCTION", u8"INT_TYPE", u8"FLOAT_TYPE", u8"ARR_INT_TYPE", 
+  u8"ARR_FLOAT_TYPE", u8"ARRAY_ELEM", u8"OF", u8"HEADER_SYM", u8"DECLARATION_SYM", 
   u8"CODE_SYM", u8"RETURN", u8"IF", u8"THEN", u8"ELSE", u8"WHILE", u8"WHILE_DO", 
   u8"REPEAT", u8"UNTIL", u8"ADD", u8"SUB", u8"MULT", u8"DIV", u8"STEP_SYM", 
   u8"AND", u8"OR", u8"DEST", u8"SRC", u8"PRINT", u8"IS", u8"TRUE", u8"NOT", 
@@ -90,12 +90,12 @@ std::vector<std::string> RecipeLexer::_literalNames = {
 
 std::vector<std::string> RecipeLexer::_symbolicNames = {
   "", "", "", "", "", "", "", u8"PERIOD", u8"COMMA", u8"FUNCTION", u8"INT_TYPE", 
-  u8"DEC_TYPE", u8"ARR_INT_TYPE", u8"ARR_DEC_TYPE", u8"ARRAY_ELEM", u8"OF", 
-  u8"HEADER_SYM", u8"DECLARATION_SYM", u8"CODE_SYM", u8"RETURN", u8"IF", 
-  u8"THEN", u8"ELSE", u8"WHILE", u8"WHILE_DO", u8"REPEAT", u8"UNTIL", u8"ADD", 
-  u8"SUB", u8"MULT", u8"DIV", u8"STEP_SYM", u8"AND", u8"OR", u8"DEST", u8"SRC", 
-  u8"PRINT", u8"IS", u8"TRUE", u8"NOT", u8"GT", u8"LT", u8"EQ", u8"INC", 
-  u8"DEC", u8"WS", u8"NEWLINE", u8"COMMENT", u8"IDENTIFIER", u8"INTEGER"
+  u8"FLOAT_TYPE", u8"ARR_INT_TYPE", u8"ARR_FLOAT_TYPE", u8"ARRAY_ELEM", 
+  u8"OF", u8"HEADER_SYM", u8"DECLARATION_SYM", u8"CODE_SYM", u8"RETURN", 
+  u8"IF", u8"THEN", u8"ELSE", u8"WHILE", u8"WHILE_DO", u8"REPEAT", u8"UNTIL", 
+  u8"ADD", u8"SUB", u8"MULT", u8"DIV", u8"STEP_SYM", u8"AND", u8"OR", u8"DEST", 
+  u8"SRC", u8"PRINT", u8"IS", u8"TRUE", u8"NOT", u8"GT", u8"LT", u8"EQ", 
+  u8"INC", u8"DEC", u8"WS", u8"NEWLINE", u8"COMMENT", u8"IDENTIFIER", u8"INTEGER"
 };
 
 dfa::Vocabulary RecipeLexer::_vocabulary(_literalNames, _symbolicNames);

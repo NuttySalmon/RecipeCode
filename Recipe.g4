@@ -6,8 +6,7 @@ data: DECLARATION_SYM declaration_list;
 
 //Declaration section
 declaration_list: (declaration)+; 
-declaration: '-' number type OF IDENTIFIER;
-type: INT_TYPE | DEC_TYPE | ARR_DEC_TYPE| ARR_INT_TYPE;
+declaration: '-' number dtype=(INT_TYPE | FLOAT_TYPE | ARR_FLOAT_TYPE| ARR_INT_TYPE) OF IDENTIFIER;
 
 //Code section
 code: CODE_SYM code_line_list?;
@@ -34,8 +33,7 @@ call: 'with' variable ((','|','?'and') variable)*;
 
 //Logic expressions
 condition_list: condition ((AND | OR) condition)*;
-condition: variable IS NOT? (comperator (variable| number) | TRUE);
-comperator:  GT | LT | EQ;
+condition: variable IS NOT? (comp=(GT | LT | EQ) (variable| number) | TRUE);
 
 number: INTEGER                   # int 
         | INTEGER ('.' INTEGER)   # float;
@@ -46,9 +44,9 @@ PERIOD: '.';
 COMMA: ',';
 FUNCTION: 'See recipe';
 INT_TYPE: 'kg' | 'L';
-DEC_TYPE: 'g' | 'mL';
+FLOAT_TYPE: 'g' | 'mL';
 ARR_INT_TYPE: 'pieces';
-ARR_DEC_TYPE: 'packs';
+ARR_FLOAT_TYPE: 'packs';
 ARRAY_ELEM: ('st'|'nd'|'th')('piece'|'pack');
 OF: 'of';
 HEADER_SYM: 'Recipe:';

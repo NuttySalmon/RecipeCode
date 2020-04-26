@@ -4,7 +4,7 @@ set(bin_dir ${CMAKE_BINARY_DIR}/../bin)
 file(MAKE_DIRECTORY ${bin_dir})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${bin_dir})
 
-file(GLOB source_list src/*.cpp include/*.h antlr/*.h antlr/*.cpp)
+file(GLOB source_list src/*.cpp src/*.h include/*.h antlr/*.h antlr/*.cpp)
 include_directories("/usr/local/include/antlr4-runtime/")
 add_executable(recipe_code ${source_list})
 target_link_libraries(recipe_code antlr4-runtime)

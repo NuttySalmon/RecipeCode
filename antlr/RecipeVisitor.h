@@ -1,5 +1,5 @@
 
-// Generated from f:\repos\recipe_code\Recipe.g4 by ANTLR 4.7.1
+// Generated from /mnt/f/repos/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
 
@@ -28,8 +28,6 @@ public:
     virtual antlrcpp::Any visitDeclaration_list(RecipeParser::Declaration_listContext *context) = 0;
 
     virtual antlrcpp::Any visitDeclaration(RecipeParser::DeclarationContext *context) = 0;
-
-    virtual antlrcpp::Any visitType(RecipeParser::TypeContext *context) = 0;
 
     virtual antlrcpp::Any visitCode(RecipeParser::CodeContext *context) = 0;
 
@@ -70,8 +68,6 @@ public:
     virtual antlrcpp::Any visitCondition_list(RecipeParser::Condition_listContext *context) = 0;
 
     virtual antlrcpp::Any visitCondition(RecipeParser::ConditionContext *context) = 0;
-
-    virtual antlrcpp::Any visitComperator(RecipeParser::ComperatorContext *context) = 0;
 
     virtual antlrcpp::Any visitInt(RecipeParser::IntContext *context) = 0;
 

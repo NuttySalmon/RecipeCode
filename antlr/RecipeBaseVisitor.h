@@ -1,5 +1,5 @@
 
-// Generated from f:\repos\recipe_code\Recipe.g4 by ANTLR 4.7.1
+// Generated from /mnt/f/repos/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
 
@@ -32,10 +32,6 @@ public:
   }
 
   virtual antlrcpp::Any visitDeclaration(RecipeParser::DeclarationContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitType(RecipeParser::TypeContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -116,10 +112,6 @@ public:
   }
 
   virtual antlrcpp::Any visitCondition(RecipeParser::ConditionContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitComperator(RecipeParser::ComperatorContext *ctx) override {
     return visitChildren(ctx);
   }
 
