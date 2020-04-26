@@ -9,7 +9,6 @@ declaration_list: (declaration)+;
 declaration: '-' number type OF IDENTIFIER;
 type: INT_TYPE | DEC_TYPE | ARR_DEC_TYPE| ARR_INT_TYPE;
 
-
 //Code section
 code: CODE_SYM code_line_list?;
 code_line_list: (code_line)+;
@@ -87,12 +86,10 @@ EQ: 'as much as';
 
 
 INC: [Bb]'ak'('e'|'ing');
-DEC: [Cc]'chill'('e'|'ing');
-
+DEC: [Cc]'hill''ing'?;
 WS: [ \t]+ -> skip ; 
 NEWLINE : '\r'? '\n' -> skip;
-COMMENT: ('(' .* ')') -> skip;
-
+COMMENT: '(' .*? ')' -> skip;
 
 IDENTIFIER: [a-zA-Z]+;
 INTEGER: [0-9]+;

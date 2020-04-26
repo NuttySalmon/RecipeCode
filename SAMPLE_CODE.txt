@@ -1,0 +1,19 @@
+Recipe: Meatball
+
+Ingredients:
+- 1 kg of beef 
+- 2 kg of pork (int)
+- 4.25 g of oregano (double)
+- 1 L of milk (int)
+- 1 g of breadcrumbs (double)
+- 2 pieces of bowl (array)
+- 1 L of water (int)
+
+Directions:
+1. Add oregano to beef then add beef to pork. (Two add statements)
+2. Mix milk and beef into mixture. (Mix is multiplication)
+3. If mixture is as much as breadcrumbs, remove pork from beef, 
+otherwise add breadcrumbs to mixture. (If-else statement)
+4. While mixture is not done, keep baking mixture. (While statement, baking is incrementing)
+5. Chill water. (decrement)
+6. Serve mixture. (return)
