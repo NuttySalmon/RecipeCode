@@ -1,4 +1,8 @@
 
+#include "../wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+
+
 // Generated from /home/thomas/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 
@@ -1713,6 +1717,7 @@ size_t RecipeParser::NumberContext::getRuleIndex() const {
 
 void RecipeParser::NumberContext::copyFrom(NumberContext *ctx) {
   ParserRuleContext::copyFrom(ctx);
+  this->type = ctx->type;
 }
 
 //----------------- FloatContext ------------------------------------------------------------------

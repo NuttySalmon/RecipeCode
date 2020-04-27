@@ -2,8 +2,8 @@
 #include <fstream>
 
 #include "antlr4-runtime.h"
-#include "../antlr/RecipeLexer.h"
-#include "../antlr/RecipeParser.h"
+#include "antlr/RecipeLexer.h"
+#include "antlr/RecipeParser.h"
 #include "Pass1Visitor.h"
 #include "Pass2Visitor.h"
 

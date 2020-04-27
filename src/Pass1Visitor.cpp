@@ -208,21 +208,21 @@ antlrcpp::Any Pass1Visitor::visitDecl(RecipeParser::DeclContext *ctx)
 //     return value;
 // }
 
-// antlrcpp::Any Pass1Visitor::visitIntegerConst(RecipeParser::IntegerConstContext *ctx)
-// {
-//     if (DEBUG_1) cout << "=== Pass 1: visitIntegerConst: " + ctx->getText() << endl;
+antlrcpp::Any Pass1Visitor::visitInt(RecipeParser::IntContext *ctx)
+{
+    if (DEBUG_1) cout << "=== Pass 1: visitIntegerConst: " + ctx->getText() << endl;
 
-//     ctx->type = Predefined::integer_type;
-//     return visitChildren(ctx);
-// }
+    ctx->type = Predefined::integer_type;
+    return visitChildren(ctx);
+}
 
-// antlrcpp::Any Pass1Visitor::visitFloatConst(RecipeParser::FloatConstContext *ctx)
-// {
-//     if (DEBUG_1) cout << "=== Pass 1: visitFloatConst: " + ctx->getText() << endl;
+antlrcpp::Any Pass1Visitor::visitFloat(RecipeParser::FloatContext *ctx)
+{
+    if (DEBUG_1) cout << "=== Pass 1: visitFloatConst: " + ctx->getText() << endl;
 
-//     ctx->type = Predefined::real_type;
-//     return visitChildren(ctx);
-// }
+    ctx->type = Predefined::real_type;
+    return visitChildren(ctx);
+}
 
 // antlrcpp::Any Pass1Visitor::visitParenExpr(RecipeParser::ParenExprContext *ctx)
 // {

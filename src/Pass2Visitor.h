@@ -8,9 +8,9 @@
 #include "wci/intermediate/SymTabEntry.h"
 #include "wci/intermediate/TypeSpec.h"
 
-#include "../antlr/RecipeBaseVisitor.h"
+#include "antlr/RecipeBaseVisitor.h"
 #include "antlr4-runtime.h"
-#include "../antlr/RecipeVisitor.h"
+#include "antlr/RecipeVisitor.h"
 
 using namespace wci;
 using namespace wci::intermediate;

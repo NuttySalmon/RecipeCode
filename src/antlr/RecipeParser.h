@@ -1,4 +1,8 @@
 
+#include "../wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+
+
 // Generated from /home/thomas/recipe_code/Recipe.g4 by ANTLR 4.7.1
 
 #pragma once
@@ -424,6 +428,7 @@ public:
 
   class  NumberContext : public antlr4::ParserRuleContext {
   public:
+    TypeSpec * type = nullptr;
     NumberContext(antlr4::ParserRuleContext *parent, size_t invokingState);
    
     NumberContext() : antlr4::ParserRuleContext() { }

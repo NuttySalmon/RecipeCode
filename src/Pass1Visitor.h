@@ -5,9 +5,9 @@
 #include "wci/intermediate/SymTabEntry.h"
 #include "wci/intermediate/TypeSpec.h"
 
-#include "../antlr/RecipeBaseVisitor.h"
+#include "antlr/RecipeBaseVisitor.h"
 #include "antlr4-runtime.h"
-#include "../antlr/RecipeVisitor.h"
+#include "antlr/RecipeVisitor.h"
 
 using namespace wci;
 using namespace wci::intermediate;
@@ -34,8 +34,8 @@ public:
     // antlrcpp::Any visitSignedNumberExpr(RecipeParser::SignedNumberExprContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
     // antlrcpp::Any visitUnsignedNumberExpr(RecipeParser::UnsignedNumberExprContext *ctx) override;
-    // antlrcpp::Any visitIntegerConst(RecipeParser::IntegerConstContext *ctx) override;
-    // antlrcpp::Any visitFloatConst(RecipeParser::FloatConstContext *ctx) override;
+    antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
+    antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
     // antlrcpp::Any visitParenExpr(RecipeParser::ParenExprContext *ctx) override;
 };
 

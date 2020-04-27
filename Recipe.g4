@@ -1,4 +1,8 @@
 grammar Recipe;
+@header {
+#include "../wci/intermediate/TypeSpec.h"
+using namespace wci::intermediate;
+}
 
 program : header mainBlock;
 mainBlock: block;
@@ -37,7 +41,8 @@ call: 'with' variable ((','|','?'and') variable)*;
 conditionList: condition ((AND | OR) condition)*;
 condition: variable IS NOT? (comp=(GT | LT | EQ) (variable| number) | TRUE);
 
-number: INTEGER                   # int 
+number locals [ TypeSpec *type = nullptr ]
+        :INTEGER                   # int 
         | INTEGER ('.' INTEGER)   # float;
 variable: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
 
