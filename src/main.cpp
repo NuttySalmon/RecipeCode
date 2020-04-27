@@ -4,6 +4,8 @@
 #include "antlr4-runtime.h"
 #include "../antlr/RecipeLexer.h"
 #include "../antlr/RecipeParser.h"
+#include "Pass1Visitor.h"
+#include "Pass2Visitor.h"
 
 using namespace antlrcpp;
 using namespace antlr4;
@@ -22,22 +24,16 @@ int main(int argc, const char *args[])
     RecipeLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
 
-    // Print the token stream.
-    cout << "Tokens:" << endl;
-    tokens.fill();
-    for (Token *token : tokens.getTokens())
-    {
-        std::cout << token->toString() << std::endl;
-    }
-
     // Create a parser which parses the token stream
     // to create a parse tree.
     RecipeParser parser(&tokens);
     tree::ParseTree *tree = parser.program();
 
-    // Print the parse tree in Lisp format.
-    cout << endl << "Parse tree (Lisp format):" << endl;
-    std::cout << tree->toStringTree(&parser) << endl;
+    Pass1Visitor *pass1 = new Pass1Visitor();
+    pass1->visit(tree);
+
+    Pass2Visitor *pass2 = new Pass2Visitor();
+    pass2->visit(tree);
 
     return 0;
 }
