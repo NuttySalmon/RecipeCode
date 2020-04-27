@@ -86,7 +86,7 @@ antlrcpp::Any Pass1Visitor::visitDecl(RecipeParser::DeclContext *ctx)
         type = Predefined::integer_type;
         break;
     case RecipeParser::FLOAT_TYPE:
-       type = Predefined::real_type;
+        type = Predefined::real_type;
         break;
     case RecipeParser::ARR_INT_TYPE:
         type = Predefined::integer_type;
@@ -95,7 +95,8 @@ antlrcpp::Any Pass1Visitor::visitDecl(RecipeParser::DeclContext *ctx)
         type = Predefined::real_type;
         break;
     }
-
+    ctx->type = type;
+    cout << variable_name << ' ' << ctx->dtype->getType() << endl;
     variable_id->set_typespec(type);
     return visitChildren(ctx);
 }

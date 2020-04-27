@@ -7,6 +7,7 @@
 #include "wci/intermediate/TypeSpec.h"
 #include "wci/intermediate/symtabimpl/Predefined.h"
 
+
 using namespace wci;
 using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
@@ -126,11 +127,17 @@ void Pass2Visitor::loadValues()
 {
 
     for (auto ctx : decl_ctx_list)
-    {
+    {   
+        
         visit(ctx->number());
+        
+        //pad with .0 if float but input is int
+        if (ctx->type == Predefined::real_type && ctx->type != ctx->number()->type)
+            j_file << ".0";
+        j_file << endl;
         j_file << "\tputstatic\t" << program_name
                << "/" << ctx->IDENTIFIER()->toString()
-               << " " << getIndicator(ctx->number()->type) << endl;
+               << " " << getIndicator(ctx->type) << endl;
     }
 }
 
@@ -151,7 +158,7 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
     string variable_name = ctx->IDENTIFIER()->toString();
 
     j_file << ".field private static "
-           << variable_name << " " << getIndicator(ctx->number()->type) << endl;
+           << variable_name << " " << getIndicator(ctx->type) << endl;
 
     decl_ctx_list.push_back(ctx);
     return NULL;
@@ -181,14 +188,16 @@ char Pass2Visitor::getIndicator(TypeSpec *type)
 //     return visitChildren(ctx);
 // }
 
-// antlrcpp::Any Pass2Visitor::visitStmt(RecipeParser::StmtContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitStmt" << endl;
+antlrcpp::Any Pass2Visitor::visitStatement(RecipeParser::StatementContext *ctx)
+{
+    if (DEBUG_2) cout << "=== Pass 2: visitStmt" << endl;
 
-//     j_file << endl << "; " + ctx->getText() << endl << endl;
+    string line = ctx->getText();
+    line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+    j_file << endl << "; " + ctx->getText() << endl << endl;
 
-//     return visitChildren(ctx);
-// }
+    return visitChildren(ctx);
+}
 
 // antlrcpp::Any Pass2Visitor::visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx)
 // {
@@ -209,62 +218,80 @@ char Pass2Visitor::getIndicator(TypeSpec *type)
 //     return value;
 // }
 
-// antlrcpp::Any Pass2Visitor::visitPrint(RecipeParser::PrintContext *ctx)
-// {
-//     // Get the format string without the surrounding the single quotes.
-//     string str = ctx->formatString()->getText();
-//     string format_string = str.substr(1, str.length() - 2);
+antlrcpp::Any Pass2Visitor::visitPrintStm(RecipeParser::PrintStmContext *ctx)
+{
 
-//     // Emit code to push the java.lang.System.out object.
-//     j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+   
 
-//     // Emit code to push the format string.
-//     j_file << "\tldc\t\"" << format_string << "\"" << endl;
+    int varCount = ctx->variable().size();
 
-//     // Array size is the number of expressions to evaluate and print.
-//     int array_size = ctx->printArg().size();
+    // Loop to generate code for each expression.
+    for (int i = 0; i < varCount;  i++)
+    {   
+         // Emit code to push the java.lang.System.out object.
+         j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
 
-//     // Emit code to create the array of the correct size.
-//     j_file << "\tldc\t" << array_size << endl;
-//     j_file << "\tanewarray\tjava/lang/Object" << endl;
+        // Emit code to evaluate the expression.
+        visit(ctx->variable(i));
+        TypeSpec *type = ctx->variable(i)->type;
 
-//     // Loop to generate code for each expression.
-//     for (int i = 0; i < array_size; i++)
-//     {
-//         j_file << "\tdup" << endl;         // duplicate the array address
-//         j_file << "\tldc\t" << i << endl;  // array element index
+        // Emit code to convert a scalar integer or float value
+        // to an Integer or Float object, respectively.
+        
+        
+        // Emit code to call java.io.PrintStream.printf.
+        j_file << "\tinvokevirtual java/io/PrintStream.println("
+               << getIndicator(type) 
+               << ")V" << endl;
+    }
+    return nullptr;
+}
 
-//         // Emit code to evaluate the expression.
-//         visit(ctx->printArg(i)->expr());
-//         TypeSpec *type = ctx->printArg(i)->expr()->type;
 
-//         // Emit code to convert a scalar integer or float value
-//         // to an Integer or Float object, respectively.
-//         if (type == Predefined::integer_type)
-//         {
-//             j_file << "\tinvokestatic\tjava/lang/Integer.valueOf(I)"
-//                    << "Ljava/lang/Integer;"
-//                    << endl;
-//         }
-//         else
-//         {
-//             j_file << "\tinvokestatic\tjava/lang/Float.valueOf(F)"
-//                    << "Ljava/lang/Float;"
-//                    << endl;
-//         }
+antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx){
+    // Get the format string without the surrounding the single quotes.
+    // Emit code to push the java.lang.System.out object.
+    j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
 
-//         j_file << "\taastore" << endl;  // store the value into the array
-//     }
 
-//     // Emit code to call java.io.PrintStream.printf.
-//     j_file << "\tinvokevirtual java/io/PrintStream.printf"
-//            << "(Ljava/lang/String;[Ljava/lang/Object;)"
-//            << "Ljava/io/PrintStream;"
-//            << endl;
-//     j_file << "\tpop" << endl;
+    // Array size is the number of expressions to evaluate and print.
+    int array_size = ctx->variable().size();
+    j_file << "\tldc\t\"";
+    for (int i = 0; i < array_size; i++)
+        j_file << "%C"; // format output as char 
+    j_file << "\"" << endl;
+    // Emit code to create the array of the correct size.
+    j_file << "\tldc\t" << array_size << endl;
+    j_file << "\tanewarray\tjava/lang/Object" << endl;
 
-//     return nullptr;
-// }
+    // Loop to generate code for each expression.
+    for (int i = 0; i < array_size; i++)
+    {
+        j_file << "\tdup" << endl;         // duplicate the array address
+        j_file << "\tldc\t" << i << endl;  // array element index
+
+        // Emit code to evaluate the expression.
+        visit(ctx->variable(i));
+        TypeSpec *type = ctx->variable(i)->type;
+        if (type != Predefined::integer_type)
+            cout << "ERROR: attempt to print float as char";
+
+        j_file << "\tinvokestatic\tjava/lang/Integer.valueOf(I)"
+                << "Ljava/lang/Integer;"
+                << endl;
+
+        j_file << "\taastore" << endl;  // store the value into the array
+    }
+
+    // Emit code to call java.io.PrintStream.printf.
+    j_file << "\tinvokevirtual java/io/PrintStream.printf"
+           << "(Ljava/lang/String;[Ljava/lang/Object;)"
+           << "Ljava/io/PrintStream;"
+           << endl;
+    j_file << "\tpop" << endl;
+
+    return nullptr;
+}
 
 // antlrcpp::Any Pass2Visitor::visitAddSubExpr(RecipeParser::AddSubExprContext *ctx)
 // {
@@ -346,7 +373,7 @@ antlrcpp::Any Pass2Visitor::visitVariable(RecipeParser::VariableContext *ctx)
 
     // Emit a field get instruction.
     j_file << "\tgetstatic\t" << program_name
-           << "/" << variable_name << " " << getIndicator( ctx->type) << endl;
+           << "/" << variable_name << " " << getIndicator(ctx->type) << endl;
 
     return visitChildren(ctx);
 }
@@ -377,7 +404,7 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
         cout << "=== Pass 2: visitIntegerConst" << endl;
 
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText() << endl;
+    j_file << "\tldc\t" << ctx->getText();
 
     return visitChildren(ctx);
 }
@@ -388,7 +415,7 @@ antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
         cout << "=== Pass 2: visitFloatConst" << endl;
 
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText() << endl;
+    j_file << "\tldc\t" << ctx->getText();
 
     return visitChildren(ctx);
 }
