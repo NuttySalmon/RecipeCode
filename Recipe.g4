@@ -1,18 +1,20 @@
 grammar Recipe;
 
-program : header data code?;
+program : header mainBlock;
+mainBlock: block;
+block: data code?;
 header  : HEADER_SYM IDENTIFIER call?;
-data: DECLARATION_SYM declaration_list;
+data: DECLARATION_SYM declList;
 
 //Declaration section
-declaration_list: (declaration)+; 
-declaration: '-' number dtype=(INT_TYPE | FLOAT_TYPE | ARR_FLOAT_TYPE| ARR_INT_TYPE) OF IDENTIFIER;
+declList: (decl)+; 
+decl: '-' number dtype=(INT_TYPE | FLOAT_TYPE | ARR_FLOAT_TYPE| ARR_INT_TYPE) OF IDENTIFIER;
 
 //Code section
-code: CODE_SYM code_line_list?;
-code_line_list: (code_line)+;
-code_line: INTEGER '.' statement_list PERIOD;
-statement_list: statement ((THEN) statement)*;
+code: CODE_SYM codeLineList?;
+codeLineList: (codeLine)+;
+codeLine: INTEGER '.' statementList PERIOD;
+statementList: statement ((THEN) statement)*;
 statement:                                                                   # empty
         | ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER                   # add
         | SUB variable (AND variable)* DEST variable                         # sub
@@ -20,10 +22,10 @@ statement:                                                                   # e
         | DIV variable SRC ('size of' variable | INTEGER)                    # div
         | INC variable ('for' variable 'min' | 'mins')?                      # inc
         | DEC variable ('for' variable 'min' | 'mins')?                      # dec
-        | WHILE condition_list COMMA WHILE_DO statement_list                 # while
-        | REPEAT statement_list UNTIL condition                              # repeat
+        | WHILE conditionList COMMA WHILE_DO statementList                 # while
+        | REPEAT statementList UNTIL condition                              # repeat
         | FUNCTION IDENTIFIER 'for' variable call?                           # func_call
-        | IF condition COMMA statement_list (COMMA ELSE statement_list)?     # if
+        | IF condition COMMA statementList (COMMA ELSE statementList)?     # if
         | PRINT variable (AND variable)*                                     # print
         | RETURN IDENTIFIER                                                  # return
         ;
@@ -32,7 +34,7 @@ statement:                                                                   # e
 call: 'with' variable ((','|','?'and') variable)*;
 
 //Logic expressions
-condition_list: condition ((AND | OR) condition)*;
+conditionList: condition ((AND | OR) condition)*;
 condition: variable IS NOT? (comp=(GT | LT | EQ) (variable| number) | TRUE);
 
 number: INTEGER                   # int 

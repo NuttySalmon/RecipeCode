@@ -21,21 +21,25 @@ public:
    */
     virtual antlrcpp::Any visitProgram(RecipeParser::ProgramContext *context) = 0;
 
+    virtual antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *context) = 0;
+
+    virtual antlrcpp::Any visitBlock(RecipeParser::BlockContext *context) = 0;
+
     virtual antlrcpp::Any visitHeader(RecipeParser::HeaderContext *context) = 0;
 
     virtual antlrcpp::Any visitData(RecipeParser::DataContext *context) = 0;
 
-    virtual antlrcpp::Any visitDeclaration_list(RecipeParser::Declaration_listContext *context) = 0;
+    virtual antlrcpp::Any visitDeclList(RecipeParser::DeclListContext *context) = 0;
 
-    virtual antlrcpp::Any visitDeclaration(RecipeParser::DeclarationContext *context) = 0;
+    virtual antlrcpp::Any visitDecl(RecipeParser::DeclContext *context) = 0;
 
     virtual antlrcpp::Any visitCode(RecipeParser::CodeContext *context) = 0;
 
-    virtual antlrcpp::Any visitCode_line_list(RecipeParser::Code_line_listContext *context) = 0;
+    virtual antlrcpp::Any visitCodeLineList(RecipeParser::CodeLineListContext *context) = 0;
 
-    virtual antlrcpp::Any visitCode_line(RecipeParser::Code_lineContext *context) = 0;
+    virtual antlrcpp::Any visitCodeLine(RecipeParser::CodeLineContext *context) = 0;
 
-    virtual antlrcpp::Any visitStatement_list(RecipeParser::Statement_listContext *context) = 0;
+    virtual antlrcpp::Any visitStatementList(RecipeParser::StatementListContext *context) = 0;
 
     virtual antlrcpp::Any visitEmpty(RecipeParser::EmptyContext *context) = 0;
 
@@ -65,7 +69,7 @@ public:
 
     virtual antlrcpp::Any visitCall(RecipeParser::CallContext *context) = 0;
 
-    virtual antlrcpp::Any visitCondition_list(RecipeParser::Condition_listContext *context) = 0;
+    virtual antlrcpp::Any visitConditionList(RecipeParser::ConditionListContext *context) = 0;
 
     virtual antlrcpp::Any visitCondition(RecipeParser::ConditionContext *context) = 0;
 

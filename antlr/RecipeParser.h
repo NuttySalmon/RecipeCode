@@ -23,10 +23,10 @@ public:
   };
 
   enum {
-    RuleProgram = 0, RuleHeader = 1, RuleData = 2, RuleDeclaration_list = 3, 
-    RuleDeclaration = 4, RuleCode = 5, RuleCode_line_list = 6, RuleCode_line = 7, 
-    RuleStatement_list = 8, RuleStatement = 9, RuleCall = 10, RuleCondition_list = 11, 
-    RuleCondition = 12, RuleNumber = 13, RuleVariable = 14
+    RuleProgram = 0, RuleMainBlock = 1, RuleBlock = 2, RuleHeader = 3, RuleData = 4, 
+    RuleDeclList = 5, RuleDecl = 6, RuleCode = 7, RuleCodeLineList = 8, 
+    RuleCodeLine = 9, RuleStatementList = 10, RuleStatement = 11, RuleCall = 12, 
+    RuleConditionList = 13, RuleCondition = 14, RuleNumber = 15, RuleVariable = 16
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -40,17 +40,19 @@ public:
 
 
   class ProgramContext;
+  class MainBlockContext;
+  class BlockContext;
   class HeaderContext;
   class DataContext;
-  class Declaration_listContext;
-  class DeclarationContext;
+  class DeclListContext;
+  class DeclContext;
   class CodeContext;
-  class Code_line_listContext;
-  class Code_lineContext;
-  class Statement_listContext;
+  class CodeLineListContext;
+  class CodeLineContext;
+  class StatementListContext;
   class StatementContext;
   class CallContext;
-  class Condition_listContext;
+  class ConditionListContext;
   class ConditionContext;
   class NumberContext;
   class VariableContext; 
@@ -60,6 +62,30 @@ public:
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     HeaderContext *header();
+    MainBlockContext *mainBlock();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ProgramContext* program();
+
+  class  MainBlockContext : public antlr4::ParserRuleContext {
+  public:
+    MainBlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    BlockContext *block();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  MainBlockContext* mainBlock();
+
+  class  BlockContext : public antlr4::ParserRuleContext {
+  public:
+    BlockContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
     DataContext *data();
     CodeContext *code();
 
@@ -67,7 +93,7 @@ public:
    
   };
 
-  ProgramContext* program();
+  BlockContext* block();
 
   class  HeaderContext : public antlr4::ParserRuleContext {
   public:
@@ -88,7 +114,7 @@ public:
     DataContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DECLARATION_SYM();
-    Declaration_listContext *declaration_list();
+    DeclListContext *declList();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -96,23 +122,23 @@ public:
 
   DataContext* data();
 
-  class  Declaration_listContext : public antlr4::ParserRuleContext {
+  class  DeclListContext : public antlr4::ParserRuleContext {
   public:
-    Declaration_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    DeclListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<DeclarationContext *> declaration();
-    DeclarationContext* declaration(size_t i);
+    std::vector<DeclContext *> decl();
+    DeclContext* decl(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  Declaration_listContext* declaration_list();
+  DeclListContext* declList();
 
-  class  DeclarationContext : public antlr4::ParserRuleContext {
+  class  DeclContext : public antlr4::ParserRuleContext {
   public:
     antlr4::Token *dtype = nullptr;;
-    DeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    DeclContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     NumberContext *number();
     antlr4::tree::TerminalNode *OF();
@@ -126,14 +152,14 @@ public:
    
   };
 
-  DeclarationContext* declaration();
+  DeclContext* decl();
 
   class  CodeContext : public antlr4::ParserRuleContext {
   public:
     CodeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *CODE_SYM();
-    Code_line_listContext *code_line_list();
+    CodeLineListContext *codeLineList();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -141,36 +167,36 @@ public:
 
   CodeContext* code();
 
-  class  Code_line_listContext : public antlr4::ParserRuleContext {
+  class  CodeLineListContext : public antlr4::ParserRuleContext {
   public:
-    Code_line_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    CodeLineListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<Code_lineContext *> code_line();
-    Code_lineContext* code_line(size_t i);
+    std::vector<CodeLineContext *> codeLine();
+    CodeLineContext* codeLine(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  Code_line_listContext* code_line_list();
+  CodeLineListContext* codeLineList();
 
-  class  Code_lineContext : public antlr4::ParserRuleContext {
+  class  CodeLineContext : public antlr4::ParserRuleContext {
   public:
-    Code_lineContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    CodeLineContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *INTEGER();
-    Statement_listContext *statement_list();
+    StatementListContext *statementList();
     antlr4::tree::TerminalNode *PERIOD();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  Code_lineContext* code_line();
+  CodeLineContext* codeLine();
 
-  class  Statement_listContext : public antlr4::ParserRuleContext {
+  class  StatementListContext : public antlr4::ParserRuleContext {
   public:
-    Statement_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    StatementListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<StatementContext *> statement();
     StatementContext* statement(size_t i);
@@ -181,7 +207,7 @@ public:
    
   };
 
-  Statement_listContext* statement_list();
+  StatementListContext* statementList();
 
   class  StatementContext : public antlr4::ParserRuleContext {
   public:
@@ -250,10 +276,10 @@ public:
     WhileContext(StatementContext *ctx);
 
     antlr4::tree::TerminalNode *WHILE();
-    Condition_listContext *condition_list();
+    ConditionListContext *conditionList();
     antlr4::tree::TerminalNode *COMMA();
     antlr4::tree::TerminalNode *WHILE_DO();
-    Statement_listContext *statement_list();
+    StatementListContext *statementList();
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
@@ -304,7 +330,7 @@ public:
     RepeatContext(StatementContext *ctx);
 
     antlr4::tree::TerminalNode *REPEAT();
-    Statement_listContext *statement_list();
+    StatementListContext *statementList();
     antlr4::tree::TerminalNode *UNTIL();
     ConditionContext *condition();
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -318,8 +344,8 @@ public:
     ConditionContext *condition();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
-    std::vector<Statement_listContext *> statement_list();
-    Statement_listContext* statement_list(size_t i);
+    std::vector<StatementListContext *> statementList();
+    StatementListContext* statementList(size_t i);
     antlr4::tree::TerminalNode *ELSE();
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -358,9 +384,9 @@ public:
 
   CallContext* call();
 
-  class  Condition_listContext : public antlr4::ParserRuleContext {
+  class  ConditionListContext : public antlr4::ParserRuleContext {
   public:
-    Condition_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    ConditionListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<ConditionContext *> condition();
     ConditionContext* condition(size_t i);
@@ -373,7 +399,7 @@ public:
    
   };
 
-  Condition_listContext* condition_list();
+  ConditionListContext* conditionList();
 
   class  ConditionContext : public antlr4::ParserRuleContext {
   public:

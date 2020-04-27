@@ -19,6 +19,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitBlock(RecipeParser::BlockContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitHeader(RecipeParser::HeaderContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -27,11 +35,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitDeclaration_list(RecipeParser::Declaration_listContext *ctx) override {
+  virtual antlrcpp::Any visitDeclList(RecipeParser::DeclListContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitDeclaration(RecipeParser::DeclarationContext *ctx) override {
+  virtual antlrcpp::Any visitDecl(RecipeParser::DeclContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -39,15 +47,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitCode_line_list(RecipeParser::Code_line_listContext *ctx) override {
+  virtual antlrcpp::Any visitCodeLineList(RecipeParser::CodeLineListContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitCode_line(RecipeParser::Code_lineContext *ctx) override {
+  virtual antlrcpp::Any visitCodeLine(RecipeParser::CodeLineContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitStatement_list(RecipeParser::Statement_listContext *ctx) override {
+  virtual antlrcpp::Any visitStatementList(RecipeParser::StatementListContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -107,7 +115,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitCondition_list(RecipeParser::Condition_listContext *ctx) override {
+  virtual antlrcpp::Any visitConditionList(RecipeParser::ConditionListContext *ctx) override {
     return visitChildren(ctx);
   }
 
