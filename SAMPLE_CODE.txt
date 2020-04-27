@@ -6,7 +6,7 @@ Ingredients:
 - 4.25 g of oregano (double)
 - 1 L of milk (int)
 - 1 g of breadcrumbs (double)
-- 2 pieces of bowl (array)
+- 1 g of mixture (array)
 - 1 L of water (int)
 
 Directions:

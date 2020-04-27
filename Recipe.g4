@@ -44,7 +44,7 @@ condition: variable IS NOT? (comp=(GT | LT | EQ) (variable| number) | TRUE);
 number locals [ TypeSpec *type = nullptr ]
         :INTEGER                   # int 
         | INTEGER '.' INTEGER   # float;
-variable: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
+variable locals [ TypeSpec *type = nullptr ]: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
 
 //Keywords
 PERIOD: '.';

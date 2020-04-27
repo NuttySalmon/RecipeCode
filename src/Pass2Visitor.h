@@ -22,7 +22,10 @@ private:
 	string program_name;
 	string j_file_name;
 	ofstream j_file;
-    vector<RecipeParser::DeclContext *> decl_ctx_list;
+    vector<RecipeParser::DeclContext *> decl_ctx_list; // for loading values in function
+    void loadValues();
+    char getIndicatorDecl(RecipeParser::DeclContext *ctx);
+    char getIndicator(TypeSpec *type);
 
 public:
 	Pass2Visitor();
@@ -30,8 +33,6 @@ public:
 
     ostream& get_assembly_file();
 
-    void loadValues();
-    char getIndicator(RecipeParser::DeclContext *ctx);
     antlrcpp::Any visitProgram(RecipeParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(RecipeParser::HeaderContext *ctx) override;
     antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *ctx) override;
@@ -40,10 +41,10 @@ public:
     // antlrcpp::Any visitVarId(RecipeParser::VarIdContext *ctx) override;
     // antlrcpp::Any visitStmt(RecipeParser::StmtContext *ctx) override;
     // antlrcpp::Any visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx) override;
-    // antlrcpp::Any visitPrintStmt(RecipeParser::PrintStmtContext *ctx) override;
+    //antlrcpp::Any visitPrint(RecipeParser::PrintContext *ctx) override;
     // antlrcpp::Any visitAddSubExpr(RecipeParser::AddSubExprContext *ctx) override;
     // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
-    // antlrcpp::Any visitVariableExpr(RecipeParser::VariableExprContext *ctx) override;
+    antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;

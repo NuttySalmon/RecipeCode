@@ -100,6 +100,7 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
     //    << "/_standardIn LPascalTextIn;" << endl;
 
     // Emit code for the main program's compound statement.
+
     loadValues();
     visit(ctx->block()->code());
 
@@ -118,6 +119,9 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
     return nullptr;
 }
 
+/* 
+Load values to static fields stored
+*/
 void Pass2Visitor::loadValues()
 {
 
@@ -126,7 +130,7 @@ void Pass2Visitor::loadValues()
         visit(ctx->number());
         j_file << "\tputstatic\t" << program_name
                << "/" << ctx->IDENTIFIER()->toString()
-               << " " << getIndicator(ctx) << endl;
+               << " " << getIndicator(ctx->number()->type) << endl;
     }
 }
 
@@ -147,17 +151,14 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
     string variable_name = ctx->IDENTIFIER()->toString();
 
     j_file << ".field private static "
-           << variable_name << " " << getIndicator(ctx) << endl;
+           << variable_name << " " << getIndicator(ctx->number()->type) << endl;
 
     decl_ctx_list.push_back(ctx);
     return NULL;
 }
 
-char Pass2Visitor::getIndicator(RecipeParser::DeclContext *ctx)
+char Pass2Visitor::getIndicator(TypeSpec *type)
 {
-    TypeSpec *type = ctx->number()->type;
-
-    // Emit a field declaration.
     char type_indicator = (type == Predefined::integer_type) ? 'I'
                           : (type == Predefined::real_type)   ? 'F'
                           : '?';
@@ -208,7 +209,7 @@ char Pass2Visitor::getIndicator(RecipeParser::DeclContext *ctx)
 //     return value;
 // }
 
-// antlrcpp::Any Pass2Visitor::visitPrintStmt(RecipeParser::PrintStmtContext *ctx)
+// antlrcpp::Any Pass2Visitor::visitPrint(RecipeParser::PrintContext *ctx)
 // {
 //     // Get the format string without the surrounding the single quotes.
 //     string str = ctx->formatString()->getText();
@@ -337,23 +338,18 @@ char Pass2Visitor::getIndicator(RecipeParser::DeclContext *ctx)
 //     return value;
 // }
 
-// antlrcpp::Any Pass2Visitor::visitVariableExpr(RecipeParser::VariableExprContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitVariableExpr" << endl;
+antlrcpp::Any Pass2Visitor::visitVariable(RecipeParser::VariableContext *ctx)
+{
+    if (DEBUG_2) cout << "=== Pass 2: visitVariableExpr" << endl;
 
-//     string variable_name = ctx->variable()->IDENTIFIER()->toString();
-//     TypeSpec *type = ctx->type;
+    string variable_name = ctx->IDENTIFIER()->toString();
 
-//     string type_indicator = (type == Predefined::integer_type) ? "I"
-//                           : (type == Predefined::real_type)    ? "F"
-//                           :                                      "?";
+    // Emit a field get instruction.
+    j_file << "\tgetstatic\t" << program_name
+           << "/" << variable_name << " " << getIndicator( ctx->type) << endl;
 
-//     // Emit a field get instruction.
-//     j_file << "\tgetstatic\t" << program_name
-//            << "/" << variable_name << " " << type_indicator << endl;
-
-//     return visitChildren(ctx);
-// }
+    return visitChildren(ctx);
+}
 
 // antlrcpp::Any Pass2Visitor::visitSignedNumber(RecipeParser::SignedNumberContext *ctx)
 // {

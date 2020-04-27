@@ -170,16 +170,20 @@ antlrcpp::Any Pass1Visitor::visitDecl(RecipeParser::DeclContext *ctx)
 //     return value;
 // }
 
-// antlrcpp::Any Pass1Visitor::visitVariableExpr(RecipeParser::VariableExprContext *ctx)
-// {
-//     if (DEBUG_1) cout << "=== Pass 1: visitVariableExpr: " + ctx->getText() << endl;
+antlrcpp::Any Pass1Visitor::visitVariable(RecipeParser::VariableContext *ctx)
+{
+    if (DEBUG_1) cout << "=== Pass 1: visitVariableExpr: " + ctx->getText() << endl;
 
-//     string variable_name = ctx->variable()->IDENTIFIER()->toString();
-//     SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
-
-//     ctx->type = variable_id->get_typespec();
-//     return visitChildren(ctx);
-// }
+    string variable_name = ctx->IDENTIFIER()->toString();
+    SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
+    if (variable_id == NULL)
+        cout << "ERROR: line " 
+             << ctx->IDENTIFIER()->getSymbol()->getLine() 
+             << ": no variable named \"" << variable_name << "\" declared\n"; 
+    else    
+        ctx->type = variable_id->get_typespec();
+    return visitChildren(ctx);
+}
 
 // antlrcpp::Any Pass1Visitor::visitSignedNumberExpr(RecipeParser::SignedNumberExprContext *ctx)
 // {

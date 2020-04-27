@@ -461,6 +461,7 @@ public:
 
   class  VariableContext : public antlr4::ParserRuleContext {
   public:
+    TypeSpec * type = nullptr;
     VariableContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *IDENTIFIER();

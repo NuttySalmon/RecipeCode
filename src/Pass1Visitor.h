@@ -29,7 +29,7 @@ public:
     // antlrcpp::Any visitTypeId(RecipeParser::TypeIdContext *ctx) override;
     // antlrcpp::Any visitAddSubExpr(RecipeParser::AddSubExprContext *ctx) override;
     // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
-    // antlrcpp::Any visitVariableExpr(RecipeParser::VariableExprContext *ctx) override;
+    antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
     // antlrcpp::Any visitSignedNumberExpr(RecipeParser::SignedNumberExprContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
     // antlrcpp::Any visitUnsignedNumberExpr(RecipeParser::UnsignedNumberExprContext *ctx) override;
