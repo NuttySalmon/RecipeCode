@@ -45,33 +45,35 @@ public:
 
     virtual antlrcpp::Any visitStatementList(RecipeParser::StatementListContext *context) = 0;
 
-    virtual antlrcpp::Any visitEmpty(RecipeParser::EmptyContext *context) = 0;
+    virtual antlrcpp::Any visitStatement(RecipeParser::StatementContext *context) = 0;
 
-    virtual antlrcpp::Any visitAdd(RecipeParser::AddContext *context) = 0;
-
-    virtual antlrcpp::Any visitSub(RecipeParser::SubContext *context) = 0;
-
-    virtual antlrcpp::Any visitMult(RecipeParser::MultContext *context) = 0;
-
-    virtual antlrcpp::Any visitDiv(RecipeParser::DivContext *context) = 0;
-
-    virtual antlrcpp::Any visitInc(RecipeParser::IncContext *context) = 0;
-
-    virtual antlrcpp::Any visitDec(RecipeParser::DecContext *context) = 0;
-
-    virtual antlrcpp::Any visitWhile(RecipeParser::WhileContext *context) = 0;
-
-    virtual antlrcpp::Any visitRepeat(RecipeParser::RepeatContext *context) = 0;
-
-    virtual antlrcpp::Any visitFunc_call(RecipeParser::Func_callContext *context) = 0;
-
-    virtual antlrcpp::Any visitIf(RecipeParser::IfContext *context) = 0;
-
-    virtual antlrcpp::Any visitPrint(RecipeParser::PrintContext *context) = 0;
-
-    virtual antlrcpp::Any visitReturn(RecipeParser::ReturnContext *context) = 0;
+    virtual antlrcpp::Any visitFunctionCall(RecipeParser::FunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitCall(RecipeParser::CallContext *context) = 0;
+
+    virtual antlrcpp::Any visitReturnStm(RecipeParser::ReturnStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitMultStm(RecipeParser::MultStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitDivStm(RecipeParser::DivStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *context) = 0;
+
+    virtual antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *context) = 0;
 
     virtual antlrcpp::Any visitConditionList(RecipeParser::ConditionListContext *context) = 0;
 

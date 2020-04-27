@@ -12,30 +12,49 @@ data: DECLARATION_SYM declList;
 
 //Declaration section
 declList: (decl)+; 
-decl: '-' number dtype=(INT_TYPE | FLOAT_TYPE | ARR_FLOAT_TYPE| ARR_INT_TYPE) OF IDENTIFIER;
+decl locals [ TypeSpec *type = nullptr ]: '-' number dtype=(INT_TYPE | FLOAT_TYPE | ARR_FLOAT_TYPE| ARR_INT_TYPE) OF IDENTIFIER;
 
 //Code section
 code: CODE_SYM codeLineList?;
 codeLineList: (codeLine)+;
 codeLine: INTEGER '.' statementList PERIOD;
 statementList: statement ((THEN) statement)*;
-statement:                                                                   # empty
-        | ADD IDENTIFIER (AND IDENTIFIER)* DEST IDENTIFIER                   # add
-        | SUB variable (AND variable)* DEST variable                         # sub
-        | MULT variable (AND variable)* DEST variable                        # mult
-        | DIV variable SRC ('size of' variable | INTEGER)                    # div
-        | INC variable ('for' variable 'min' | 'mins')?                      # inc
-        | DEC variable ('for' variable 'min' | 'mins')?                      # dec
-        | WHILE conditionList COMMA WHILE_DO statementList                 # while
-        | REPEAT statementList UNTIL condition                              # repeat
-        | FUNCTION IDENTIFIER 'for' variable call?                           # func_call
-        | IF condition COMMA statementList (COMMA ELSE statementList)?     # if
-        | PRINT variable (AND variable)*                                     # print
-        | RETURN IDENTIFIER                                                  # return
+statement:  
+        | addStm 
+        | subStm 
+        | multStm
+        | divStm
+        | incStm
+        | decStm
+        | whileStm 
+        | untilStm 
+        | functionCall
+        | ifStm
+        | printStm
+        | printCharStm
+        | returnStm
         ;
 
+
 //function
-call: 'with' variable ((','|','?'and') variable)*;
+functionCall: FUNCTION IDENTIFIER 'for' variable call?;
+call: 'with' variable ((COMMA | (COMMA? AND)) variable)*;
+returnStm: RETURN variable;
+
+//arithmetics 
+addStm: ADD variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
+subStm: SUB variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
+multStm: MULT variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
+divStm: DIV variable SRC ('size of' variable | INTEGER);
+incStm: INC variable ('for' INTEGER 'min' | 'mins')?;
+decStm: DEC variable ('for' INTEGER 'min' | 'mins')?;
+
+//Logic
+ifStm: IF conditionList COMMA statementList (COMMA ELSE statementList)?;
+whileStm: WHILE conditionList COMMA WHILE_DO statementList;
+untilStm: REPEAT statementList UNTIL condition;
+printStm: PRINT variable ((COMMA | (COMMA? AND)) variable)*;
+printCharStm: PRINT_CHAR variable ((COMMA | (COMMA? AND)) variable)*;
 
 //Logic expressions
 conditionList: condition ((AND | OR) condition)*;
@@ -46,9 +65,10 @@ number locals [ TypeSpec *type = nullptr ]
         | INTEGER '.' INTEGER   # float;
 variable locals [ TypeSpec *type = nullptr ]: (INTEGER ARRAY_ELEM OF)? IDENTIFIER;
 
+
 //Keywords
 PERIOD: '.';
-COMMA: ',';
+COMMA: ','(' '|NEWLINE);
 FUNCTION: 'See recipe';
 INT_TYPE: 'kg' | 'L';
 FLOAT_TYPE: 'g' | 'mL';
@@ -80,7 +100,8 @@ AND: 'and';
 OR: 'or';
 DEST: 'in''to'? | 'to' | 'from';
 SRC: 'into';
-PRINT: [Cc]'heck';
+PRINT: [Cc]'heck' ('on')?;
+PRINT_CHAR: [Ww]'eight';
 
 IS: 'is';
 TRUE: 'done';

@@ -22,8 +22,9 @@ public:
     CODE_SYM = 18, RETURN = 19, IF = 20, THEN = 21, ELSE = 22, WHILE = 23, 
     WHILE_DO = 24, REPEAT = 25, UNTIL = 26, ADD = 27, SUB = 28, MULT = 29, 
     DIV = 30, STEP_SYM = 31, AND = 32, OR = 33, DEST = 34, SRC = 35, PRINT = 36, 
-    IS = 37, TRUE = 38, NOT = 39, GT = 40, LT = 41, EQ = 42, INC = 43, DEC = 44, 
-    WS = 45, NEWLINE = 46, COMMENT = 47, IDENTIFIER = 48, INTEGER = 49
+    PRINT_CHAR = 37, IS = 38, TRUE = 39, NOT = 40, GT = 41, LT = 42, EQ = 43, 
+    INC = 44, DEC = 45, WS = 46, NEWLINE = 47, COMMENT = 48, IDENTIFIER = 49, 
+    INTEGER = 50
   };
 
   RecipeLexer(antlr4::CharStream *input);

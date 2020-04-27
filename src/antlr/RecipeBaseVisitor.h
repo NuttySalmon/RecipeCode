@@ -63,59 +63,63 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitEmpty(RecipeParser::EmptyContext *ctx) override {
+  virtual antlrcpp::Any visitStatement(RecipeParser::StatementContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAdd(RecipeParser::AddContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitSub(RecipeParser::SubContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitMult(RecipeParser::MultContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitDiv(RecipeParser::DivContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitInc(RecipeParser::IncContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitDec(RecipeParser::DecContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitWhile(RecipeParser::WhileContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitRepeat(RecipeParser::RepeatContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitFunc_call(RecipeParser::Func_callContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitIf(RecipeParser::IfContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitPrint(RecipeParser::PrintContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitReturn(RecipeParser::ReturnContext *ctx) override {
+  virtual antlrcpp::Any visitFunctionCall(RecipeParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitCall(RecipeParser::CallContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitReturnStm(RecipeParser::ReturnStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitMultStm(RecipeParser::MultStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitDivStm(RecipeParser::DivStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx) override {
     return visitChildren(ctx);
   }
 
