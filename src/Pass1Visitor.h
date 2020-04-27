@@ -17,7 +17,6 @@ class Pass1Visitor : public RecipeBaseVisitor
 private:
     SymTabStack *symtab_stack;
     vector<SymTabEntry *> var_id_list;
-    // vector<RecipeParser::VarListContext *> var_ctx_list;
 
 public:
     Pass1Visitor();

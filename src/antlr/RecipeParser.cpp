@@ -1776,7 +1776,6 @@ RecipeParser::NumberContext* RecipeParser::number() {
       enterOuterAlt(_localctx, 2);
       setState(223);
       match(RecipeParser::INTEGER);
-
       setState(224);
       match(RecipeParser::PERIOD);
       setState(225);

@@ -100,6 +100,7 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
     //    << "/_standardIn LPascalTextIn;" << endl;
 
     // Emit code for the main program's compound statement.
+    loadValues();
     visit(ctx->block()->code());
 
     // Emit the main program epilogue.
@@ -117,6 +118,18 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
     return nullptr;
 }
 
+void Pass2Visitor::loadValues()
+{
+
+    for (auto ctx : decl_ctx_list)
+    {
+        visit(ctx->number());
+        j_file << "\tputstatic\t" << program_name
+               << "/" << ctx->IDENTIFIER()->toString()
+               << " " << getIndicator(ctx) << endl;
+    }
+}
+
 // antlrcpp::Any Pass2Visitor::visitVarList(RecipeParser::VarListContext *ctx)
 // {
 //     if (DEBUG_2) cout << "=== Pass 2: visitDeclarations: " << ctx->getText() << endl;
@@ -129,28 +142,27 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
     if (DEBUG_2)
         cout << "=== Pass 2: visitDecl: " + ctx->getText() << endl;
 
-    j_file << "\n; " << ctx->getText() << "\n"
-           << endl;
+    j_file << "\n; " << ctx->getText() << endl;
 
     string variable_name = ctx->IDENTIFIER()->toString();
-    // TypeSpec *type = ctx->type;
 
-    // // Emit a field declaration.
-    // string type_indicator = (type == Predefined::integer_type) ? "I"
-    //                                                            : (type == Predefined::real_type) ? "F"
-    //                                                                                              : "?";
-    // j_file << ".field private static "
-    //        << variable_name << " " << type_indicator << endl;
+    j_file << ".field private static "
+           << variable_name << " " << getIndicator(ctx) << endl;
 
-    // auto value = visit(ctx->expr());
-
-    // j_file << "\tputstatic\t" << program_name
-    //        << "/" << ctx->IDENTIFIER()->toString()
-    //        << " " << type_indicator << endl;
-
-    return visitChildren(ctx);
+    decl_ctx_list.push_back(ctx);
+    return NULL;
 }
 
+char Pass2Visitor::getIndicator(RecipeParser::DeclContext *ctx)
+{
+    TypeSpec *type = ctx->number()->type;
+
+    // Emit a field declaration.
+    char type_indicator = (type == Predefined::integer_type) ? 'I'
+                          : (type == Predefined::real_type)   ? 'F'
+                          : '?';
+    return type_indicator;
+}
 // antlrcpp::Any Pass2Visitor::visitVarId(RecipeParser::VarIdContext *ctx)
 // {
 //     if (DEBUG_2) cout << "=== Pass 2: visitVarId: " + ctx->getText() << endl;
@@ -363,22 +375,24 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
 //     return value;
 // }
 
-// antlrcpp::Any Pass2Visitor::visitIntegerConst(RecipeParser::IntegerConstContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitIntegerConst" << endl;
+antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
+{
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitIntegerConst" << endl;
 
-//     // Emit a load constant instruction.
-//     j_file << "\tldc\t" << ctx->getText() << endl;
+    // Emit a load constant instruction.
+    j_file << "\tldc\t" << ctx->getText() << endl;
 
-//     return visitChildren(ctx);
-// }
+    return visitChildren(ctx);
+}
 
-// antlrcpp::Any Pass2Visitor::visitFloatConst(RecipeParser::FloatConstContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitFloatConst" << endl;
+antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
+{
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitFloatConst" << endl;
 
-//     // Emit a load constant instruction.
-//     j_file << "\tldc\t" << ctx->getText() << endl;
+    // Emit a load constant instruction.
+    j_file << "\tldc\t" << ctx->getText() << endl;
 
-//     return visitChildren(ctx);
-// }
+    return visitChildren(ctx);
+}

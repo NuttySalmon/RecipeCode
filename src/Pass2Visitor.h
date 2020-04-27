@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "wci/intermediate/SymTabStack.h"
 #include "wci/intermediate/SymTabEntry.h"
@@ -21,6 +22,7 @@ private:
 	string program_name;
 	string j_file_name;
 	ofstream j_file;
+    vector<RecipeParser::DeclContext *> decl_ctx_list;
 
 public:
 	Pass2Visitor();
@@ -28,6 +30,8 @@ public:
 
     ostream& get_assembly_file();
 
+    void loadValues();
+    char getIndicator(RecipeParser::DeclContext *ctx);
     antlrcpp::Any visitProgram(RecipeParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(RecipeParser::HeaderContext *ctx) override;
     antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *ctx) override;
@@ -41,8 +45,8 @@ public:
     // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
     // antlrcpp::Any visitVariableExpr(RecipeParser::VariableExprContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
-    // antlrcpp::Any visitIntegerConst(RecipeParser::IntegerConstContext *ctx) override;
-    // antlrcpp::Any visitFloatConst(RecipeParser::FloatConstContext *ctx) override;
+    antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
+    antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
 };
 
 #endif /* PASS2VISITOR_H_ */
