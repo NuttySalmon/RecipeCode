@@ -139,14 +139,10 @@ void Pass2Visitor::loadValues()
     {
 
         visit(ctx->number());
-
         //pad with .0 if float but input is int
         if (ctx->type == Predefined::real_type && ctx->type != ctx->number()->type)
-            j_file << ".0";
-        j_file << endl;
-        j_file << "\tputstatic\t" << program_name
-               << "/" << ctx->IDENTIFIER()->toString()
-               << " " << getIndicator(ctx->type) << endl;
+            j_file << "\ti2f\n";
+        storeStatic(ctx);
     }
 }
 
@@ -412,9 +408,16 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
     if (DEBUG_2)
         cout << "=== Pass 2: visitIntegerConst" << endl;
 
+    int value = stoi(ctx->getText());
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText();
-
+    if (value >= -1 && value <= 5)
+    {
+        j_file << "\ticonst_" << value << endl;
+    }
+    else
+    {
+        j_file << "\tldc\t" << ctx->getText() << endl;
+    }
     return visitChildren(ctx);
 }
 
@@ -424,13 +427,13 @@ antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
         cout << "=== Pass 2: visitFloatConst" << endl;
 
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText();
+    j_file << "\tldc\t" << ctx->getText() << endl;
 
     return visitChildren(ctx);
 }
 
 antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
-{    
+{
     if (DEBUG_2)
         cout << "=== Pass 2: visitCondition" << endl;
 
@@ -440,18 +443,19 @@ antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
     {
         cmpfloat = true;
         if (ctx->operand(0)->type == Predefined::integer_type)
-            j_file << "\ti2f" << endl;
+            j_file << "\ti2f\n";
     }
     visit(ctx->operand(1));
     if (ctx->operand(0)->type == Predefined::real_type)
     {
         cmpfloat = true;
         if (ctx->operand(1)->type == Predefined::integer_type)
-            j_file << "\ti2f" << endl;
+            j_file << "\ti2f\n";
     }
 
     size_t comp = -1;
-    if (ctx->comp != nullptr){
+    if (ctx->comp != nullptr)
+    {
         comp = ctx->comp->getType();
     }
 
@@ -500,20 +504,22 @@ string Pass2Visitor::cmpPostfix(size_t comp)
     }
 }
 
-
-antlrcpp::Any Pass2Visitor::visitAndCond(RecipeParser::AndCondContext *ctx){
+antlrcpp::Any Pass2Visitor::visitAndCond(RecipeParser::AndCondContext *ctx)
+{
     antlrcpp::Any childrenVisited = visitChildren(ctx);
     j_file << "\tiand\n";
     return childrenVisited;
 }
 
-antlrcpp::Any Pass2Visitor::visitOrCond(RecipeParser::OrCondContext *ctx){
+antlrcpp::Any Pass2Visitor::visitOrCond(RecipeParser::OrCondContext *ctx)
+{
     antlrcpp::Any childrenVisited = visitChildren(ctx);
     j_file << "\tior\n";
     return childrenVisited;
 }
 
-antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx) {
+antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx)
+{
     string falseLab = getLabel();
     string doneLab = getLabel();
     j_file << "\t;" << ctx->conditionList()->getText() << endl;
@@ -522,15 +528,64 @@ antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx) {
     j_file << "\tif_icmpne " << falseLab << endl;
     j_file << "\n;if true\n";
     visit(ctx->statementList(0));
-    if (ctx->statementList(1) != nullptr){
+    if (ctx->statementList(1) != nullptr)
+    {
         j_file << "\tgoto " << doneLab << endl;
         j_file << "\n;if false\n";
         j_file << "\t" << falseLab << ":\n";
         visit(ctx->statementList(1));
         j_file << "\t" << doneLab << ":\n";
-    } else{
+    }
+    else
+    {
         j_file << "\t" << falseLab << ":\n";
     }
 
     return nullptr;
+}
+
+antlrcpp::Any Pass2Visitor::visitIncStm(RecipeParser::IncStmContext *ctx)
+{
+    visitChildren(ctx);
+    TypeSpec *varType = ctx->variable()->type;
+    char indicator  = tolower(getIndicator(varType));
+    if (ctx->number() == nullptr){
+        j_file << "\t" << indicator << "const_1\n";
+    }
+    if(varType == Predefined::real_type)
+        j_file << "\ti2f\n";    
+    j_file << "\t" << indicator << "add\n";
+    
+    storeStatic(ctx->variable());
+    return nullptr;
+}
+
+antlrcpp::Any Pass2Visitor::visitDecStm(RecipeParser::DecStmContext *ctx)
+{
+    visitChildren(ctx);
+    TypeSpec *varType = ctx->variable()->type;
+    char indicator  = tolower(getIndicator(varType));
+    if (ctx->number() == nullptr){
+        j_file << "\t" << indicator << "const_1\n";
+    }
+    if(varType == Predefined::real_type)
+        j_file << "\ti2f\n";    
+    j_file << "\t" << indicator << "sub\n";
+    
+    storeStatic(ctx->variable());
+    return nullptr;
+}
+
+void Pass2Visitor::storeStatic(RecipeParser::VariableContext *ctx)
+{
+    j_file << "\tputstatic\t" << program_name
+           << "/" << ctx->IDENTIFIER()->toString()
+           << " " << getIndicator(ctx->type) << endl;
+}
+
+void Pass2Visitor::storeStatic(RecipeParser::DeclContext *ctx)
+{
+    j_file << "\tputstatic\t" << program_name
+           << "/" << ctx->IDENTIFIER()->toString()
+           << " " << getIndicator(ctx->type) << endl;
 }

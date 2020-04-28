@@ -46,8 +46,8 @@ addStm: ADD variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 subStm: SUB variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 multStm: MULT variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 divStm: DIV variable SRC ('size of' variable | INTEGER);
-incStm: INC variable ('for' INTEGER 'min' | 'mins')?;
-decStm: DEC variable ('for' INTEGER 'min' | 'mins')?;
+incStm: INC variable ('for' number 'min' | 'mins')?;
+decStm: DEC variable ('for' number 'min' | 'mins')?;
 
 
 //Logic

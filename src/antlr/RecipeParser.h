@@ -386,7 +386,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *INC();
     VariableContext *variable();
-    antlr4::tree::TerminalNode *INTEGER();
+    NumberContext *number();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -400,7 +400,7 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DEC();
     VariableContext *variable();
-    antlr4::tree::TerminalNode *INTEGER();
+    NumberContext *number();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

@@ -26,6 +26,8 @@ private:
     void loadValues();
     char getIndicatorDecl(RecipeParser::DeclContext *ctx);
     char getIndicator(TypeSpec *type);
+    void storeStatic(RecipeParser::VariableContext *ctx);
+    void storeStatic(RecipeParser::DeclContext *ctx);
     int labelCounter;
     string getLabel();
     string cmpPostfix(size_t comp);
@@ -57,7 +59,8 @@ public:
     antlrcpp::Any visitAndCond(RecipeParser::AndCondContext *ctx) override;
     antlrcpp::Any visitOrCond(RecipeParser::OrCondContext *ctx) override;
     antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *ctx) override;
-
+    antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override;
+    antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override;
 };
 
 #endif /* PASS2VISITOR_H_ */
