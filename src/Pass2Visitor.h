@@ -62,6 +62,7 @@ public:
     antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override;
     antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override;
     antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override;
+    antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override;
 };
 
 #endif /* PASS2VISITOR_H_ */

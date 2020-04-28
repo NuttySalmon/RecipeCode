@@ -46,14 +46,14 @@ addStm: ADD variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 subStm: SUB variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 multStm: MULT variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
 divStm: DIV variable SRC ('size of' variable | INTEGER);
-incStm: INC variable ('for' number 'min' | 'mins')?;
-decStm: DEC variable ('for' number 'min' | 'mins')?;
+incStm: INC variable ('for' number ('min' | 'mins'))?;
+decStm: DEC variable ('for' number ('min' | 'mins'))?;
 
 
 //Logic
 ifStm: IF conditionList COMMA statementList (COMMA ELSE statementList)?;
 whileStm: WHILE conditionList COMMA WHILE_DO statementList;
-untilStm: REPEAT statementList UNTIL condition;
+untilStm: REPEAT statementList UNTIL conditionList;
 printStm: PRINT variable ((COMMA | (COMMA? AND)) variable)*;
 printCharStm: PRINT_CHAR variable ((COMMA | (COMMA? AND)) variable)*;
 
@@ -94,7 +94,7 @@ ELSE: 'otherwise';
 WHILE: [Ww]'hile';
 WHILE_DO: 'keep';
 
-REPEAT: [Rr]'peat''edly'?;
+REPEAT: [Rr]'epeat''edly'?;
 UNTIL: 'until';
 
 

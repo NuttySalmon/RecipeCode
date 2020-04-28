@@ -436,7 +436,9 @@ antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
 {
     if (DEBUG_2)
         cout << "=== Pass 2: visitCondition" << endl;
-
+    
+    j_file << ";condition" << endl;
+    
     bool cmpfloat = false;
     visit(ctx->operand(0));
     if (ctx->operand(1)->type == Predefined::real_type)
@@ -602,3 +604,14 @@ antlrcpp::Any Pass2Visitor::visitWhileStm(RecipeParser::WhileStmContext *ctx){
     j_file << "\t" << endLab << ":\n";
     return nullptr;    
 }
+antlrcpp::Any Pass2Visitor::visitUntilStm(RecipeParser::UntilStmContext *ctx){
+    string loopLab = getLabel();
+    string endLab = getLabel();
+    j_file << "\t" << loopLab << ":\n";
+    visit(ctx->statementList());
+    visit(ctx->conditionList());
+    j_file << "\ticonst_1" << endl;
+    j_file << "\tif_icmpne " << loopLab << endl;  
+    return nullptr;    
+}
+
