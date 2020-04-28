@@ -589,3 +589,16 @@ void Pass2Visitor::storeStatic(RecipeParser::DeclContext *ctx)
            << "/" << ctx->IDENTIFIER()->toString()
            << " " << getIndicator(ctx->type) << endl;
 }
+
+antlrcpp::Any Pass2Visitor::visitWhileStm(RecipeParser::WhileStmContext *ctx){
+    string loopLab = getLabel();
+    string endLab = getLabel();
+    j_file << "\t" << loopLab << ":\n";
+    visit(ctx->conditionList());
+    j_file << "\ticonst_1" << endl;
+    j_file << "\tif_icmpne " << endLab << endl;
+    visit(ctx->statementList());
+    j_file << "\tgoto " << loopLab << endl;
+    j_file << "\t" << endLab << ":\n";
+    return nullptr;    
+}
