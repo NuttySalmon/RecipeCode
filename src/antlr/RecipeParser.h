@@ -22,9 +22,9 @@ public:
     CODE_SYM = 18, RETURN = 19, IF = 20, THEN = 21, ELSE = 22, WHILE = 23, 
     WHILE_DO = 24, REPEAT = 25, UNTIL = 26, ADD = 27, SUB = 28, MULT = 29, 
     DIV = 30, STEP_SYM = 31, AND = 32, OR = 33, DEST = 34, SRC = 35, PRINT = 36, 
-    PRINT_CHAR = 37, IS = 38, TRUE = 39, NOT = 40, GT = 41, LT = 42, EQ = 43, 
-    INC = 44, DEC = 45, WS = 46, NEWLINE = 47, COMMENT = 48, IDENTIFIER = 49, 
-    INTEGER = 50
+    PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, LT = 42, 
+    EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
+    COMMENT = 50, IDENTIFIER = 51, INTEGER = 52
   };
 
   enum {
@@ -34,8 +34,9 @@ public:
     RuleCall = 13, RuleReturnStm = 14, RuleAddStm = 15, RuleSubStm = 16, 
     RuleMultStm = 17, RuleDivStm = 18, RuleIncStm = 19, RuleDecStm = 20, 
     RuleIfStm = 21, RuleWhileStm = 22, RuleUntilStm = 23, RulePrintStm = 24, 
-    RulePrintCharStm = 25, RuleConditionList = 26, RuleCondition = 27, RuleNumber = 28, 
-    RuleVariable = 29
+    RulePrintCharStm = 25, RuleConditionList = 26, RuleCondition = 27, RuleOperand = 28, 
+    RuleConstant = 29, RuleTrueSym = 30, RuleAndCond = 31, RuleOrCond = 32, 
+    RuleNumber = 33, RuleVariable = 34
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -76,6 +77,11 @@ public:
   class PrintCharStmContext;
   class ConditionListContext;
   class ConditionContext;
+  class OperandContext;
+  class ConstantContext;
+  class TrueSymContext;
+  class AndCondContext;
+  class OrCondContext;
   class NumberContext;
   class VariableContext; 
 
@@ -491,12 +497,11 @@ public:
   public:
     ConditionListContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<ConditionContext *> condition();
-    ConditionContext* condition(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> AND();
-    antlr4::tree::TerminalNode* AND(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> OR();
-    antlr4::tree::TerminalNode* OR(size_t i);
+    ConditionContext *condition();
+    std::vector<AndCondContext *> andCond();
+    AndCondContext* andCond(size_t i);
+    std::vector<OrCondContext *> orCond();
+    OrCondContext* orCond(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -509,21 +514,86 @@ public:
     antlr4::Token *comp = nullptr;;
     ConditionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
+    std::vector<OperandContext *> operand();
+    OperandContext* operand(size_t i);
     antlr4::tree::TerminalNode *IS();
-    antlr4::tree::TerminalNode *TRUE();
     antlr4::tree::TerminalNode *NOT();
     antlr4::tree::TerminalNode *GT();
     antlr4::tree::TerminalNode *LT();
     antlr4::tree::TerminalNode *EQ();
-    NumberContext *number();
+    antlr4::tree::TerminalNode *GE();
+    antlr4::tree::TerminalNode *LE();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   ConditionContext* condition();
+
+  class  OperandContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec * type = nullptr;
+    OperandContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    VariableContext *variable();
+    ConstantContext *constant();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OperandContext* operand();
+
+  class  ConstantContext : public antlr4::ParserRuleContext {
+  public:
+    ConstantContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    NumberContext *number();
+    TrueSymContext *trueSym();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ConstantContext* constant();
+
+  class  TrueSymContext : public antlr4::ParserRuleContext {
+  public:
+    TrueSymContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *TRUE_SYM();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  TrueSymContext* trueSym();
+
+  class  AndCondContext : public antlr4::ParserRuleContext {
+  public:
+    AndCondContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *AND();
+    ConditionContext *condition();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AndCondContext* andCond();
+
+  class  OrCondContext : public antlr4::ParserRuleContext {
+  public:
+    OrCondContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OR();
+    ConditionContext *condition();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OrCondContext* orCond();
 
   class  NumberContext : public antlr4::ParserRuleContext {
   public:

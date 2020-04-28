@@ -36,6 +36,7 @@ public:
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
     // antlrcpp::Any visitParenExpr(RecipeParser::ParenExprContext *ctx) override;
+    antlrcpp::Any visitOperand(RecipeParser::OperandContext *ctx) override;
 };
 
 #endif /* PASS1VISITOR_H_ */

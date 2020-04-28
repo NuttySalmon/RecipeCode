@@ -79,6 +79,16 @@ public:
 
     virtual antlrcpp::Any visitCondition(RecipeParser::ConditionContext *context) = 0;
 
+    virtual antlrcpp::Any visitOperand(RecipeParser::OperandContext *context) = 0;
+
+    virtual antlrcpp::Any visitConstant(RecipeParser::ConstantContext *context) = 0;
+
+    virtual antlrcpp::Any visitTrueSym(RecipeParser::TrueSymContext *context) = 0;
+
+    virtual antlrcpp::Any visitAndCond(RecipeParser::AndCondContext *context) = 0;
+
+    virtual antlrcpp::Any visitOrCond(RecipeParser::OrCondContext *context) = 0;
+
     virtual antlrcpp::Any visitInt(RecipeParser::IntContext *context) = 0;
 
     virtual antlrcpp::Any visitFloat(RecipeParser::FloatContext *context) = 0;

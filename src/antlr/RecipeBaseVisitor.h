@@ -131,6 +131,26 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitOperand(RecipeParser::OperandContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitConstant(RecipeParser::ConstantContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitTrueSym(RecipeParser::TrueSymContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAndCond(RecipeParser::AndCondContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitOrCond(RecipeParser::OrCondContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override {
     return visitChildren(ctx);
   }

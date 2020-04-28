@@ -229,6 +229,7 @@ antlrcpp::Any Pass1Visitor::visitFloat(RecipeParser::FloatContext *ctx)
     return visitChildren(ctx);
 }
 
+
 // antlrcpp::Any Pass1Visitor::visitParenExpr(RecipeParser::ParenExprContext *ctx)
 // {
 //     if (DEBUG_1) cout << "=== Pass 1: visitParenExpr: " + ctx->getText() << endl;
@@ -237,3 +238,16 @@ antlrcpp::Any Pass1Visitor::visitFloat(RecipeParser::FloatContext *ctx)
 //     ctx->type = ctx->expr()->type;
 //     return value;
 // }
+
+antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
+{   antlrcpp::Any childrenVisited = visitChildren(ctx);
+    if (ctx->variable() != NULL)
+        ctx->type = ctx->variable()->type;
+    else
+        ctx->type = Predefined::integer_type;
+    return childrenVisited;
+}
+
+
+
+

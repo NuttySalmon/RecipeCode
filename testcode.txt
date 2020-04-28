@@ -1,0 +1,9 @@
+Recipe: Bread
+
+Ingredients:
+- 3 L of flour
+- 600 mL of water
+- 1 g of yeast
+
+Directions:
+1. If water is more than flour and yeast is not done or water is not as much as yeast, add water to yeast, otherwise add flour to yeast.

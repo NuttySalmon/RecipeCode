@@ -7,7 +7,6 @@
 #include "wci/intermediate/TypeSpec.h"
 #include "wci/intermediate/symtabimpl/Predefined.h"
 
-
 using namespace wci;
 using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
@@ -19,7 +18,17 @@ Pass2Visitor::Pass2Visitor()
 {
 }
 
-Pass2Visitor::~Pass2Visitor() {}
+Pass2Visitor::~Pass2Visitor()
+{
+    labelCounter = 0;
+}
+
+string Pass2Visitor::getLabel()
+{
+    string label = "L" + to_string(labelCounter);
+    labelCounter++;
+    return label;
+}
 
 ostream &Pass2Visitor::get_assembly_file() { return j_file; }
 
@@ -127,10 +136,10 @@ void Pass2Visitor::loadValues()
 {
 
     for (auto ctx : decl_ctx_list)
-    {   
-        
+    {
+
         visit(ctx->number());
-        
+
         //pad with .0 if float but input is int
         if (ctx->type == Predefined::real_type && ctx->type != ctx->number()->type)
             j_file << ".0";
@@ -167,8 +176,8 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
 char Pass2Visitor::getIndicator(TypeSpec *type)
 {
     char type_indicator = (type == Predefined::integer_type) ? 'I'
-                          : (type == Predefined::real_type)   ? 'F'
-                          : '?';
+                                                             : (type == Predefined::real_type) ? 'F'
+                                                                                               : '?';
     return type_indicator;
 }
 // antlrcpp::Any Pass2Visitor::visitVarId(RecipeParser::VarIdContext *ctx)
@@ -190,11 +199,14 @@ char Pass2Visitor::getIndicator(TypeSpec *type)
 
 antlrcpp::Any Pass2Visitor::visitStatement(RecipeParser::StatementContext *ctx)
 {
-    if (DEBUG_2) cout << "=== Pass 2: visitStmt" << endl;
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitStmt" << endl;
 
     string line = ctx->getText();
     line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
-    j_file << endl << "; " + ctx->getText() << endl << endl;
+    j_file << endl
+           << "; " + ctx->getText() << endl
+           << endl;
 
     return visitChildren(ctx);
 }
@@ -221,15 +233,13 @@ antlrcpp::Any Pass2Visitor::visitStatement(RecipeParser::StatementContext *ctx)
 antlrcpp::Any Pass2Visitor::visitPrintStm(RecipeParser::PrintStmContext *ctx)
 {
 
-   
-
     int varCount = ctx->variable().size();
 
     // Loop to generate code for each expression.
-    for (int i = 0; i < varCount;  i++)
-    {   
-         // Emit code to push the java.lang.System.out object.
-         j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
+    for (int i = 0; i < varCount; i++)
+    {
+        // Emit code to push the java.lang.System.out object.
+        j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
 
         // Emit code to evaluate the expression.
         visit(ctx->variable(i));
@@ -237,28 +247,26 @@ antlrcpp::Any Pass2Visitor::visitPrintStm(RecipeParser::PrintStmContext *ctx)
 
         // Emit code to convert a scalar integer or float value
         // to an Integer or Float object, respectively.
-        
-        
+
         // Emit code to call java.io.PrintStream.printf.
         j_file << "\tinvokevirtual java/io/PrintStream.println("
-               << getIndicator(type) 
+               << getIndicator(type)
                << ")V" << endl;
     }
     return nullptr;
 }
 
-
-antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx){
+antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx)
+{
     // Get the format string without the surrounding the single quotes.
     // Emit code to push the java.lang.System.out object.
     j_file << "\tgetstatic\tjava/lang/System/out Ljava/io/PrintStream;" << endl;
-
 
     // Array size is the number of expressions to evaluate and print.
     int array_size = ctx->variable().size();
     j_file << "\tldc\t\"";
     for (int i = 0; i < array_size; i++)
-        j_file << "%C"; // format output as char 
+        j_file << "%C"; // format output as char
     j_file << "\"" << endl;
     // Emit code to create the array of the correct size.
     j_file << "\tldc\t" << array_size << endl;
@@ -267,8 +275,8 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
     // Loop to generate code for each expression.
     for (int i = 0; i < array_size; i++)
     {
-        j_file << "\tdup" << endl;         // duplicate the array address
-        j_file << "\tldc\t" << i << endl;  // array element index
+        j_file << "\tdup" << endl;        // duplicate the array address
+        j_file << "\tldc\t" << i << endl; // array element index
 
         // Emit code to evaluate the expression.
         visit(ctx->variable(i));
@@ -277,10 +285,10 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
             cout << "ERROR: attempt to print float as char";
 
         j_file << "\tinvokestatic\tjava/lang/Integer.valueOf(I)"
-                << "Ljava/lang/Integer;"
-                << endl;
+               << "Ljava/lang/Integer;"
+               << endl;
 
-        j_file << "\taastore" << endl;  // store the value into the array
+        j_file << "\taastore" << endl; // store the value into the array
     }
 
     // Emit code to call java.io.PrintStream.printf.
@@ -367,7 +375,8 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
 
 antlrcpp::Any Pass2Visitor::visitVariable(RecipeParser::VariableContext *ctx)
 {
-    if (DEBUG_2) cout << "=== Pass 2: visitVariableExpr" << endl;
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitVariableExpr" << endl;
 
     string variable_name = ctx->IDENTIFIER()->toString();
 
@@ -419,3 +428,89 @@ antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
 
     return visitChildren(ctx);
 }
+
+antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
+{    
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitCondition" << endl;
+    
+    j_file << ";;;;" << ctx->getText() << endl;
+    bool cmpfloat = false;
+    visit(ctx->operand(0));
+    if (ctx->operand(1)->type == Predefined::real_type)
+    {
+        cmpfloat = true;
+        if (ctx->operand(0)->type == Predefined::integer_type)
+            j_file << "\ti2f" << endl;
+    }
+    visit(ctx->operand(1));
+    if (ctx->operand(0)->type == Predefined::real_type)
+    {
+        cmpfloat = true;
+        if (ctx->operand(1)->type == Predefined::integer_type)
+            j_file << "\ti2f" << endl;
+    }
+
+    size_t comp = -1;
+    if (ctx->comp != NULL){
+        comp = ctx->comp->getType();
+    }
+
+    bool negate = ctx->NOT() != NULL;
+    if (cmpfloat)
+    {
+        j_file << "\tfcmpl" << endl;
+        j_file << "\tif";
+    }
+    else
+    {
+        j_file << "\tif_icmp";
+    }
+
+    string falseLab = getLabel();
+    string doneLab = getLabel();
+    j_file << cmpPostfix(comp) << " " << falseLab << endl;
+    j_file << "\t\t" << (negate ? "iconst_0" : "iconst_1") << endl;
+    j_file << "\t\tgoto " << doneLab << endl;
+    j_file << "\t" << falseLab << ":\n";
+    j_file << "\t\t" << (negate ? "iconst_1" : "iconst_0") << endl;
+    j_file << "\t" << doneLab << ":\n";
+    return nullptr;
+};
+
+antlrcpp::Any Pass2Visitor::visitTrueSym(RecipeParser::TrueSymContext *ctx)
+{
+    j_file << "\ticonst_1" << endl;
+    return nullptr;
+}
+
+string Pass2Visitor::cmpPostfix(size_t comp)
+{
+    switch (comp)
+    {
+    case (RecipeParser::GT):
+        return "le";
+    case (RecipeParser::LT):
+        return "ge";
+    case (RecipeParser::GE):
+        return "lt";
+    case (RecipeParser::LE):
+        return "gt";
+    default:
+        return "eq";
+    }
+}
+
+
+antlrcpp::Any Pass2Visitor::visitAndCond(RecipeParser::AndCondContext *ctx){
+    antlrcpp::Any childrenVisited = visitChildren(ctx);
+    j_file << "\tiand\n";
+    return childrenVisited;
+}
+
+antlrcpp::Any Pass2Visitor::visitOrCond(RecipeParser::OrCondContext *ctx){
+    antlrcpp::Any childrenVisited = visitChildren(ctx);
+    j_file << "\tior\n";
+    return childrenVisited;
+}
+
