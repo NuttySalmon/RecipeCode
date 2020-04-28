@@ -423,6 +423,8 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
 {
+    visitChildren(ctx);
+    TypeSpec* type1 = ctx->variable(0)->type;
     
 }
 
