@@ -177,7 +177,7 @@ antlrcpp::Any Pass1Visitor::visitVariable(RecipeParser::VariableContext *ctx)
 
     string variable_name = ctx->IDENTIFIER()->toString();
     SymTabEntry *variable_id = symtab_stack->lookup(variable_name);
-    if (variable_id == NULL)
+    if (variable_id == nullptr)
         cout << "ERROR: line " 
              << ctx->IDENTIFIER()->getSymbol()->getLine() 
              << ": no variable named \"" << variable_name << "\" declared\n"; 
@@ -241,7 +241,7 @@ antlrcpp::Any Pass1Visitor::visitFloat(RecipeParser::FloatContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
 {   antlrcpp::Any childrenVisited = visitChildren(ctx);
-    if (ctx->variable() != NULL)
+    if (ctx->variable() != nullptr)
         ctx->type = ctx->variable()->type;
     else
         ctx->type = Predefined::integer_type;

@@ -49,6 +49,7 @@ divStm: DIV variable SRC ('size of' variable | INTEGER);
 incStm: INC variable ('for' INTEGER 'min' | 'mins')?;
 decStm: DEC variable ('for' INTEGER 'min' | 'mins')?;
 
+
 //Logic
 ifStm: IF conditionList COMMA statementList (COMMA ELSE statementList)?;
 whileStm: WHILE conditionList COMMA WHILE_DO statementList;
@@ -57,8 +58,14 @@ printStm: PRINT variable ((COMMA | (COMMA? AND)) variable)*;
 printCharStm: PRINT_CHAR variable ((COMMA | (COMMA? AND)) variable)*;
 
 //Logic expressions
-conditionList: condition ((AND | OR) condition)*;
-condition: variable IS NOT? (comp=(GT | LT | EQ) (variable| number) | TRUE);
+conditionList: condition (andCond | orCond)*;
+condition: operand IS NOT? ((comp=(GT | LT | EQ | GE | LE))? operand );
+operand locals [ TypeSpec *type = nullptr ]: variable | constant;
+constant: number | trueSym;
+trueSym: TRUE_SYM;
+
+andCond: AND condition ;
+orCond: OR condition;
 
 number locals [ TypeSpec *type = nullptr ]
         :INTEGER                   # int 
@@ -91,6 +98,7 @@ REPEAT: [Rr]'peat''edly'?;
 UNTIL: 'until';
 
 
+
 ADD: [Aa]'dd''ing'?;
 SUB: [Rr] 'emov'('e'|'ing');
 MULT: 'Mix''ing'?;
@@ -104,11 +112,13 @@ PRINT: [Cc]'heck' ('on')?;
 PRINT_CHAR: [Ww]'eight';
 
 IS: 'is';
-TRUE: 'done';
+TRUE_SYM: 'done';
 NOT: 'not';
 GT: 'more than';
 LT: 'less than';
 EQ: 'as much as';
+GE: 'more than or equal to';
+LE: 'less than or equal to';
 
 
 INC: [Bb]'ak'('e'|'ing');

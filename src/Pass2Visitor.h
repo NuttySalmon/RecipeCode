@@ -56,6 +56,7 @@ public:
     antlrcpp::Any visitTrueSym(RecipeParser::TrueSymContext *ctx) override;
     antlrcpp::Any visitAndCond(RecipeParser::AndCondContext *ctx) override;
     antlrcpp::Any visitOrCond(RecipeParser::OrCondContext *ctx) override;
+    antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *ctx) override;
 
 };
 

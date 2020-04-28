@@ -1,9 +1,15 @@
 Recipe: Bread
 
 Ingredients:
-- 3 L of flour
+- 600 mL of flour
 - 600 mL of water
-- 1 g of yeast
+- 10 kg of starter
+- 1 kg of yeast
+- 84 kg of nuts
+- 70 kg of berries
 
 Directions:
-1. If water is more than flour and yeast is not done or water is not as much as yeast, add water to yeast, otherwise add flour to yeast.
+1. If water is more than flour, weight nuts, otherwise weight berries.
+2. Weight starter.
+3. If water is more than or equal to flour and yeast is done, weight nuts, otherwise weight berries.
+4. Weight starter.

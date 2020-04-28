@@ -170,7 +170,7 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
            << variable_name << " " << getIndicator(ctx->type) << endl;
 
     decl_ctx_list.push_back(ctx);
-    return NULL;
+    return nullptr;
 }
 
 char Pass2Visitor::getIndicator(TypeSpec *type)
@@ -433,8 +433,7 @@ antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
 {    
     if (DEBUG_2)
         cout << "=== Pass 2: visitCondition" << endl;
-    
-    j_file << ";;;;" << ctx->getText() << endl;
+
     bool cmpfloat = false;
     visit(ctx->operand(0));
     if (ctx->operand(1)->type == Predefined::real_type)
@@ -452,11 +451,11 @@ antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
     }
 
     size_t comp = -1;
-    if (ctx->comp != NULL){
+    if (ctx->comp != nullptr){
         comp = ctx->comp->getType();
     }
 
-    bool negate = ctx->NOT() != NULL;
+    bool negate = ctx->NOT() != nullptr;
     if (cmpfloat)
     {
         j_file << "\tfcmpl" << endl;
@@ -497,7 +496,7 @@ string Pass2Visitor::cmpPostfix(size_t comp)
     case (RecipeParser::LE):
         return "gt";
     default:
-        return "eq";
+        return "ne";
     }
 }
 
@@ -514,3 +513,24 @@ antlrcpp::Any Pass2Visitor::visitOrCond(RecipeParser::OrCondContext *ctx){
     return childrenVisited;
 }
 
+antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx) {
+    string falseLab = getLabel();
+    string doneLab = getLabel();
+    j_file << "\t;" << ctx->conditionList()->getText() << endl;
+    visit(ctx->conditionList());
+    j_file << "\ticonst_1" << endl;
+    j_file << "\tif_icmpne " << falseLab << endl;
+    j_file << "\n;if true\n";
+    visit(ctx->statementList(0));
+    if (ctx->statementList(1) != nullptr){
+        j_file << "\tgoto " << doneLab << endl;
+        j_file << "\n;if false\n";
+        j_file << "\t" << falseLab << ":\n";
+        visit(ctx->statementList(1));
+        j_file << "\t" << doneLab << ":\n";
+    } else{
+        j_file << "\t" << falseLab << ":\n";
+    }
+
+    return nullptr;
+}
