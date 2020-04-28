@@ -48,7 +48,7 @@ public:
     // antlrcpp::Any visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx) override;
     antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *ctx) override;
     antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx) override;
-    // antlrcpp::Any visitAddSubExpr(RecipeParser::AddSubExprContext *ctx) override;
+    antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override;
     // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
     antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
