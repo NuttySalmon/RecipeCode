@@ -421,6 +421,11 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
     return visitChildren(ctx);
 }
 
+antlrcpp::Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
+{
+    
+}
+
 antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
 {
     if (DEBUG_2)
