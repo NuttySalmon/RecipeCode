@@ -42,7 +42,7 @@ Here is a list of key implemented features with examples and pseudocode.
         1. <instruction here>
    
 #### Comments: 
-	(This is a comment)
+`(This is a comment)`
 
 #### Declaration and assignment:
 `- 1 kg of pork` (int pork  = 1)
@@ -54,51 +54,66 @@ Here is a list of key implemented features with examples and pseudocode.
 `- 3 g of salt` (float salt = 3)
 
 #### Addition: 
-	Add water into flour. (flour = flour + water)
-    Add water, salt and yeast into flour. (flour = flour + water + salt + yeast)
+`Add water into flour.` (flour = flour + water)
+
+`Add water, salt and yeast into flour.` (flour = flour + water + salt + yeast)
 
 #### Subtraction:
-    Remove banana from bowl. (bowl = bowl - banana)
-    Remove banana, apple, and orange from bowl. (bowl = bowl - banana - apple - orange)
+`Remove banana from bowl.` (bowl = bowl - banana)
+ 
+`Remove banana, apple, and orange from bowl.` (bowl = bowl - banana - apple - orange)
 
 #### Multiplication:
-	Mix water into flour. (flour = flour * water)
-    Mix water, salt and yeast into flour. (flour = flour * water * salt * yeast)
+`Mix water into flour.` (flour = flour * water)
+ 
+`Mix water, salt and yeast into flour.` (flour = flour * water * salt * yeast)
 
 #### Division:
-	Divide pork into 4. (pork = pork / 4)
-    Divide pork into size of meatball. (pork = pork / meatball)
-    Divide pork into size of meatball and again into 3. (pork = pork / meatball / 3)
+`Divide pork into 4.` (pork = pork / 4)
+
+`Divide pork into size of meatball.` (pork = pork / meatball)
+
+`Divide pork into size of meatball.` and again into 3. (pork = pork / meatball / 3)
 
 #### Increment:
-    Bake bread. (bread = bread + 1)
-    Bake bread for 4 mins. (bread = bread + 4)
+`Bake bread.` (bread = bread + 1)
+
+`Bake bread for 4 mins.` (bread = bread + 4)
 
 #### Decrement:
-    Chill mixture. (mixture = mixture - 1)
-    Chill mixture for 4 mins. (mixture = mixture - 1)
+`Chill mixture.` (mixture = mixture - 1)
+
+`Chill mixture for 4 mins.` (mixture = mixture - 1)
 
 #### Conditions:
-    beef is as much as pork. (beef == pork)
-    beef is not as much as pork. (beef != pork)
-    beef is less than pork. (beef < pork)
-    beef is less than or equal to pork. (beef <= pork)
-    beef is done. (beef == 1)
-    beef is not done. (beef != 1)
-    beef is done and pork is less than flour (beef == 1 && pork < flour)
-    beef is done or pork is less than flour  (beef == 1 || pork < flour)
+`beef is as much as pork.` (beef == pork)
+
+`beef is not as much as pork.` (beef != pork)
+
+`beef is less than pork.` (beef < pork)
+
+`beef is less than or equal to pork.` (beef <= pork)
+
+`beef is done.` (beef == 1)
+
+`beef is not done.` (beef != 1)
+
+`beef is done and pork is less than flour.` (beef == 1 && pork < flour)
+
+`beef is done or pork is less than flour.`  (beef == 1 || pork < flour)
 
 #### If statement:
-    If beef is not done, then cook beef. (IF beef != 1 THEN beef++)
-    If beef less than pork, then divide pork into 2, otherwise divide beef into 5.
-    (IF beef < pork THEN pork = pork/2 ELSE beef = beef/5)
+`If beef is not done, then cook beef.` (IF beef != 1 THEN beef++)
+
+`If beef less than pork, then divide pork into 2, otherwise divide beef into 5.` (IF beef < pork THEN pork = pork/2 ELSE beef = beef/5)
 
 #### While loop:
-    While beef is not done, keep cooking beef. (WHILE beef != 1 THEN beef++)
+`While beef is not done, keep cooking beef.` (WHILE beef != 1 THEN beef++)
 
 #### Repeat until loop:
-    Repeatedly cook beef until beef is done. (LOOP beef++ UNTIL beef == 1)
+`Repeatedly cook beef until beef is done.` (LOOP beef++ UNTIL beef == 1)
 
 #### Print:
-    Check beef. (print beef with new line)
-    Weight beef. (treat int beef as ASCII value and print corresponding char)
+`Check beef.` (print beef with new line)
+
+`Weight beef.` (treat int beef as ASCII value and print corresponding char)
