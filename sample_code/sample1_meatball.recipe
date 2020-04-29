@@ -12,11 +12,10 @@ Ingredients:
 
 Directions:
 1. Add oregano and breadcrumbs to beef then add beef to pork. (Two add statements)
-
-3. Mix milk and beef into mixture. (multiplication)
-4. If mixture is as much as breadcrumbs, remove pork from beef, otherwise add breadcrumbs to mixture. (If-else statement)
-5. Remove mixture from beef. (Subtraction)
-6. While beef is not done, keep baking beef. (While statement, baking is incrementing)
-7. Check oregano, mixture, and beef.
+2. Mix milk and beef into mixture. (multiplication)
+3. If mixture is as much as breadcrumbs, remove pork from beef, otherwise add breadcrumbs to mixture. (If-else statement)
+4. Remove mixture from beef. (Subtraction)
+5. While beef is not done, keep baking beef. (While statement, baking is incrementing)
+6. Check oregano, mixture, and beef.
 7. Repeatedly add oregano to mixture until mixture is more than or equal to beef then check mixture.
-6. Check milk then divide milk into 3 then check milk. (print, divide, print)
+8. Check milk then divide milk into 3 then check milk. (print, divide, print)
