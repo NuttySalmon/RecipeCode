@@ -421,12 +421,6 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
     return visitChildren(ctx);
 }
 
-antlrcpp::Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
-{
-    visitChildren(ctx);
-    TypeSpec* type1 = ctx->variable(0)->type;
-    
-}
 
 antlrcpp::Any Pass2Visitor::visitFloat(RecipeParser::FloatContext *ctx)
 {
@@ -565,6 +559,30 @@ antlrcpp::Any Pass2Visitor::visitIncStm(RecipeParser::IncStmContext *ctx)
     
     storeStatic(ctx->variable());
     return nullptr;
+}
+
+antlrcpp:: Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
+{
+    auto value  = visitChildren(ctx);
+    int varCount = ctx->variable().size();
+    TypeSpec *type1 = ctx->variable(0)->type; //get first type
+    TypeSpec *type2;
+    int i=0;
+    for(int i=0; i<varCount; i++)
+    {
+        visit(ctx->variable(i));
+        type2 = ctx->variable(i)->type; //get types in vector
+    }
+    bool int_mode = (type1==Predefined::integer_type) && 
+                    (type2==Predefined::integer_type);
+    bool dec_mode = (type1==Predefined::real_type) &&
+                    (type2==Predefined::real_type);
+
+    TypeSpec *type = int_mode ? Predefined::integer_type
+                    :dec_mode ? Predefined::real_type
+                    :           nullptr;
+    ctx->variable()->type = type;
+    return value;
 }
 
 antlrcpp::Any Pass2Visitor::visitDecStm(RecipeParser::DecStmContext *ctx)
