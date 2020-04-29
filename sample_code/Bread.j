@@ -1,6 +1,7 @@
 .class public Bread
 .super java/lang/Object
 
+.field private static _runTimer LRunTimer;
 
 ; -600mLofflour
 .field private static flour F
@@ -23,11 +24,11 @@
 ; -30kgofcheese
 .field private static cheese I
 
-; -15kgofpho
-.field private static pho I
+; -15kgofherbs
+.field private static herbs I
 
-; -40gofpudding
-.field private static pudding F
+; -40gofsalt
+.field private static salt F
 
 .method public <init>()V
 
@@ -41,6 +42,10 @@
 
 .method public static main([Ljava/lang/String;)V
 
+	new RunTimer
+	dup
+	invokenonvirtual RunTimer/<init>()V
+	putstatic	Bread/_runTimer LRunTimer;
 	ldc	600
 	i2f
 	putstatic	Bread/flour F
@@ -58,10 +63,10 @@
 	bipush 30
 	putstatic	Bread/cheese I
 	bipush 15
-	putstatic	Bread/pho I
+	putstatic	Bread/herbs I
 	bipush 40
 	i2f
-	putstatic	Bread/pudding F
+	putstatic	Bread/salt F
 
 ; Ifwaterismore thanflour, weightnuts, otherwiseweightberries
 
@@ -84,7 +89,7 @@
 ; weightnuts
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -102,7 +107,7 @@
 ; weightberries
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -117,7 +122,7 @@
 ; Weightstarter
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -159,7 +164,7 @@
 ; weightnuts
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -177,7 +182,7 @@
 ; weightberries
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -192,7 +197,7 @@
 ; Weightstarter
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C"
+	ldc	"%c"
 	ldc	1
 	anewarray	java/lang/Object
 	dup
@@ -216,12 +221,12 @@
 	getstatic	Bread/yeast I
 	invokevirtual java/io/PrintStream.println(I)V
 
-; Bakeflourfor4mins
+; Chillflourfor4mins
 
 	getstatic	Bread/flour F
 	iconst_4
 	i2f
-	fadd
+	fsub
 	putstatic	Bread/flour F
 
 ; checkflour
@@ -356,13 +361,13 @@
 	getstatic	Bread/flour F
 	invokevirtual java/io/PrintStream.println(F)V
 
-; Addcheeseandpuddingtocheese
+; Addcheeseandsalttocheese
 
 	getstatic	Bread/cheese I
 	getstatic	Bread/cheese I
 	iadd
 	i2f
-	getstatic	Bread/pudding F
+	getstatic	Bread/salt F
 	fadd
 	f2i
 	putstatic	Bread/cheese I
@@ -373,11 +378,11 @@
 	getstatic	Bread/cheese I
 	invokevirtual java/io/PrintStream.println(I)V
 
-; Addpuddingandcheesetocheese
+; Addsaltandcheesetocheese
 
 	getstatic	Bread/cheese I
 	i2f
-	getstatic	Bread/pudding F
+	getstatic	Bread/salt F
 	fadd
 	getstatic	Bread/cheese I
 	i2f
@@ -391,13 +396,13 @@
 	getstatic	Bread/cheese I
 	invokevirtual java/io/PrintStream.println(I)V
 
-; Addcheeseandphotowater
+; Addcheeseandherbstowater
 
 	getstatic	Bread/water F
 	getstatic	Bread/cheese I
 	i2f
 	fadd
-	getstatic	Bread/pho I
+	getstatic	Bread/herbs I
 	i2f
 	fadd
 	putstatic	Bread/water F
@@ -408,9 +413,9 @@
 	getstatic	Bread/water F
 	invokevirtual java/io/PrintStream.println(F)V
 
-; Addwaterandflourandcheesetopudding
+; Addwaterandflourandcheesetosalt
 
-	getstatic	Bread/pudding F
+	getstatic	Bread/salt F
 	getstatic	Bread/water F
 	fadd
 	getstatic	Bread/flour F
@@ -418,14 +423,16 @@
 	getstatic	Bread/cheese I
 	i2f
 	fadd
-	putstatic	Bread/pudding F
+	putstatic	Bread/salt F
 
-; checkpudding
+; checksalt
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	getstatic	Bread/pudding F
+	getstatic	Bread/salt F
 	invokevirtual java/io/PrintStream.println(F)V
 
+	getstatic     Bread/_runTimer LRunTimer;
+	invokevirtual RunTimer.printElapsedTime()V
 
 	return
 

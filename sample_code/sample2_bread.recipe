@@ -1,0 +1,34 @@
+Recipe: Bread
+
+Ingredients:
+- 600 mL of flour
+- 600 mL of water
+- 10 kg of starter 
+- 1 kg of yeast 
+- 84 kg of nuts 
+- 70 kg of berries
+- 30 kg of cheese
+- 15 kg of herbs
+- 40 g of salt 
+
+Directions:
+1. If water is more than flour, weight nuts, otherwise weight berries. (print char, expected 'F')
+2. Weight starter. (print new line char)
+3. If water is more than or equal to flour and yeast is done, weight nuts, otherwise weight berries. (print char, expected 'F')
+4. Weight starter. (print new line char)
+5. Bake yeast then check yeast. (increment)
+6. Chill flour for 4 mins then check flour. (decrement)
+
+(test loops)
+7. While starter is not done, keep chilling starter then check starter.
+8. Repeatedly bake starter then check starter until starter is as much as berries.
+
+(test mixed typed addition and subtraction)
+9. Remove starter and flour from yeast then check yeast. (int <= int - int - float)
+10. Remove flour and starter from yeast then check yeast. (int <= int - float - int)
+11. Remove yeast and starter from flour then check flour. (float <= float - int - int)
+12. Remove starter and water from flour then check flour. (float <= float - int - float)
+13. Add cheese and salt to cheese then check cheese. (int <= int + float + int)
+14. Add salt and cheese to cheese then check cheese. (int <= float + int + int)
+15. Add cheese and herbs to water then check water. (float <= int+int+float)
+16. Add water and flour and cheese to salt then check salt. (float <= float+float+int+float)

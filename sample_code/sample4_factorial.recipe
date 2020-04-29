@@ -1,0 +1,9 @@
+Recipe: Factorial
+
+Ingredients:
+- 12 kg of n; (set n = 20)
+- 1 kg of result;
+
+Directions:
+1. While n is not done, keep mixing n into result then chill n.
+2. Check result.

@@ -1,0 +1,18 @@
+Recipe: HelloWorld
+
+Ingredients:
+- 72 L of H
+- 101 L of e
+- 108 L of l
+- 111 L of o
+- 32 L of space
+- 87 L of W
+- 114 L of r
+- 100 L of d
+- 33 L of exclaim
+- 10 L of newline
+
+Directions:
+(print char with ASCII values)
+1. Weight H, e, l, l, o, and space.
+2. Weight W, o, r, l, d, exclaim, and newline.

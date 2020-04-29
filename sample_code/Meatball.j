@@ -1,18 +1,19 @@
 .class public Meatball
 .super java/lang/Object
 
+.field private static _runTimer LRunTimer;
 
-; -65kgofbeef
+; -5kgofbeef
 .field private static beef I
 
-; -10kgofpork
+; -2kgofpork
 .field private static pork I
 
 ; -4.25goforegano
 .field private static oregano F
 
-; -66Lofmilk
-.field private static milk I
+; -60mLofmilk
+.field private static milk F
 
 ; -1gofbreadcrumbs
 .field private static breadcrumbs F
@@ -20,7 +21,7 @@
 ; -1gofmixture
 .field private static mixture F
 
-; -67Lofwater
+; -6Lofwater
 .field private static water I
 
 .method public <init>()V
@@ -35,28 +36,35 @@
 
 .method public static main([Ljava/lang/String;)V
 
-	bipush 65
+	new RunTimer
+	dup
+	invokenonvirtual RunTimer/<init>()V
+	putstatic	Meatball/_runTimer LRunTimer;
+	iconst_5
 	putstatic	Meatball/beef I
-	bipush 10
+	iconst_2
 	putstatic	Meatball/pork I
 	ldc	4.25
 	putstatic	Meatball/oregano F
-	bipush 66
-	putstatic	Meatball/milk I
+	bipush 60
+	i2f
+	putstatic	Meatball/milk F
 	iconst_1
 	i2f
 	putstatic	Meatball/breadcrumbs F
 	iconst_1
 	i2f
 	putstatic	Meatball/mixture F
-	bipush 67
+	bipush 6
 	putstatic	Meatball/water I
 
-; Addoreganotobeef
+; Addoreganoandbreadcrumbstobeef
 
 	getstatic	Meatball/beef I
 	i2f
 	getstatic	Meatball/oregano F
+	fadd
+	getstatic	Meatball/breadcrumbs F
 	fadd
 	f2i
 	putstatic	Meatball/beef I
@@ -70,9 +78,13 @@
 
 ; Mixmilkandbeefintomixture
 
-	getstatic	Meatball/milk I
-	getstatic	Meatball/beef I
 	getstatic	Meatball/mixture F
+	getstatic	Meatball/milk F
+	fmul
+	getstatic	Meatball/beef I
+	i2f
+	fmul
+	putstatic	Meatball/mixture F
 
 ; Ifmixtureisas much asbreadcrumbs, removeporkfrombeef, otherwiseaddbreadcrumbstomixture
 
@@ -111,15 +123,22 @@
 	putstatic	Meatball/mixture F
 	L1:
 
-; Whilemixtureisnotdone, keepbakingmixture
+; Removemixturefrombeef
+
+	getstatic	Meatball/beef I
+	i2f
+	getstatic	Meatball/mixture F
+	fsub
+	f2i
+	putstatic	Meatball/beef I
+
+; Whilebeefisnotdone, keepbakingbeef
 
 	L4:
 ;condition
-	getstatic	Meatball/mixture F
+	getstatic	Meatball/beef I
 	iconst_1
-	i2f
-	fcmpl
-	ifne L6
+	if_icmpne L6
 		iconst_0
 		goto L7
 	L6:
@@ -128,64 +147,79 @@
 	iconst_1
 	if_icmpne L5
 
-; bakingmixture
+; bakingbeef
 
-	getstatic	Meatball/mixture F
-	fconst_1
-	i2f
-	fadd
-	putstatic	Meatball/mixture F
+	getstatic	Meatball/beef I
+	iconst_1
+	iadd
+	putstatic	Meatball/beef I
 	goto L4
 	L5:
 
-; Chillwater
-
-	getstatic	Meatball/water I
-	iconst_1
-	isub
-	putstatic	Meatball/water I
-
-; Checkoregano, pork, andbeef
+; Checkoregano, mixture, andbeef
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
 	getstatic	Meatball/oregano F
 	invokevirtual java/io/PrintStream.println(F)V
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	getstatic	Meatball/pork I
-	invokevirtual java/io/PrintStream.println(I)V
+	getstatic	Meatball/mixture F
+	invokevirtual java/io/PrintStream.println(F)V
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
 	getstatic	Meatball/beef I
 	invokevirtual java/io/PrintStream.println(I)V
 
-; Weightbeef, milk, water, andpork
+; Repeatedlyaddoreganotomixtureuntilmixtureismore than or equal tobeef
+
+	L8:
+
+; addoreganotomixture
+
+	getstatic	Meatball/mixture F
+	getstatic	Meatball/oregano F
+	fadd
+	putstatic	Meatball/mixture F
+;condition
+	getstatic	Meatball/mixture F
+	getstatic	Meatball/beef I
+	i2f
+	fcmpl
+	iflt L10
+		iconst_1
+		goto L11
+	L10:
+		iconst_0
+	L11:
+	iconst_1
+	if_icmpne L8
+
+; checkmixture
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	ldc	"%C%C%C%C"
-	ldc	4
-	anewarray	java/lang/Object
-	dup
-	ldc	0
-	getstatic	Meatball/beef I
-	invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
-	aastore
-	dup
-	ldc	1
-	getstatic	Meatball/milk I
-	invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
-	aastore
-	dup
-	ldc	2
-	getstatic	Meatball/water I
-	invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
-	aastore
-	dup
-	ldc	3
-	getstatic	Meatball/pork I
-	invokestatic	java/lang/Integer.valueOf(I)Ljava/lang/Integer;
-	aastore
-	invokevirtual java/io/PrintStream.printf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;
-	pop
+	getstatic	Meatball/mixture F
+	invokevirtual java/io/PrintStream.println(F)V
 
+; Checkmilk
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Meatball/milk F
+	invokevirtual java/io/PrintStream.println(F)V
+
+; dividemilkinto3
+
+	getstatic	Meatball/milk F
+	iconst_3
+	i2f
+	fdiv
+	putstatic	Meatball/milk F
+
+; checkmilk
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Meatball/milk F
+	invokevirtual java/io/PrintStream.println(F)V
+
+	getstatic     Meatball/_runTimer LRunTimer;
+	invokevirtual RunTimer.printElapsedTime()V
 
 	return
 
