@@ -1,7 +1,9 @@
-# Recipe Code (programming language)
-Recipe code is an esoteric programming language that could pass as a recipe when you look at it afar (...until you actually look at the ingredients and directions). 
+# Recipe-Code (programming language)
+Recipe-code is an esoteric programming language that could pass as a recipe when you look at it afar (...until you actually look at the ingredients and directions). 
 
-This project uses ANTLR 4 to generate scanner and parser, which are used to generate JVM instruction code to be used with Jasmin assembler to create executable.
+This project uses ANTLR 4 to generate scanner and parser, which are used to generate instruction code to be used in JVM.
+
+CMake can be used to compile this project. The executable can then be used to compile source code written in recipe-code into .j files. The .j file can then be feed into Jasmin assembler to generate the .class file, which can be executed with Java runtime. 
 
 ## Sample code
 ```
