@@ -45,10 +45,13 @@ Here is a list of key implemented features with examples and pseudocode.
 	(This is a comment)
 
 #### Declaration and assignment:
-    - 1 kg of pork (int pork  = 1)
-    - 1 L of milk (int milk = 1)
-    - 2.3 mL of water (float water = 2.3)
-    - 3 g of salt (float salt = 3)
+`- 1 kg of pork` (int pork  = 1)
+
+`- 1 L of milk` (int milk = 1)
+
+`- 2.3 mL of water` (float water = 2.3)
+
+`- 3 g of salt` (float salt = 3)
 
 #### Addition: 
 	Add water into flour. (flour = flour + water)
