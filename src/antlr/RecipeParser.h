@@ -449,7 +449,7 @@ public:
     antlr4::tree::TerminalNode *REPEAT();
     StatementListContext *statementList();
     antlr4::tree::TerminalNode *UNTIL();
-    ConditionContext *condition();
+    ConditionListContext *conditionList();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

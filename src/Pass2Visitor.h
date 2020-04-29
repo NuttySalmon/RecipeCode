@@ -48,7 +48,7 @@ public:
     // antlrcpp::Any visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx) override;
     antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *ctx) override;
     antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx) override;
-    // antlrcpp::Any visitAddSubExpr(RecipeParser::AddSubExprContext *ctx) override;
+    antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override;
     // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
     antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
     // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
@@ -62,8 +62,12 @@ public:
     antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override;
     antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override;
     antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override;
+<<<<<<< HEAD
     antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *ctx) override;
 
+=======
+    antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override;
+>>>>>>> 101c7dfd87331dd2a2b8ffe94ce751d1d665d4be
 };
 
 #endif /* PASS2VISITOR_H_ */

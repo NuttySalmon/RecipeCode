@@ -297,41 +297,32 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
     return nullptr;
 }
 
-// antlrcpp::Any Pass2Visitor::visitAddSubExpr(RecipeParser::AddSubExprContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitAddSubExpr" << endl;
+antlrcpp::Any Pass2Visitor::visitSubStm(RecipeParser::SubStmContext *ctx)
+{
+    if (DEBUG_2) cout << "=== Pass 2: visitAddSubExpr" << endl;
+    int varCount = ctx->variable().size();
+    auto destVar = ctx->variable(varCount-1);
+    TypeSpec *currType = destVar->type;
+    visit(destVar);
+    for (int i=0; i < varCount-1; i++){
+        auto var = ctx->variable(i);
+        TypeSpec *varType = var->type;
+        if (varType==Predefined::real_type && currType == Predefined::integer_type){
+            currType = Predefined::real_type;
+            j_file << "\ti2f\n";
+        }
+        
+        visit(var);
+        if(varType==Predefined::integer_type && currType == Predefined::real_type)
+            j_file << "\ti2f\n";
 
-//     auto value = visitChildren(ctx);
-
-//     TypeSpec *type1 = ctx->expr(0)->type;
-//     TypeSpec *type2 = ctx->expr(1)->type;
-
-//     bool integer_mode =    (type1 == Predefined::integer_type)
-//                         && (type2 == Predefined::integer_type);
-//     bool real_mode    =    (type1 == Predefined::real_type)
-//                         && (type2 == Predefined::real_type);
-
-//     string op = ctx->addSubOp()->getText();
-//     string opcode;
-
-//     if (op == "+")
-//     {
-//         opcode = integer_mode ? "iadd"
-//                : real_mode    ? "fadd"
-//                :                "????";
-//     }
-//     else
-//     {
-//         opcode = integer_mode ? "isub"
-//                : real_mode    ? "fsub"
-//                :                "????";
-//     }
-
-//     // Emit an add or subtract instruction.
-//     j_file << "\t" << opcode << endl;
-
-//     return value;
-// }
+        j_file << "\t" << (char)tolower(getIndicator(currType)) << "sub\n";
+    }
+    if (currType == Predefined::real_type && destVar->type == Predefined::integer_type)
+         j_file << "\tf2i\n";
+    storeStatic(destVar);
+    return nullptr;
+}
 
 // antlrcpp::Any Pass2Visitor::visitMulDivExpr(RecipeParser::MulDivExprContext *ctx)
 // {
@@ -414,6 +405,10 @@ antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
     {
         j_file << "\ticonst_" << value << endl;
     }
+    else if (value >=-128 && value <= 127)
+    {
+        j_file << "\tbipush " << value <<endl;
+    }
     else
     {
         j_file << "\tldc\t" << ctx->getText() << endl;
@@ -437,7 +432,9 @@ antlrcpp::Any Pass2Visitor::visitCondition(RecipeParser::ConditionContext *ctx)
 {
     if (DEBUG_2)
         cout << "=== Pass 2: visitCondition" << endl;
-
+    
+    j_file << ";condition" << endl;
+    
     bool cmpfloat = false;
     visit(ctx->operand(0));
     if (ctx->operand(1)->type == Predefined::real_type)
@@ -507,16 +504,16 @@ string Pass2Visitor::cmpPostfix(size_t comp)
 
 antlrcpp::Any Pass2Visitor::visitAndCond(RecipeParser::AndCondContext *ctx)
 {
-    antlrcpp::Any childrenVisited = visitChildren(ctx);
+    auto value = visitChildren(ctx);
     j_file << "\tiand\n";
-    return childrenVisited;
+    return value;
 }
 
 antlrcpp::Any Pass2Visitor::visitOrCond(RecipeParser::OrCondContext *ctx)
 {
-    antlrcpp::Any childrenVisited = visitChildren(ctx);
+    auto value = visitChildren(ctx);
     j_file << "\tior\n";
-    return childrenVisited;
+    return value;
 }
 
 antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx)
@@ -627,3 +624,14 @@ antlrcpp::Any Pass2Visitor::visitWhileStm(RecipeParser::WhileStmContext *ctx){
     j_file << "\t" << endLab << ":\n";
     return nullptr;    
 }
+antlrcpp::Any Pass2Visitor::visitUntilStm(RecipeParser::UntilStmContext *ctx){
+    string loopLab = getLabel();
+    string endLab = getLabel();
+    j_file << "\t" << loopLab << ":\n";
+    visit(ctx->statementList());
+    visit(ctx->conditionList());
+    j_file << "\ticonst_1" << endl;
+    j_file << "\tif_icmpne " << loopLab << endl;  
+    return nullptr;    
+}
+
