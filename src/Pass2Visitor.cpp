@@ -230,7 +230,7 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
     int array_size = ctx->variable().size();
     j_file << "\tldc\t\"";
     for (int i = 0; i < array_size; i++)
-        j_file << "%C"; // format output as char
+        j_file << "%c"; // format output as char
     j_file << "\"" << endl;
     // Emit code to create the array of the correct size.
     j_file << "\tldc\t" << array_size << endl;
