@@ -20,11 +20,14 @@
 ; -70kgofberries
 .field private static berries I
 
-; -30kgofbricks
-.field private static bricks I
+; -30kgofcheese
+.field private static cheese I
 
-; -15kgofcement
-.field private static cement I
+; -15kgofpho
+.field private static pho I
+
+; -40gofpudding
+.field private static pudding F
 
 .method public <init>()V
 
@@ -53,9 +56,12 @@
 	bipush 70
 	putstatic	Bread/berries I
 	bipush 30
-	putstatic	Bread/bricks I
+	putstatic	Bread/cheese I
 	bipush 15
-	putstatic	Bread/cement I
+	putstatic	Bread/pho I
+	bipush 40
+	i2f
+	putstatic	Bread/pudding F
 
 ; Ifwaterismore thanflour, weightnuts, otherwiseweightberries
 
@@ -350,29 +356,75 @@
 	getstatic	Bread/flour F
 	invokevirtual java/io/PrintStream.println(F)V
 
-; Addbricksandcement
+; Addcheeseandpuddingtocheese
 
-	getstatic	Bread/cement I
-	getstatic	Bread/bricks I
-	iadd
-	putstatic	Bread/cement I
-
-; Addbricksandwatertocement
-
-	getstatic	Bread/cement I
-	getstatic	Bread/bricks I
+	getstatic	Bread/cheese I
+	getstatic	Bread/cheese I
 	iadd
 	i2f
-	getstatic	Bread/water F
+	getstatic	Bread/pudding F
 	fadd
 	f2i
-	putstatic	Bread/cement I
+	putstatic	Bread/cheese I
 
-; checkcement
+; checkcheese
 
 	getstatic	java/lang/System/out Ljava/io/PrintStream;
-	getstatic	Bread/cement I
+	getstatic	Bread/cheese I
 	invokevirtual java/io/PrintStream.println(I)V
+
+; Addpuddingandcheesetocheese
+
+	getstatic	Bread/cheese I
+	i2f
+	getstatic	Bread/pudding F
+	fadd
+	getstatic	Bread/cheese I
+	i2f
+	fadd
+	f2i
+	putstatic	Bread/cheese I
+
+; checkcheese
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/cheese I
+	invokevirtual java/io/PrintStream.println(I)V
+
+; Addcheeseandphotowater
+
+	getstatic	Bread/water F
+	getstatic	Bread/cheese I
+	i2f
+	fadd
+	getstatic	Bread/pho I
+	i2f
+	fadd
+	putstatic	Bread/water F
+
+; checkwater
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/water F
+	invokevirtual java/io/PrintStream.println(F)V
+
+; Addwaterandflourandcheesetopudding
+
+	getstatic	Bread/pudding F
+	getstatic	Bread/water F
+	fadd
+	getstatic	Bread/flour F
+	fadd
+	getstatic	Bread/cheese I
+	i2f
+	fadd
+	putstatic	Bread/pudding F
+
+; checkpudding
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/pudding F
+	invokevirtual java/io/PrintStream.println(F)V
 
 
 	return
