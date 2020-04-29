@@ -35,13 +35,13 @@
 
 .method public static main([Ljava/lang/String;)V
 
-	ldc	65
+	bipush 65
 	putstatic	Meatball/beef I
-	ldc	10
+	bipush 10
 	putstatic	Meatball/pork I
 	ldc	4.25
 	putstatic	Meatball/oregano F
-	ldc	66
+	bipush 66
 	putstatic	Meatball/milk I
 	iconst_1
 	i2f
@@ -49,18 +49,24 @@
 	iconst_1
 	i2f
 	putstatic	Meatball/mixture F
-	ldc	67
+	bipush 67
 	putstatic	Meatball/water I
 
 ; Addoreganotobeef
 
-	getstatic	Meatball/oregano F
 	getstatic	Meatball/beef I
+	i2f
+	getstatic	Meatball/oregano F
+	fadd
+	f2i
+	putstatic	Meatball/beef I
 
 ; addbeeftopork
 
-	getstatic	Meatball/beef I
 	getstatic	Meatball/pork I
+	getstatic	Meatball/beef I
+	iadd
+	putstatic	Meatball/pork I
 
 ; Mixmilkandbeefintomixture
 
@@ -71,6 +77,7 @@
 ; Ifmixtureisas much asbreadcrumbs, removeporkfrombeef, otherwiseaddbreadcrumbstomixture
 
 	;mixtureisas much asbreadcrumbs
+;condition
 	getstatic	Meatball/mixture F
 	getstatic	Meatball/breadcrumbs F
 	fcmpl
@@ -87,8 +94,10 @@
 
 ; removeporkfrombeef
 
-	getstatic	Meatball/pork I
 	getstatic	Meatball/beef I
+	getstatic	Meatball/pork I
+	isub
+	putstatic	Meatball/beef I
 	goto L1
 
 ;if false
@@ -96,13 +105,16 @@
 
 ; addbreadcrumbstomixture
 
-	getstatic	Meatball/breadcrumbs F
 	getstatic	Meatball/mixture F
+	getstatic	Meatball/breadcrumbs F
+	fadd
+	putstatic	Meatball/mixture F
 	L1:
 
 ; Whilemixtureisnotdone, keepbakingmixture
 
 	L4:
+;condition
 	getstatic	Meatball/mixture F
 	iconst_1
 	i2f

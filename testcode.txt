@@ -7,6 +7,8 @@ Ingredients:
 - 1 kg of yeast
 - 84 kg of nuts
 - 70 kg of berries
+- 30 kg of bricks
+- 15 kg of cement
 
 Directions:
 1. If water is more than flour, weight nuts, otherwise weight berries.
@@ -19,5 +21,7 @@ Directions:
 8. Repeatedly bake starter then check starter until starter is as much as berries.
 9. Remove starter and flour from yeast then check yeast. (int = int - int - float)
 10. Remove flour and starter from yeast then check yeast. (int = int - float - int)
-11. Remove yeast and starter from flour then check flour (float = float - int - int)
-12. Remove starter and water from flour then check flour (float = float - int - float)
+11. Remove yeast and starter from flour then check flour. (float = float - int - int)
+12. Remove starter and water from flour then check flour. (float = float - int - float)
+13. Add bricks and cement.
+14. Add bricks and water to cement then check cement.

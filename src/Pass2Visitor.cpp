@@ -560,26 +560,33 @@ antlrcpp::Any Pass2Visitor::visitIncStm(RecipeParser::IncStmContext *ctx)
 
 antlrcpp:: Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
 {
-    auto value  = visitChildren(ctx);
-    int varCount = ctx->variable().size();
-    TypeSpec *type1 = ctx->variable(0)->type; //get first type
-    TypeSpec *type2;
-    int i=0;
-    for(int i=0; i<varCount; i++)
+    if(DEBUG_2) cout <<"=== Pass 2: visitAddSubExpr" << endl;
+    int varCount = ctx->variable().size(); //get number of variables
+    auto destVar = ctx->variable(varCount-1);
+    TypeSpec *type1 = destVar->type;
+    visit(destVar);
+    for(int i=0; i<varCount-1; i++)
     {
-        visit(ctx->variable(i));
-        type2 = ctx->variable(i)->type; //get types in vector
+        auto var = ctx->variable(i);
+        TypeSpec *type2 = var->type;
+        if(type2==Predefined::real_type&&type1==Predefined::integer_type)
+        {
+            type1 = Predefined::real_type;
+            j_file<<"\ti2f\n";
+        }
+        visit(var);
+        if(type2==Predefined::integer_type&&type1==Predefined::real_type)
+        {
+            j_file<<"\ti2f\n";
+        }
+        j_file<<"\t" <<(char)tolower(getIndicator(type1))<<"add\n";
     }
-    bool int_mode = (type1==Predefined::integer_type) && 
-                    (type2==Predefined::integer_type);
-    bool dec_mode = (type1==Predefined::real_type) &&
-                    (type2==Predefined::real_type);
-
-    TypeSpec *type = int_mode ? Predefined::integer_type
-                    :dec_mode ? Predefined::real_type
-                    :           nullptr;
-    ctx->variable()->type = type;
-    return value;
+    if(type1== Predefined::real_type && destVar->type==Predefined::integer_type)
+    {
+        j_file<<"\tf2i\n";
+    }
+    storeStatic(destVar);
+    return nullptr;
 }
 
 antlrcpp::Any Pass2Visitor::visitDecStm(RecipeParser::DecStmContext *ctx)

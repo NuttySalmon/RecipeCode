@@ -20,6 +20,12 @@
 ; -70kgofberries
 .field private static berries I
 
+; -30kgofbricks
+.field private static bricks I
+
+; -15kgofcement
+.field private static cement I
+
 .method public <init>()V
 
 	aload_0
@@ -38,18 +44,23 @@
 	ldc	600
 	i2f
 	putstatic	Bread/water F
-	ldc	10
+	bipush 10
 	putstatic	Bread/starter I
 	iconst_1
 	putstatic	Bread/yeast I
-	ldc	84
+	bipush 84
 	putstatic	Bread/nuts I
-	ldc	70
+	bipush 70
 	putstatic	Bread/berries I
+	bipush 30
+	putstatic	Bread/bricks I
+	bipush 15
+	putstatic	Bread/cement I
 
 ; Ifwaterismore thanflour, weightnuts, otherwiseweightberries
 
 	;waterismore thanflour
+;condition
 	getstatic	Bread/water F
 	getstatic	Bread/flour F
 	fcmpl
@@ -114,6 +125,7 @@
 ; Ifwaterismore than or equal toflourandyeastisdone, weightnuts, otherwiseweightberries
 
 	;waterismore than or equal toflourandyeastisdone
+;condition
 	getstatic	Bread/water F
 	getstatic	Bread/flour F
 	fcmpl
@@ -123,6 +135,7 @@
 	L6:
 		iconst_0
 	L7:
+;condition
 	getstatic	Bread/yeast I
 	iconst_1
 	if_icmpne L8
@@ -211,9 +224,10 @@
 	getstatic	Bread/flour F
 	invokevirtual java/io/PrintStream.println(F)V
 
-; Whilestarterisnotdone, <missing 'keep'>chillstarterthencheckstarter
+; Whilestarterisnotdone, keepchillingstarterthencheckstarter
 
 	L10:
+;condition
 	getstatic	Bread/starter I
 	iconst_1
 	if_icmpne L12
@@ -225,7 +239,7 @@
 	iconst_1
 	if_icmpne L11
 
-; chillstarter
+; chillingstarter
 
 	getstatic	Bread/starter I
 	iconst_1
@@ -239,6 +253,126 @@
 	invokevirtual java/io/PrintStream.println(I)V
 	goto L10
 	L11:
+
+; Repeatedlybakestarterthencheckstarteruntilstarterisas much asberries
+
+	L14:
+
+; bakestarter
+
+	getstatic	Bread/starter I
+	iconst_1
+	iadd
+	putstatic	Bread/starter I
+
+; checkstarter
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/starter I
+	invokevirtual java/io/PrintStream.println(I)V
+;condition
+	getstatic	Bread/starter I
+	getstatic	Bread/berries I
+	if_icmpne L16
+		iconst_1
+		goto L17
+	L16:
+		iconst_0
+	L17:
+	iconst_1
+	if_icmpne L14
+
+; Removestarterandflourfromyeast
+
+	getstatic	Bread/yeast I
+	getstatic	Bread/starter I
+	isub
+	i2f
+	getstatic	Bread/flour F
+	fsub
+	f2i
+	putstatic	Bread/yeast I
+
+; checkyeast
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/yeast I
+	invokevirtual java/io/PrintStream.println(I)V
+
+; Removeflourandstarterfromyeast
+
+	getstatic	Bread/yeast I
+	i2f
+	getstatic	Bread/flour F
+	fsub
+	getstatic	Bread/starter I
+	i2f
+	fsub
+	f2i
+	putstatic	Bread/yeast I
+
+; checkyeast
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/yeast I
+	invokevirtual java/io/PrintStream.println(I)V
+
+; Removeyeastandstarterfromflour
+
+	getstatic	Bread/flour F
+	getstatic	Bread/yeast I
+	i2f
+	fsub
+	getstatic	Bread/starter I
+	i2f
+	fsub
+	putstatic	Bread/flour F
+
+; checkflour
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/flour F
+	invokevirtual java/io/PrintStream.println(F)V
+
+; Removestarterandwaterfromflour
+
+	getstatic	Bread/flour F
+	getstatic	Bread/starter I
+	i2f
+	fsub
+	getstatic	Bread/water F
+	fsub
+	putstatic	Bread/flour F
+
+; checkflour
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/flour F
+	invokevirtual java/io/PrintStream.println(F)V
+
+; Addbricksandcement
+
+	getstatic	Bread/cement I
+	getstatic	Bread/bricks I
+	iadd
+	putstatic	Bread/cement I
+
+; Addbricksandwatertocement
+
+	getstatic	Bread/cement I
+	getstatic	Bread/bricks I
+	iadd
+	i2f
+	getstatic	Bread/water F
+	fadd
+	f2i
+	putstatic	Bread/cement I
+
+; checkcement
+
+	getstatic	java/lang/System/out Ljava/io/PrintStream;
+	getstatic	Bread/cement I
+	invokevirtual java/io/PrintStream.println(I)V
 
 
 	return
