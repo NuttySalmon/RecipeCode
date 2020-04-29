@@ -16,14 +16,14 @@ using namespace wci::intermediate;
 class  RecipeLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PERIOD = 7, 
-    COMMA = 8, FUNCTION = 9, INT_TYPE = 10, FLOAT_TYPE = 11, ARR_INT_TYPE = 12, 
-    ARR_FLOAT_TYPE = 13, ARRAY_ELEM = 14, OF = 15, HEADER_SYM = 16, DECLARATION_SYM = 17, 
-    CODE_SYM = 18, RETURN = 19, IF = 20, THEN = 21, ELSE = 22, WHILE = 23, 
-    WHILE_DO = 24, REPEAT = 25, UNTIL = 26, ADD = 27, SUB = 28, MULT = 29, 
-    DIV = 30, STEP_SYM = 31, AND = 32, OR = 33, DEST = 34, SRC = 35, PRINT = 36, 
-    PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, LT = 42, 
-    EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
+    PERIOD = 8, COMMA = 9, FUNCTION = 10, INT_TYPE = 11, FLOAT_TYPE = 12, 
+    ARR_INT_TYPE = 13, ARR_FLOAT_TYPE = 14, ARRAY_ELEM = 15, OF = 16, HEADER_SYM = 17, 
+    DECLARATION_SYM = 18, CODE_SYM = 19, RETURN = 20, IF = 21, THEN = 22, 
+    ELSE = 23, WHILE = 24, WHILE_DO = 25, REPEAT = 26, UNTIL = 27, ADD = 28, 
+    SUB = 29, MUL = 30, DIV = 31, STEP_SYM = 32, AND = 33, OR = 34, DEST = 35, 
+    PRINT = 36, PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, 
+    LT = 42, EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
     COMMENT = 50, IDENTIFIER = 51, INTEGER = 52
   };
 

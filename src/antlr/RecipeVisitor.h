@@ -53,17 +53,13 @@ public:
 
     virtual antlrcpp::Any visitReturnStm(RecipeParser::ReturnStmContext *context) = 0;
 
-    virtual antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *context) = 0;
+    virtual antlrcpp::Any visitAddSubStm(RecipeParser::AddSubStmContext *context) = 0;
 
-    virtual antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *context) = 0;
-
-    virtual antlrcpp::Any visitMultStm(RecipeParser::MultStmContext *context) = 0;
+    virtual antlrcpp::Any visitMulStm(RecipeParser::MulStmContext *context) = 0;
 
     virtual antlrcpp::Any visitDivStm(RecipeParser::DivStmContext *context) = 0;
 
-    virtual antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *context) = 0;
-
-    virtual antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *context) = 0;
+    virtual antlrcpp::Any visitIncDecStm(RecipeParser::IncDecStmContext *context) = 0;
 
     virtual antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *context) = 0;
 

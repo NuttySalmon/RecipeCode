@@ -79,15 +79,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *ctx) override {
+  virtual antlrcpp::Any visitAddSubStm(RecipeParser::AddSubStmContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitMultStm(RecipeParser::MultStmContext *ctx) override {
+  virtual antlrcpp::Any visitMulStm(RecipeParser::MulStmContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -95,11 +91,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override {
+  virtual antlrcpp::Any visitIncDecStm(RecipeParser::IncDecStmContext *ctx) override {
     return visitChildren(ctx);
   }
 

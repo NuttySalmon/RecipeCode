@@ -265,10 +265,12 @@ antlrcpp::Any Pass2Visitor::visitPrintCharStm(RecipeParser::PrintCharStmContext 
     return nullptr;
 }
 
-antlrcpp::Any Pass2Visitor::visitSubStm(RecipeParser::SubStmContext *ctx)
+antlrcpp::Any Pass2Visitor::visitAddSubStm(RecipeParser::AddSubStmContext *ctx)
 {
     if (DEBUG_2)
         cout << "=== Pass 2: visitSubStm" << endl;
+
+    string opStr = ctx->op->getType() == RecipeParser::ADD ? "add" : "sub";
     int varCount = ctx->variable().size();
     auto destVar = ctx->variable(varCount - 1); // destination variable
     TypeSpec *currType = destVar->type;         // current datatype on top of stack
@@ -299,6 +301,73 @@ antlrcpp::Any Pass2Visitor::visitSubStm(RecipeParser::SubStmContext *ctx)
     // if destination is int but result is float, convert result to int
 
     if (currType == Predefined::real_type && destVar->type == Predefined::integer_type)
+        j_file << "\tf2i\n";
+
+    storeStatic(destVar); // save value into destination
+    return nullptr;
+}
+
+antlrcpp::Any Pass2Visitor::visitMulStm(RecipeParser::MulStmContext *ctx){
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitMulStm" << endl;
+    int varCount = ctx->variable().size();
+    auto destVar = ctx->variable(varCount - 1); // destination variable
+    visit(destVar);
+    if(destVar->type == Predefined::integer_type)
+         j_file << "\ti2f\n";
+    // visit each variable except for destination
+    for (int i = 0; i < varCount - 1; i++)
+    {
+        auto var = ctx->variable(i);   // get variable
+        TypeSpec *varType = var->type; // get variable type
+
+        visit(var); // visit variable
+
+        // if variable is int, convert int to float
+        if (varType == Predefined::integer_type)
+            j_file << "\ti2f\n";
+
+        // calculate
+        j_file << "\tfmul\n";
+    }
+    // if destination is int but int convert result to int
+    if (destVar->type == Predefined::integer_type)
+        j_file << "\tf2i\n";
+
+    storeStatic(destVar); // save value into destination
+    return nullptr;
+
+}
+antlrcpp::Any Pass2Visitor::visitDivStm(RecipeParser::DivStmContext *ctx){
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitDivStm" << endl;
+    int varCount = ctx->variable().size();
+    auto destVar = ctx->variable(0); // destination variable
+    visit(destVar);
+    if(destVar->type == Predefined::integer_type)
+         j_file << "\ti2f\n";
+    // visit each variable except for destination
+    for (int i=0; i < ctx->number().size(); i++){
+        visit(ctx->number(i));
+        j_file << "\ti2f\n";
+        j_file << "\tfdiv\n";
+    }
+    for (int i = 1; i < varCount; i++)
+    {
+        auto var = ctx->variable(i);   // get variable
+        TypeSpec *varType = var->type; // get variable type
+
+        visit(var); // visit variable
+
+        // if variable is int, convert int to float
+        if (varType == Predefined::integer_type)
+            j_file << "\ti2f\n";
+
+        // calculate
+        j_file << "\tfdiv\n";
+    }
+    // if destination is int but int convert result to int
+    if (destVar->type == Predefined::integer_type)
         j_file << "\tf2i\n";
 
     storeStatic(destVar); // save value into destination
@@ -475,71 +544,21 @@ antlrcpp::Any Pass2Visitor::visitIfStm(RecipeParser::IfStmContext *ctx)
     return nullptr;
 }
 
-antlrcpp::Any Pass2Visitor::visitIncStm(RecipeParser::IncStmContext *ctx)
+antlrcpp::Any Pass2Visitor::visitIncDecStm(RecipeParser::IncDecStmContext *ctx)
 {
 
     if (DEBUG_2)
         cout << "=== Pass 2: visitIncStm" << endl;
+    
+    string opStr = ctx->op->getType() == RecipeParser::INC ? "add" : "sub";
     visitChildren(ctx);
     TypeSpec *varType = ctx->variable()->type;
     char indicator = tolower(getIndicator(varType));
     if (ctx->number() == nullptr)
-    {
         j_file << "\t" << indicator << "const_1\n";
-    }
     if (varType == Predefined::real_type)
         j_file << "\ti2f\n";
-    j_file << "\t" << indicator << "add\n";
-
-    storeStatic(ctx->variable());
-    return nullptr;
-}
-
-antlrcpp:: Any Pass2Visitor::visitAddStm(RecipeParser::AddStmContext *ctx)
-{
-    if(DEBUG_2) cout <<"=== Pass 2: visitAddSubExpr" << endl;
-    int varCount = ctx->variable().size(); //get number of variables
-    auto destVar = ctx->variable(varCount-1);
-    TypeSpec *type1 = destVar->type;
-    visit(destVar);
-    for(int i=0; i<varCount-1; i++)
-    {
-        auto var = ctx->variable(i);
-        TypeSpec *type2 = var->type;
-        if(type2==Predefined::real_type&&type1==Predefined::integer_type)
-        {
-            type1 = Predefined::real_type;
-            j_file<<"\ti2f\n";
-        }
-        visit(var);
-        if(type2==Predefined::integer_type&&type1==Predefined::real_type)
-        {
-            j_file<<"\ti2f\n";
-        }
-        j_file<<"\t" <<(char)tolower(getIndicator(type1))<<"add\n";
-    }
-    if(type1== Predefined::real_type && destVar->type==Predefined::integer_type)
-    {
-        j_file<<"\tf2i\n";
-    }
-    storeStatic(destVar);
-    return nullptr;
-}
-
-antlrcpp::Any Pass2Visitor::visitDecStm(RecipeParser::DecStmContext *ctx)
-{
-    if (DEBUG_2)
-        cout << "=== Pass 2: visitDecStm" << endl;
-    visitChildren(ctx);
-    TypeSpec *varType = ctx->variable()->type;
-    char indicator = tolower(getIndicator(varType));
-    if (ctx->number() == nullptr)
-    {
-        j_file << "\t" << indicator << "const_1\n";
-    }
-    if (varType == Predefined::real_type)
-        j_file << "\ti2f\n";
-    j_file << "\t" << indicator << "sub\n";
+    j_file << "\t" << indicator << opStr<< "\n";
 
     storeStatic(ctx->variable());
     return nullptr;

@@ -45,7 +45,9 @@ public:
     antlrcpp::Any visitStatement(RecipeParser::StatementContext *ctx) override;
     antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *ctx) override;
     antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx) override;
-    antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override;
+    antlrcpp::Any visitAddSubStm(RecipeParser::AddSubStmContext *ctx) override;
+    antlrcpp::Any visitMulStm(RecipeParser::MulStmContext *ctx) override;
+    antlrcpp::Any visitDivStm(RecipeParser::DivStmContext *ctx) override;
     antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
@@ -54,10 +56,8 @@ public:
     antlrcpp::Any visitAndCond(RecipeParser::AndCondContext *ctx) override;
     antlrcpp::Any visitOrCond(RecipeParser::OrCondContext *ctx) override;
     antlrcpp::Any visitIfStm(RecipeParser::IfStmContext *ctx) override;
-    antlrcpp::Any visitIncStm(RecipeParser::IncStmContext *ctx) override;
-    antlrcpp::Any visitDecStm(RecipeParser::DecStmContext *ctx) override;
+    antlrcpp::Any visitIncDecStm(RecipeParser::IncDecStmContext *ctx) override;
     antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override;
-    antlrcpp::Any visitAddStm(RecipeParser::AddStmContext *ctx) override;
     antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override;
 
 };

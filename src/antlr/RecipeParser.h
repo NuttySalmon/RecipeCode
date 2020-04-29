@@ -16,14 +16,14 @@ using namespace wci::intermediate;
 class  RecipeParser : public antlr4::Parser {
 public:
   enum {
-    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PERIOD = 7, 
-    COMMA = 8, FUNCTION = 9, INT_TYPE = 10, FLOAT_TYPE = 11, ARR_INT_TYPE = 12, 
-    ARR_FLOAT_TYPE = 13, ARRAY_ELEM = 14, OF = 15, HEADER_SYM = 16, DECLARATION_SYM = 17, 
-    CODE_SYM = 18, RETURN = 19, IF = 20, THEN = 21, ELSE = 22, WHILE = 23, 
-    WHILE_DO = 24, REPEAT = 25, UNTIL = 26, ADD = 27, SUB = 28, MULT = 29, 
-    DIV = 30, STEP_SYM = 31, AND = 32, OR = 33, DEST = 34, SRC = 35, PRINT = 36, 
-    PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, LT = 42, 
-    EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
+    PERIOD = 8, COMMA = 9, FUNCTION = 10, INT_TYPE = 11, FLOAT_TYPE = 12, 
+    ARR_INT_TYPE = 13, ARR_FLOAT_TYPE = 14, ARRAY_ELEM = 15, OF = 16, HEADER_SYM = 17, 
+    DECLARATION_SYM = 18, CODE_SYM = 19, RETURN = 20, IF = 21, THEN = 22, 
+    ELSE = 23, WHILE = 24, WHILE_DO = 25, REPEAT = 26, UNTIL = 27, ADD = 28, 
+    SUB = 29, MUL = 30, DIV = 31, STEP_SYM = 32, AND = 33, OR = 34, DEST = 35, 
+    PRINT = 36, PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, 
+    LT = 42, EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
     COMMENT = 50, IDENTIFIER = 51, INTEGER = 52
   };
 
@@ -31,12 +31,11 @@ public:
     RuleProgram = 0, RuleMainBlock = 1, RuleBlock = 2, RuleHeader = 3, RuleData = 4, 
     RuleDeclList = 5, RuleDecl = 6, RuleCode = 7, RuleCodeLineList = 8, 
     RuleCodeLine = 9, RuleStatementList = 10, RuleStatement = 11, RuleFunctionCall = 12, 
-    RuleCall = 13, RuleReturnStm = 14, RuleAddStm = 15, RuleSubStm = 16, 
-    RuleMultStm = 17, RuleDivStm = 18, RuleIncStm = 19, RuleDecStm = 20, 
-    RuleIfStm = 21, RuleWhileStm = 22, RuleUntilStm = 23, RulePrintStm = 24, 
-    RulePrintCharStm = 25, RuleConditionList = 26, RuleCondition = 27, RuleOperand = 28, 
-    RuleConstant = 29, RuleTrueSym = 30, RuleAndCond = 31, RuleOrCond = 32, 
-    RuleNumber = 33, RuleVariable = 34
+    RuleCall = 13, RuleReturnStm = 14, RuleAddSubStm = 15, RuleMulStm = 16, 
+    RuleDivStm = 17, RuleIncDecStm = 18, RuleIfStm = 19, RuleWhileStm = 20, 
+    RuleUntilStm = 21, RulePrintStm = 22, RulePrintCharStm = 23, RuleConditionList = 24, 
+    RuleCondition = 25, RuleOperand = 26, RuleConstant = 27, RuleTrueSym = 28, 
+    RuleAndCond = 29, RuleOrCond = 30, RuleNumber = 31, RuleVariable = 32
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -64,12 +63,10 @@ public:
   class FunctionCallContext;
   class CallContext;
   class ReturnStmContext;
-  class AddStmContext;
-  class SubStmContext;
-  class MultStmContext;
+  class AddSubStmContext;
+  class MulStmContext;
   class DivStmContext;
-  class IncStmContext;
-  class DecStmContext;
+  class IncDecStmContext;
   class IfStmContext;
   class WhileStmContext;
   class UntilStmContext;
@@ -242,12 +239,10 @@ public:
   public:
     StatementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    AddStmContext *addStm();
-    SubStmContext *subStm();
-    MultStmContext *multStm();
+    AddSubStmContext *addSubStm();
+    MulStmContext *mulStm();
     DivStmContext *divStm();
-    IncStmContext *incStm();
-    DecStmContext *decStm();
+    IncDecStmContext *incDecStm();
     WhileStmContext *whileStm();
     UntilStmContext *untilStm();
     FunctionCallContext *functionCall();
@@ -307,33 +302,16 @@ public:
 
   ReturnStmContext* returnStm();
 
-  class  AddStmContext : public antlr4::ParserRuleContext {
+  class  AddSubStmContext : public antlr4::ParserRuleContext {
   public:
-    AddStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    antlr4::Token *op = nullptr;;
+    AddSubStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    std::vector<VariableContext *> variable();
+    VariableContext* variable(size_t i);
+    antlr4::tree::TerminalNode *DEST();
     antlr4::tree::TerminalNode *ADD();
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
-    antlr4::tree::TerminalNode *DEST();
-    std::vector<antlr4::tree::TerminalNode *> COMMA();
-    antlr4::tree::TerminalNode* COMMA(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> AND();
-    antlr4::tree::TerminalNode* AND(size_t i);
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  AddStmContext* addStm();
-
-  class  SubStmContext : public antlr4::ParserRuleContext {
-  public:
-    SubStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *SUB();
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
-    antlr4::tree::TerminalNode *DEST();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
     std::vector<antlr4::tree::TerminalNode *> AND();
@@ -343,13 +321,13 @@ public:
    
   };
 
-  SubStmContext* subStm();
+  AddSubStmContext* addSubStm();
 
-  class  MultStmContext : public antlr4::ParserRuleContext {
+  class  MulStmContext : public antlr4::ParserRuleContext {
   public:
-    MultStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    MulStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *MULT();
+    antlr4::tree::TerminalNode *MUL();
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
     antlr4::tree::TerminalNode *DEST();
@@ -362,7 +340,7 @@ public:
    
   };
 
-  MultStmContext* multStm();
+  MulStmContext* mulStm();
 
   class  DivStmContext : public antlr4::ParserRuleContext {
   public:
@@ -371,8 +349,10 @@ public:
     antlr4::tree::TerminalNode *DIV();
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
-    antlr4::tree::TerminalNode *SRC();
-    antlr4::tree::TerminalNode *INTEGER();
+    std::vector<antlr4::tree::TerminalNode *> DEST();
+    antlr4::tree::TerminalNode* DEST(size_t i);
+    std::vector<NumberContext *> number();
+    NumberContext* number(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -380,33 +360,21 @@ public:
 
   DivStmContext* divStm();
 
-  class  IncStmContext : public antlr4::ParserRuleContext {
+  class  IncDecStmContext : public antlr4::ParserRuleContext {
   public:
-    IncStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    antlr4::Token *op = nullptr;;
+    IncDecStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    VariableContext *variable();
     antlr4::tree::TerminalNode *INC();
-    VariableContext *variable();
-    NumberContext *number();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-   
-  };
-
-  IncStmContext* incStm();
-
-  class  DecStmContext : public antlr4::ParserRuleContext {
-  public:
-    DecStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
-    virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *DEC();
-    VariableContext *variable();
     NumberContext *number();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  DecStmContext* decStm();
+  IncDecStmContext* incDecStm();
 
   class  IfStmContext : public antlr4::ParserRuleContext {
   public:

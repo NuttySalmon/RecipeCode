@@ -18,14 +18,12 @@ decl locals [ TypeSpec *type = nullptr ]: '-' number dtype=(INT_TYPE | FLOAT_TYP
 code: CODE_SYM codeLineList?;
 codeLineList: (codeLine)+;
 codeLine: INTEGER '.' statementList PERIOD;
-statementList: statement ((THEN) statement)*;
+statementList: statement (THEN statement)*;
 statement:  
-        | addStm 
-        | subStm 
-        | multStm
+        | addSubStm 
+        | mulStm
         | divStm
-        | incStm
-        | decStm
+        | incDecStm
         | whileStm 
         | untilStm 
         | functionCall
@@ -42,13 +40,10 @@ call: 'with' variable ((COMMA | (COMMA? AND)) variable)*;
 returnStm: RETURN variable;
 
 //arithmetics 
-addStm: ADD variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
-subStm: SUB variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
-multStm: MULT variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
-divStm: DIV variable SRC ('size of' variable | INTEGER);
-incStm: INC variable ('for' number ('min' | 'mins'))?;
-decStm: DEC variable ('for' number ('min' | 'mins'))?;
-
+addSubStm: op=(ADD | SUB) variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
+mulStm: MUL variable ((COMMA | (COMMA? AND)) variable)* DEST variable;
+divStm: DIV variable ('and again'? DEST 'size of'? (variable | number))+;
+incDecStm: op=(INC | DEC) variable ('for' number ('min' | 'mins'))?;
 
 //Logic
 ifStm: IF conditionList COMMA statementList (COMMA ELSE statementList)?;
@@ -101,15 +96,14 @@ UNTIL: 'until';
 
 ADD: [Aa]'dd''ing'?;
 SUB: [Rr] 'emov'('e'|'ing');
-MULT: 'Mix''ing'?;
-DIV: 'Divide';
+MUL: [Mm]'ix''ing'?;
+DIV: [Dd]'ivid'('e'|'ing');
 STEP_SYM: 'step';
 AND: 'and';
 OR: 'or';
-DEST: 'in''to'? | 'to' | 'from';
-SRC: 'into';
-PRINT: [Cc]'heck' ('on')?;
-PRINT_CHAR: [Ww]'eight';
+DEST: ('in''to'? )| 'to' | 'from';
+PRINT: [Cc]'heck''ing'?'on'?;
+PRINT_CHAR: [Ww]'eight''ing'?;
 
 IS: 'is';
 TRUE_SYM: 'done';
