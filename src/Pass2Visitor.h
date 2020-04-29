@@ -41,17 +41,12 @@ public:
     antlrcpp::Any visitProgram(RecipeParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(RecipeParser::HeaderContext *ctx) override;
     antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *ctx) override;
-    // antlrcpp::Any visitVarList(RecipeParser::VarListContext *ctx) override;
     antlrcpp::Any visitDecl(RecipeParser::DeclContext *ctx) override;
-    // antlrcpp::Any visitVarId(RecipeParser::VarIdContext *ctx) override;
     antlrcpp::Any visitStatement(RecipeParser::StatementContext *ctx) override;
-    // antlrcpp::Any visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx) override;
     antlrcpp::Any visitPrintStm(RecipeParser::PrintStmContext *ctx) override;
     antlrcpp::Any visitPrintCharStm(RecipeParser::PrintCharStmContext *ctx) override;
     antlrcpp::Any visitSubStm(RecipeParser::SubStmContext *ctx) override;
-    // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
     antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
-    // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
     antlrcpp::Any visitCondition(RecipeParser::ConditionContext *ctx) override;

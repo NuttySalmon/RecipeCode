@@ -13,8 +13,8 @@ Directions:
 2. Weight starter.
 3. If water is more than or equal to flour and yeast is done, weight nuts, otherwise weight berries.
 4. Weight starter.
-5. Bake yeast then check yeast.
-6. Bake flour for 4 mins then check flour.
+5. Bake yeast then check yeast. (increment)
+6. Chill flour for 4 mins then check flour.
 7. While starter is not done, keep chilling starter then check starter.
 8. Repeatedly bake starter then check starter until starter is as much as berries.
 9. Remove starter and flour from yeast then check yeast. (int = int - int - float)

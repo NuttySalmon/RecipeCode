@@ -13,16 +13,17 @@ using namespace wci::intermediate::symtabimpl;
 
 const bool DEBUG_2 = true;
 
-Pass2Visitor::Pass2Visitor()
-    : program_name(""), j_file(nullptr)
-{
-}
+Pass2Visitor::Pass2Visitor(): program_name(""), j_file(nullptr){}
 
 Pass2Visitor::~Pass2Visitor()
 {
     labelCounter = 0;
 }
 
+/**
+ * Generate label for branches
+ * @return label
+ */
 string Pass2Visitor::getLabel()
 {
     string label = "L" + to_string(labelCounter);
@@ -146,13 +147,6 @@ void Pass2Visitor::loadValues()
     }
 }
 
-// antlrcpp::Any Pass2Visitor::visitVarList(RecipeParser::VarListContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitDeclarations: " << ctx->getText() << endl;
-
-//     return visitChildren(ctx);
-// }
-
 antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
 {
     if (DEBUG_2)
@@ -169,29 +163,19 @@ antlrcpp::Any Pass2Visitor::visitDecl(RecipeParser::DeclContext *ctx)
     return nullptr;
 }
 
+/**
+ * Get indicator for data type
+ * @param type datatype
+ */
+
 char Pass2Visitor::getIndicator(TypeSpec *type)
 {
     char type_indicator = (type == Predefined::integer_type) ? 'I'
-                                                             : (type == Predefined::real_type) ? 'F'
+                        : (type == Predefined::real_type) ? 'F'
                                                                                                : '?';
     return type_indicator;
 }
-// antlrcpp::Any Pass2Visitor::visitVarId(RecipeParser::VarIdContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitVarId: " + ctx->getText() << endl;
 
-//     string variable_name = ctx->IDENTIFIER()->toString();
-//     TypeSpec *type = ctx->type;
-
-//     // Emit a field declaration.
-//     string type_indicator = (type == Predefined::integer_type) ? "I"
-//                           : (type == Predefined::real_type)    ? "F"
-//                           :                                      "?";
-//     j_file << ".field private static "
-//            << variable_name << " " << type_indicator << endl;
-
-//     return visitChildren(ctx);
-// }
 
 antlrcpp::Any Pass2Visitor::visitStatement(RecipeParser::StatementContext *ctx)
 {
@@ -206,25 +190,6 @@ antlrcpp::Any Pass2Visitor::visitStatement(RecipeParser::StatementContext *ctx)
 
     return visitChildren(ctx);
 }
-
-// antlrcpp::Any Pass2Visitor::visitAssignmentStmt(RecipeParser::AssignmentStmtContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitAssignmentStmt" << endl;
-
-//     auto value = visit(ctx->expr());
-
-//     string type_indicator =
-//                   (ctx->expr()->type == Predefined::integer_type) ? "I"
-//                 : (ctx->expr()->type == Predefined::real_type)    ? "F"
-//                 :                                                   "?";
-
-//     // Emit a field put instruction.
-//     j_file << "\tputstatic\t" << program_name
-//            << "/" << ctx->variable()->IDENTIFIER()->toString()
-//            << " " << type_indicator << endl;
-
-//     return value;
-// }
 
 antlrcpp::Any Pass2Visitor::visitPrintStm(RecipeParser::PrintStmContext *ctx)
 {
@@ -301,64 +266,38 @@ antlrcpp::Any Pass2Visitor::visitSubStm(RecipeParser::SubStmContext *ctx)
 {
     if (DEBUG_2) cout << "=== Pass 2: visitAddSubExpr" << endl;
     int varCount = ctx->variable().size();
-    auto destVar = ctx->variable(varCount-1);
-    TypeSpec *currType = destVar->type;
+    auto destVar = ctx->variable(varCount-1);    // destination variable 
+    TypeSpec *currType = destVar->type; // current datatype on top of stack
     visit(destVar);
+
+    // visit each variable except for destination
     for (int i=0; i < varCount-1; i++){
-        auto var = ctx->variable(i);
-        TypeSpec *varType = var->type;
+        auto var = ctx->variable(i); // get variable
+        TypeSpec *varType = var->type; // get variable type
+
+        // if current type is int and variable is float, convert int to float
         if (varType==Predefined::real_type && currType == Predefined::integer_type){
-            currType = Predefined::real_type;
+            currType = Predefined::real_type; // set current type to float
             j_file << "\ti2f\n";
         }
         
         visit(var);
+
+        // if current type is float and variable is int, convert int to float
         if(varType==Predefined::integer_type && currType == Predefined::real_type)
             j_file << "\ti2f\n";
 
+        // generate subtraction statement by type
         j_file << "\t" << (char)tolower(getIndicator(currType)) << "sub\n";
     }
+    // if destination is int but result is float, convert result to int
+
     if (currType == Predefined::real_type && destVar->type == Predefined::integer_type)
          j_file << "\tf2i\n";
-    storeStatic(destVar);
+    
+    storeStatic(destVar); // save value into destination
     return nullptr;
 }
-
-// antlrcpp::Any Pass2Visitor::visitMulDivExpr(RecipeParser::MulDivExprContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitMulDivExpr" << endl;
-
-//     auto value = visitChildren(ctx);
-
-//     TypeSpec *type1 = ctx->expr(0)->type;
-//     TypeSpec *type2 = ctx->expr(1)->type;
-
-//     bool integer_mode =    (type1 == Predefined::integer_type)
-//                         && (type2 == Predefined::integer_type);
-//     bool real_mode    =    (type1 == Predefined::real_type)
-//                         && (type2 == Predefined::real_type);
-
-//     string op = ctx->mulDivOp()->getText();
-//     string opcode;
-
-//     if (op == "*")
-//     {
-//         opcode = integer_mode ? "imul"
-//                : real_mode    ? "fmul"
-//                :                "????";
-//     }
-//     else
-//     {
-//         opcode = integer_mode ? "idpv"
-//                : real_mode    ? "fdiv"
-//                :                "????";
-//     }
-
-//     // Emit a multiply or divide instruction.
-//     j_file << "\t" << opcode << endl;
-
-//     return value;
-// }
 
 antlrcpp::Any Pass2Visitor::visitVariable(RecipeParser::VariableContext *ctx)
 {
@@ -374,25 +313,6 @@ antlrcpp::Any Pass2Visitor::visitVariable(RecipeParser::VariableContext *ctx)
     return visitChildren(ctx);
 }
 
-// antlrcpp::Any Pass2Visitor::visitSignedNumber(RecipeParser::SignedNumberContext *ctx)
-// {
-//     if (DEBUG_2) cout << "=== Pass 2: visitSignedNumber" << endl;
-
-//     auto value = visitChildren(ctx);
-//     TypeSpec *type = ctx->number()->type;
-
-//     if (ctx->sign()->children[0] == ctx->sign()->SUB_OP())
-//     {
-//         string opcode = (type == Predefined::integer_type) ? "ineg"
-//                       : (type == Predefined::real_type)    ? "fneg"
-//                       :                                      "?neg";
-
-//         // Emit a negate instruction.
-//         j_file << "\t" << opcode << endl;
-//     }
-
-//     return value;
-// }
 
 antlrcpp::Any Pass2Visitor::visitInt(RecipeParser::IntContext *ctx)
 {
@@ -573,6 +493,10 @@ antlrcpp::Any Pass2Visitor::visitDecStm(RecipeParser::DecStmContext *ctx)
     return nullptr;
 }
 
+/**
+ * Store values on top of stack back to static variable
+ * @param ctx variable context
+ */
 void Pass2Visitor::storeStatic(RecipeParser::VariableContext *ctx)
 {
     j_file << "\tputstatic\t" << program_name

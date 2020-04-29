@@ -24,18 +24,10 @@ public:
 
     antlrcpp::Any visitProgram(RecipeParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(RecipeParser::HeaderContext *ctx) override;
-    // antlrcpp::Any visitVarList(RecipeParser::VarListContext *ctx) override;
     antlrcpp::Any visitDecl(RecipeParser::DeclContext *ctx) override;
-    // antlrcpp::Any visitTypeId(RecipeParser::TypeIdContext *ctx) override;
-    // antlrcpp::Any visitAddSubExpr(RecipeParser::AddSubExprContext *ctx) override;
-    // antlrcpp::Any visitMulDivExpr(RecipeParser::MulDivExprContext *ctx) override;
     antlrcpp::Any visitVariable(RecipeParser::VariableContext *ctx) override;
-    // antlrcpp::Any visitSignedNumberExpr(RecipeParser::SignedNumberExprContext *ctx) override;
-    // antlrcpp::Any visitSignedNumber(RecipeParser::SignedNumberContext *ctx) override;
-    // antlrcpp::Any visitUnsignedNumberExpr(RecipeParser::UnsignedNumberExprContext *ctx) override;
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
-    // antlrcpp::Any visitParenExpr(RecipeParser::ParenExprContext *ctx) override;
     antlrcpp::Any visitOperand(RecipeParser::OperandContext *ctx) override;
 };
 
