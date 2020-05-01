@@ -1,7 +1,6 @@
 .class public Meatball
 .super java/lang/Object
 
-.field private static _runTimer LRunTimer;
 
 ; -5kgofbeef
 .field private static beef I
@@ -36,10 +35,6 @@
 
 .method public static main([Ljava/lang/String;)V
 
-	new RunTimer
-	dup
-	invokenonvirtual RunTimer/<init>()V
-	putstatic	Meatball/_runTimer LRunTimer;
 	iconst_5
 	putstatic	Meatball/beef I
 	iconst_2
@@ -218,8 +213,6 @@
 	getstatic	Meatball/milk F
 	invokevirtual java/io/PrintStream.println(F)V
 
-	getstatic     Meatball/_runTimer LRunTimer;
-	invokevirtual RunTimer.printElapsedTime()V
 
 	return
 

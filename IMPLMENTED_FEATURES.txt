@@ -1,4 +1,17 @@
+https://github.com/NuttySalmon/recipe_code
+
 Here is a list of key implemented features with examples and pseudocode.
+
+Overall structure:
+	Recipe: <program name here> 
+
+	Ingredients:
+    	- <data declaration here>
+	- <data declaration here>
+
+	Directions:
+    	1. <instruction here>
+	2. <instruction here>
 
 Comments: 
 	(This is a comment)
@@ -42,7 +55,7 @@ Conditions:
     beef is done. (beef == 1)
     beef is not done. (beef != 1)
     beef is done and pork is less than flour (beef == 1 && pork < flour)
-    beef is done or pork is less than flour  (beef == 1 || pork < flour)
+    beef is done or pork is more than flour  (beef == 1 || pork > flour)
 
 If statement:
     If beef is not done, then cook beef. (IF beef != 1 THEN beef++)

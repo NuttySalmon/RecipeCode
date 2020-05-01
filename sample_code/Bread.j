@@ -1,7 +1,6 @@
 .class public Bread
 .super java/lang/Object
 
-.field private static _runTimer LRunTimer;
 
 ; -600mLofflour
 .field private static flour F
@@ -42,10 +41,6 @@
 
 .method public static main([Ljava/lang/String;)V
 
-	new RunTimer
-	dup
-	invokenonvirtual RunTimer/<init>()V
-	putstatic	Bread/_runTimer LRunTimer;
 	ldc	600
 	i2f
 	putstatic	Bread/flour F
@@ -431,8 +426,6 @@
 	getstatic	Bread/salt F
 	invokevirtual java/io/PrintStream.println(F)V
 
-	getstatic     Bread/_runTimer LRunTimer;
-	invokevirtual RunTimer.printElapsedTime()V
 
 	return
 

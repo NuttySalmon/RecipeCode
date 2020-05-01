@@ -1,7 +1,6 @@
 .class public HelloWorld
 .super java/lang/Object
 
-.field private static _runTimer LRunTimer;
 
 ; -72LofH
 .field private static H I
@@ -45,10 +44,6 @@
 
 .method public static main([Ljava/lang/String;)V
 
-	new RunTimer
-	dup
-	invokenonvirtual RunTimer/<init>()V
-	putstatic	HelloWorld/_runTimer LRunTimer;
 	bipush 72
 	putstatic	HelloWorld/H I
 	bipush 101
@@ -153,8 +148,6 @@
 	invokevirtual java/io/PrintStream.printf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;
 	pop
 
-	getstatic     HelloWorld/_runTimer LRunTimer;
-	invokevirtual RunTimer.printElapsedTime()V
 
 	return
 

@@ -296,7 +296,7 @@ antlrcpp::Any Pass2Visitor::visitAddSubStm(RecipeParser::AddSubStmContext *ctx)
             j_file << "\ti2f\n";
 
         // generate subtraction statement by type
-        j_file << "\t" << (char)tolower(getIndicator(currType)) << "sub\n";
+        j_file << "\t" << (char)tolower(getIndicator(currType)) << opStr << "\n";
     }
     // if destination is int but result is float, convert result to int
 
