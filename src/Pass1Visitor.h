@@ -17,7 +17,7 @@ class Pass1Visitor : public RecipeBaseVisitor
 private:
     SymTabStack *symtab_stack;
     vector<SymTabEntry *> var_id_list;
-
+    int stepCounter;
 public:
     Pass1Visitor();
     virtual ~Pass1Visitor();
@@ -29,6 +29,7 @@ public:
     antlrcpp::Any visitInt(RecipeParser::IntContext *ctx) override;
     antlrcpp::Any visitFloat(RecipeParser::FloatContext *ctx) override;
     antlrcpp::Any visitOperand(RecipeParser::OperandContext *ctx) override;
+    antlrcpp::Any visitCodeLine(RecipeParser::CodeLineContext *ctx) override;
 };
 
 #endif /* PASS1VISITOR_H_ */

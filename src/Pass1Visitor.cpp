@@ -20,7 +20,7 @@ Pass1Visitor::Pass1Visitor()
     // Create and initialize the symbol table stack.
     symtab_stack = SymTabFactory::create_symtab_stack();
     Predefined::initialize(symtab_stack);
-
+    stepCounter = 0;
     if (DEBUG_1)
         cout << "=== Pass 1: Pass1Visitor(): symtab stack initialized." << endl;
 }
@@ -96,7 +96,6 @@ antlrcpp::Any Pass1Visitor::visitDecl(RecipeParser::DeclContext *ctx)
         break;
     }
     ctx->type = type;
-    cout << variable_name << ' ' << ctx->dtype->getType() << endl;
     variable_id->set_typespec(type);
     return visitChildren(ctx);
 }
@@ -142,5 +141,14 @@ antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
 }
 
 
+antlrcpp::Any Pass1Visitor::visitCodeLine(RecipeParser::CodeLineContext *ctx){
 
+    int lineNum = stoi(ctx->INTEGER()->getText());
+    if (lineNum <= stepCounter)
+        cout << "ERROR: invalid line number: " << lineNum 
+             << "is not greater than " << stepCounter << ".\n";
+    else
+        stepCounter = lineNum;
+    return visitChildren(ctx);
+}
 
