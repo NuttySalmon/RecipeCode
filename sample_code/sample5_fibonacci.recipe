@@ -1,0 +1,13 @@
+Recipe: Fibonacci
+Ingredients:
+
+- 0 kg of f0
+- 1 kg of f1
+- 0 kg of fib
+- 20 kg of n
+- 1 kg of one
+
+
+Directions:
+1. Check one.
+2. While n is not done, keep treating fib as 0 then adding f0 and f1 into fib then treat f0 as f1 then treat f1 as fib then chill n then check fib.
