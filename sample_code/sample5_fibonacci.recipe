@@ -9,5 +9,13 @@ Ingredients:
 
 
 Directions:
-1. Check one.
-2. While n is not done, keep treating fib as 0 then adding f0 and f1 into fib then treat f0 as f1 then treat f1 as fib then chill n then check fib.
+1. Check f1.
+2. If n is done, then go to step 10.
+3. Treat fib as 0.
+4. Add f0 and f1 into fib.
+5. Treat f0 as f1.
+6. Treat f1 as fib.
+7. Chill n.
+8. Check fib.
+9. Go to step 2.
+10.
