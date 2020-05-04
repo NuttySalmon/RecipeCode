@@ -36,7 +36,7 @@ statement:
 
 
 
-assignmentStm: 'Treat' variable 'as' variable;
+assignmentStm: ASSIGN variable 'as' variable;
 
 //function
 functionCall: FUNCTION IDENTIFIER 'for' variable call?;
@@ -86,6 +86,8 @@ HEADER_SYM: 'Recipe:';
 DECLARATION_SYM: 'Ingredients:';
 CODE_SYM: 'Directions:';
 RETURN: 'Serve';
+
+ASSIGN: [Tt]'reat''ing'?;
 
 IF: [Ii]'f';
 THEN: 'then';

@@ -17,14 +17,14 @@ class  RecipeParser : public antlr4::Parser {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    T__7 = 8, T__8 = 9, PERIOD = 10, COMMA = 11, FUNCTION = 12, INT_TYPE = 13, 
-    FLOAT_TYPE = 14, ARR_INT_TYPE = 15, ARR_FLOAT_TYPE = 16, ARRAY_ELEM = 17, 
-    OF = 18, HEADER_SYM = 19, DECLARATION_SYM = 20, CODE_SYM = 21, RETURN = 22, 
-    IF = 23, THEN = 24, ELSE = 25, WHILE = 26, WHILE_DO = 27, REPEAT = 28, 
-    UNTIL = 29, ADD = 30, SUB = 31, MUL = 32, DIV = 33, STEP_SYM = 34, AND = 35, 
-    OR = 36, DEST = 37, PRINT = 38, PRINT_CHAR = 39, IS = 40, TRUE_SYM = 41, 
-    NOT = 42, GT = 43, LT = 44, EQ = 45, GE = 46, LE = 47, INC = 48, DEC = 49, 
-    WS = 50, NEWLINE = 51, COMMENT = 52, IDENTIFIER = 53, INTEGER = 54
+    T__7 = 8, PERIOD = 9, COMMA = 10, FUNCTION = 11, INT_TYPE = 12, FLOAT_TYPE = 13, 
+    ARR_INT_TYPE = 14, ARR_FLOAT_TYPE = 15, ARRAY_ELEM = 16, OF = 17, HEADER_SYM = 18, 
+    DECLARATION_SYM = 19, CODE_SYM = 20, RETURN = 21, ASSIGN = 22, IF = 23, 
+    THEN = 24, ELSE = 25, WHILE = 26, WHILE_DO = 27, REPEAT = 28, UNTIL = 29, 
+    ADD = 30, SUB = 31, MUL = 32, DIV = 33, STEP_SYM = 34, AND = 35, OR = 36, 
+    DEST = 37, PRINT = 38, PRINT_CHAR = 39, IS = 40, TRUE_SYM = 41, NOT = 42, 
+    GT = 43, LT = 44, EQ = 45, GE = 46, LE = 47, INC = 48, DEC = 49, WS = 50, 
+    NEWLINE = 51, COMMENT = 52, IDENTIFIER = 53, INTEGER = 54
   };
 
   enum {
@@ -264,6 +264,7 @@ public:
   public:
     AssignmentStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *ASSIGN();
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
 
