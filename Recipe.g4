@@ -31,8 +31,12 @@ statement:
         | printStm
         | printCharStm
         | returnStm
+        | assignmentStm
         ;
 
+
+
+assignmentStm: 'Treat' variable 'as' variable;
 
 //function
 functionCall: FUNCTION IDENTIFIER 'for' variable call?;

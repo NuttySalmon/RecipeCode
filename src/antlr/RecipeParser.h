@@ -17,25 +17,26 @@ class  RecipeParser : public antlr4::Parser {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    PERIOD = 8, COMMA = 9, FUNCTION = 10, INT_TYPE = 11, FLOAT_TYPE = 12, 
-    ARR_INT_TYPE = 13, ARR_FLOAT_TYPE = 14, ARRAY_ELEM = 15, OF = 16, HEADER_SYM = 17, 
-    DECLARATION_SYM = 18, CODE_SYM = 19, RETURN = 20, IF = 21, THEN = 22, 
-    ELSE = 23, WHILE = 24, WHILE_DO = 25, REPEAT = 26, UNTIL = 27, ADD = 28, 
-    SUB = 29, MUL = 30, DIV = 31, STEP_SYM = 32, AND = 33, OR = 34, DEST = 35, 
-    PRINT = 36, PRINT_CHAR = 37, IS = 38, TRUE_SYM = 39, NOT = 40, GT = 41, 
-    LT = 42, EQ = 43, GE = 44, LE = 45, INC = 46, DEC = 47, WS = 48, NEWLINE = 49, 
-    COMMENT = 50, IDENTIFIER = 51, INTEGER = 52
+    T__7 = 8, T__8 = 9, PERIOD = 10, COMMA = 11, FUNCTION = 12, INT_TYPE = 13, 
+    FLOAT_TYPE = 14, ARR_INT_TYPE = 15, ARR_FLOAT_TYPE = 16, ARRAY_ELEM = 17, 
+    OF = 18, HEADER_SYM = 19, DECLARATION_SYM = 20, CODE_SYM = 21, RETURN = 22, 
+    IF = 23, THEN = 24, ELSE = 25, WHILE = 26, WHILE_DO = 27, REPEAT = 28, 
+    UNTIL = 29, ADD = 30, SUB = 31, MUL = 32, DIV = 33, STEP_SYM = 34, AND = 35, 
+    OR = 36, DEST = 37, PRINT = 38, PRINT_CHAR = 39, IS = 40, TRUE_SYM = 41, 
+    NOT = 42, GT = 43, LT = 44, EQ = 45, GE = 46, LE = 47, INC = 48, DEC = 49, 
+    WS = 50, NEWLINE = 51, COMMENT = 52, IDENTIFIER = 53, INTEGER = 54
   };
 
   enum {
     RuleProgram = 0, RuleMainBlock = 1, RuleBlock = 2, RuleHeader = 3, RuleData = 4, 
     RuleDeclList = 5, RuleDecl = 6, RuleCode = 7, RuleCodeLineList = 8, 
-    RuleCodeLine = 9, RuleStatementList = 10, RuleStatement = 11, RuleFunctionCall = 12, 
-    RuleCall = 13, RuleReturnStm = 14, RuleAddSubStm = 15, RuleMulStm = 16, 
-    RuleDivStm = 17, RuleIncDecStm = 18, RuleIfStm = 19, RuleWhileStm = 20, 
-    RuleUntilStm = 21, RulePrintStm = 22, RulePrintCharStm = 23, RuleConditionList = 24, 
-    RuleCondition = 25, RuleOperand = 26, RuleConstant = 27, RuleTrueSym = 28, 
-    RuleAndCond = 29, RuleOrCond = 30, RuleNumber = 31, RuleVariable = 32
+    RuleCodeLine = 9, RuleStatementList = 10, RuleStatement = 11, RuleAssignmentStm = 12, 
+    RuleFunctionCall = 13, RuleCall = 14, RuleReturnStm = 15, RuleAddSubStm = 16, 
+    RuleMulStm = 17, RuleDivStm = 18, RuleIncDecStm = 19, RuleIfStm = 20, 
+    RuleWhileStm = 21, RuleUntilStm = 22, RulePrintStm = 23, RulePrintCharStm = 24, 
+    RuleConditionList = 25, RuleCondition = 26, RuleOperand = 27, RuleConstant = 28, 
+    RuleTrueSym = 29, RuleAndCond = 30, RuleOrCond = 31, RuleNumber = 32, 
+    RuleVariable = 33
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -60,6 +61,7 @@ public:
   class CodeLineContext;
   class StatementListContext;
   class StatementContext;
+  class AssignmentStmContext;
   class FunctionCallContext;
   class CallContext;
   class ReturnStmContext;
@@ -250,12 +252,26 @@ public:
     PrintStmContext *printStm();
     PrintCharStmContext *printCharStm();
     ReturnStmContext *returnStm();
+    AssignmentStmContext *assignmentStm();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   StatementContext* statement();
+
+  class  AssignmentStmContext : public antlr4::ParserRuleContext {
+  public:
+    AssignmentStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<VariableContext *> variable();
+    VariableContext* variable(size_t i);
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AssignmentStmContext* assignmentStm();
 
   class  FunctionCallContext : public antlr4::ParserRuleContext {
   public:

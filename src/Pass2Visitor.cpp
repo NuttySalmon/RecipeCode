@@ -612,3 +612,14 @@ antlrcpp::Any Pass2Visitor::visitUntilStm(RecipeParser::UntilStmContext *ctx)
     j_file << "\tif_icmpne " << loopLab << endl;
     return nullptr;
 }
+
+antlrcpp::Any Pass2Visitor::visitAssignmentStm(RecipeParser::AssignmentStmContext *ctx)
+{
+
+    if (DEBUG_2)
+        cout << "=== Pass 2: visitAssigmentStm" << endl;
+    
+    visit(ctx->variable(1));
+    storeStatic(ctx->variable(0));
+    return nullptr;
+}
