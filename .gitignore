@@ -3,3 +3,7 @@
 /build
 /bin
 *.class
+CMakeFiles
+*.cmake
+CMakeCache.txt
+Makefile

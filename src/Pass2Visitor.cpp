@@ -77,8 +77,8 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
 
     // Emit the RunTimer and PascalTextIn fields.
     j_file << endl;
-    // j_file << ".field private static _runTimer LRunTimer;" << endl;
-    // j_file << ".field private static _standardIn LPascalTextIn;" << endl;
+    j_file << ".field private static _runTimer LRunTimer;" << endl;
+    //j_file << ".field private static _standardIn LPascalTextIn;" << endl;
 
     // Emit declarations.
     visit(ctx->block()->data());
@@ -99,11 +99,11 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
     // Emit the main program header and prologue.
     j_file << ".method public static main([Ljava/lang/String;)V" << endl;
     j_file << endl;
-    // j_file << "\tnew RunTimer" << endl;
-    // j_file << "\tdup" << endl;
-    // j_file << "\tinvokenonvirtual RunTimer/<init>()V" << endl;
-    // j_file << "\tputstatic\t" << program_name
-    //        << "/_runTimer LRunTimer;" << endl;
+    j_file << "\tnew RunTimer" << endl;
+    j_file << "\tdup" << endl;
+    j_file << "\tinvokenonvirtual RunTimer/<init>()V" << endl;
+    j_file << "\tputstatic\t" << program_name
+            << "/_runTimer LRunTimer;" << endl;
     // j_file << "\tnew PascalTextIn" << endl;
     // j_file << "\tdup" << endl;
     // j_file << "\tinvokenonvirtual PascalTextIn/<init>()V" << endl;
@@ -117,9 +117,9 @@ antlrcpp::Any Pass2Visitor::visitMainBlock(RecipeParser::MainBlockContext *ctx)
 
     // Emit the main program epilogue.
     j_file << endl;
-    // j_file << "\tgetstatic     " << program_name
-    //        << "/_runTimer LRunTimer;" << endl;
-    // j_file << "\tinvokevirtual RunTimer.printElapsedTime()V" << endl;
+    j_file << "\tgetstatic     " << program_name
+           << "/_runTimer LRunTimer;" << endl;
+    j_file << "\tinvokevirtual RunTimer.printElapsedTime()V" << endl;
     j_file << endl;
     j_file << "\treturn" << endl;
     j_file << endl;
