@@ -265,8 +265,8 @@ public:
     AssignmentStmContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *ASSIGN();
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
+    VariableContext *variable();
+    OperandContext *operand();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    

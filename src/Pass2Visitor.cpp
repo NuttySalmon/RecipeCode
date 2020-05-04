@@ -619,7 +619,7 @@ antlrcpp::Any Pass2Visitor::visitAssignmentStm(RecipeParser::AssignmentStmContex
     if (DEBUG_2)
         cout << "=== Pass 2: visitAssigmentStm" << endl;
     
-    visit(ctx->variable(1));
-    storeStatic(ctx->variable(0));
+    visit(ctx->operand());
+    storeStatic(ctx->variable());
     return nullptr;
 }

@@ -36,7 +36,7 @@ statement:
 
 
 
-assignmentStm: ASSIGN variable 'as' variable;
+assignmentStm: ASSIGN variable 'as' operand;
 
 //function
 functionCall: FUNCTION IDENTIFIER 'for' variable call?;
@@ -127,5 +127,5 @@ WS: [ \t]+ -> skip ;
 NEWLINE : '\r'? '\n' -> skip;
 COMMENT: '(' .*? ')' -> skip;
 
-IDENTIFIER: [a-zA-Z]+;
+IDENTIFIER: [a-zA-Z][a-zA-Z0-9_-]*;
 INTEGER: [0-9]+;
