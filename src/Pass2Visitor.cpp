@@ -623,3 +623,16 @@ antlrcpp::Any Pass2Visitor::visitAssignmentStm(RecipeParser::AssignmentStmContex
     storeStatic(ctx->variable());
     return nullptr;
 }
+
+antlrcpp::Any Pass2Visitor::visitCodeLine(RecipeParser::CodeLineContext *ctx)
+{
+    j_file << "STEP" << ctx->INTEGER()->getText() << ":\n";
+    return visitChildren(ctx);
+}
+
+
+antlrcpp::Any Pass2Visitor::visitJumpStm(RecipeParser::JumpStmContext *ctx)
+{
+    j_file << "\tgoto STEP" << ctx->INTEGER()->getText() << "\n";
+    return nullptr;
+}

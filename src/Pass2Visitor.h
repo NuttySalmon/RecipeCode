@@ -60,6 +60,8 @@ public:
     antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override;
     antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override;
     antlrcpp::Any visitAssignmentStm(RecipeParser::AssignmentStmContext *ctx) override;
+    antlrcpp::Any visitCodeLine(RecipeParser::CodeLineContext *ctx) override;
+    antlrcpp::Any visitJumpStm(RecipeParser::JumpStmContext *ctx) override;
 
 };
 

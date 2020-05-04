@@ -32,11 +32,13 @@ statement:
         | printCharStm
         | returnStm
         | assignmentStm
+        | jumpStm
         ;
 
 
 
 assignmentStm: ASSIGN variable 'as' operand;
+jumpStm: GOTO INTEGER;
 
 //function
 functionCall: FUNCTION IDENTIFIER 'for' variable call?;
@@ -73,6 +75,7 @@ variable locals [ TypeSpec *type = nullptr ]: (INTEGER ARRAY_ELEM OF)? IDENTIFIE
 
 
 //Keywords
+GOTO: [Gg]'o to step';
 PERIOD: '.';
 COMMA: ','(' '|NEWLINE);
 FUNCTION: 'See recipe';

@@ -71,6 +71,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitJumpStm(RecipeParser::JumpStmContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitFunctionCall(RecipeParser::FunctionCallContext *ctx) override {
     return visitChildren(ctx);
   }

@@ -49,6 +49,8 @@ public:
 
     virtual antlrcpp::Any visitAssignmentStm(RecipeParser::AssignmentStmContext *context) = 0;
 
+    virtual antlrcpp::Any visitJumpStm(RecipeParser::JumpStmContext *context) = 0;
+
     virtual antlrcpp::Any visitFunctionCall(RecipeParser::FunctionCallContext *context) = 0;
 
     virtual antlrcpp::Any visitCall(RecipeParser::CallContext *context) = 0;
