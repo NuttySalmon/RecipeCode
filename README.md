@@ -117,3 +117,11 @@ Here is a list of key implemented features with examples and pseudocode.
 `Check beef.` (print beef with new line)
 
 `Weight beef.` (treat int beef as ASCII value and print corresponding char)
+
+#### Assignment:
+`Treat ice as water.` (ice = water)
+
+`Treat beef as done.` (beef = 1)
+
+#### Jump:
+`Go to step 5.` (jump to instruction labeled "5." and continue there)
