@@ -23,6 +23,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunction(RecipeParser::FunctionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -67,6 +71,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitReturnCall(RecipeParser::ReturnCallContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitAssignmentStm(RecipeParser::AssignmentStmContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -75,7 +83,15 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitCall(RecipeParser::CallContext *ctx) override {
+  virtual antlrcpp::Any visitPass(RecipeParser::PassContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitParams(RecipeParser::ParamsContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitParam(RecipeParser::ParamContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -17,26 +17,28 @@ class  RecipeParser : public antlr4::Parser {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    T__7 = 8, PERIOD = 9, COMMA = 10, FUNCTION = 11, INT_TYPE = 12, FLOAT_TYPE = 13, 
+    T__7 = 8, PERIOD = 9, COMMA = 10, CALL = 11, INT_TYPE = 12, FLOAT_TYPE = 13, 
     ARR_INT_TYPE = 14, ARR_FLOAT_TYPE = 15, ARRAY_ELEM = 16, OF = 17, HEADER_SYM = 18, 
     DECLARATION_SYM = 19, CODE_SYM = 20, RETURN = 21, ASSIGN = 22, IF = 23, 
     THEN = 24, ELSE = 25, WHILE = 26, WHILE_DO = 27, REPEAT = 28, UNTIL = 29, 
     ADD = 30, SUB = 31, MUL = 32, DIV = 33, STEP_SYM = 34, AND = 35, OR = 36, 
     DEST = 37, PRINT = 38, PRINT_CHAR = 39, IS = 40, TRUE_SYM = 41, NOT = 42, 
     GT = 43, LT = 44, EQ = 45, GE = 46, LE = 47, INC = 48, DEC = 49, WS = 50, 
-    NEWLINE = 51, COMMENT = 52, IDENTIFIER = 53, INTEGER = 54
+    NEWLINE = 51, COMMENT = 52, IDENTIFIER = 53, INTEGER = 54, PARAM_INT = 55, 
+    PARAM_FLOAT = 56
   };
 
   enum {
-    RuleProgram = 0, RuleMainBlock = 1, RuleBlock = 2, RuleHeader = 3, RuleData = 4, 
-    RuleDeclList = 5, RuleDecl = 6, RuleCode = 7, RuleCodeLineList = 8, 
-    RuleCodeLine = 9, RuleStatementList = 10, RuleStatement = 11, RuleAssignmentStm = 12, 
-    RuleFunctionCall = 13, RuleCall = 14, RuleReturnStm = 15, RuleAddSubStm = 16, 
-    RuleMulStm = 17, RuleDivStm = 18, RuleIncDecStm = 19, RuleIfStm = 20, 
-    RuleWhileStm = 21, RuleUntilStm = 22, RulePrintStm = 23, RulePrintCharStm = 24, 
-    RuleConditionList = 25, RuleCondition = 26, RuleOperand = 27, RuleConstant = 28, 
-    RuleTrueSym = 29, RuleAndCond = 30, RuleOrCond = 31, RuleNumber = 32, 
-    RuleVariable = 33
+    RuleProgram = 0, RuleFunction = 1, RuleMainBlock = 2, RuleBlock = 3, 
+    RuleHeader = 4, RuleData = 5, RuleDeclList = 6, RuleDecl = 7, RuleCode = 8, 
+    RuleCodeLineList = 9, RuleCodeLine = 10, RuleStatementList = 11, RuleStatement = 12, 
+    RuleReturnCall = 13, RuleAssignmentStm = 14, RuleFunctionCall = 15, 
+    RulePass = 16, RuleParams = 17, RuleParam = 18, RuleReturnStm = 19, 
+    RuleAddSubStm = 20, RuleMulStm = 21, RuleDivStm = 22, RuleIncDecStm = 23, 
+    RuleIfStm = 24, RuleWhileStm = 25, RuleUntilStm = 26, RulePrintStm = 27, 
+    RulePrintCharStm = 28, RuleConditionList = 29, RuleCondition = 30, RuleOperand = 31, 
+    RuleConstant = 32, RuleTrueSym = 33, RuleAndCond = 34, RuleOrCond = 35, 
+    RuleNumber = 36, RuleVariable = 37
   };
 
   RecipeParser(antlr4::TokenStream *input);
@@ -50,6 +52,7 @@ public:
 
 
   class ProgramContext;
+  class FunctionContext;
   class MainBlockContext;
   class BlockContext;
   class HeaderContext;
@@ -61,9 +64,12 @@ public:
   class CodeLineContext;
   class StatementListContext;
   class StatementContext;
+  class ReturnCallContext;
   class AssignmentStmContext;
   class FunctionCallContext;
-  class CallContext;
+  class PassContext;
+  class ParamsContext;
+  class ParamContext;
   class ReturnStmContext;
   class AddSubStmContext;
   class MulStmContext;
@@ -88,14 +94,29 @@ public:
   public:
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    HeaderContext *header();
-    MainBlockContext *mainBlock();
+    std::vector<FunctionContext *> function();
+    FunctionContext* function(size_t i);
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
   ProgramContext* program();
+
+  class  FunctionContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec * type = nullptr;
+    FunctionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    HeaderContext *header();
+    MainBlockContext *mainBlock();
+    ReturnCallContext *returnCall();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  FunctionContext* function();
 
   class  MainBlockContext : public antlr4::ParserRuleContext {
   public:
@@ -124,11 +145,14 @@ public:
 
   class  HeaderContext : public antlr4::ParserRuleContext {
   public:
+    antlr4::Token *dtype = nullptr;;
     HeaderContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *HEADER_SYM();
     antlr4::tree::TerminalNode *IDENTIFIER();
-    CallContext *call();
+    antlr4::tree::TerminalNode *PARAM_INT();
+    antlr4::tree::TerminalNode *PARAM_FLOAT();
+    ParamsContext *params();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -251,7 +275,6 @@ public:
     IfStmContext *ifStm();
     PrintStmContext *printStm();
     PrintCharStmContext *printCharStm();
-    ReturnStmContext *returnStm();
     AssignmentStmContext *assignmentStm();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -259,6 +282,19 @@ public:
   };
 
   StatementContext* statement();
+
+  class  ReturnCallContext : public antlr4::ParserRuleContext {
+  public:
+    ReturnCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *INTEGER();
+    ReturnStmContext *returnStm();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ReturnCallContext* returnCall();
 
   class  AssignmentStmContext : public antlr4::ParserRuleContext {
   public:
@@ -278,10 +314,10 @@ public:
   public:
     FunctionCallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *FUNCTION();
+    antlr4::tree::TerminalNode *CALL();
     antlr4::tree::TerminalNode *IDENTIFIER();
     VariableContext *variable();
-    CallContext *call();
+    PassContext *pass();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
@@ -289,9 +325,9 @@ public:
 
   FunctionCallContext* functionCall();
 
-  class  CallContext : public antlr4::ParserRuleContext {
+  class  PassContext : public antlr4::ParserRuleContext {
   public:
-    CallContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    PassContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<VariableContext *> variable();
     VariableContext* variable(size_t i);
@@ -304,7 +340,40 @@ public:
    
   };
 
-  CallContext* call();
+  PassContext* pass();
+
+  class  ParamsContext : public antlr4::ParserRuleContext {
+  public:
+    ParamsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<ParamContext *> param();
+    ParamContext* param(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> COMMA();
+    antlr4::tree::TerminalNode* COMMA(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> AND();
+    antlr4::tree::TerminalNode* AND(size_t i);
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ParamsContext* params();
+
+  class  ParamContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec * type = nullptr;
+    antlr4::Token *dtype = nullptr;;
+    ParamContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IDENTIFIER();
+    antlr4::tree::TerminalNode *PARAM_INT();
+    antlr4::tree::TerminalNode *PARAM_FLOAT();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  ParamContext* param();
 
   class  ReturnStmContext : public antlr4::ParserRuleContext {
   public:

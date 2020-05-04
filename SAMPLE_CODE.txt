@@ -1,0 +1,13 @@
+Recipe: Few Main
+
+Ingredients:
+- 1 kg of a
+- 1 kg of b
+
+Directions:
+1. Add a to b.
+1. See recipe a for a.
+
+Recipe: some func with some asdf
+Directions:
+1. Serve asdf.

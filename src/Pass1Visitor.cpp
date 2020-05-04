@@ -13,7 +13,7 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 using namespace wci::util;
 
-const bool DEBUG_1 = false;
+const bool DEBUG_1 = true;
 
 Pass1Visitor::Pass1Visitor()
 {
@@ -141,6 +141,32 @@ antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
     return childrenVisited;
 }
 
+antlrcpp::Any Pass1Visitor::visitFunction(RecipeParser::FunctionContext *ctx)
+{     if (DEBUG_1)
+        cout << "=== Pass 1: visitFunction: " + ctx->getText() << endl;
+    auto header = ctx->header();
+    string variable_name = header->IDENTIFIER()->toString();
+    SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
+    variable_id->set_definition((Definition)DF_FUNCTION);
 
+    var_id_list.push_back(variable_id);
+    // var_ctx_list.push_back(ctx);
+
+    TypeSpec *type = nullptr;
+    if (header->dtype != NULL){
+        switch (header->dtype->getType())
+        {
+        case RecipeParser::PARAM_INT:
+            type = Predefined::integer_type;
+            break;
+        case RecipeParser::PARAM_FLOAT:
+            type = Predefined::real_type;
+            break;
+        }
+    }
+    ctx->type = type;
+    variable_id->set_typespec(type);
+    return visitChildren(ctx);
+}
 
 

@@ -4,10 +4,11 @@ grammar Recipe;
 using namespace wci::intermediate;
 }
 
-program : header mainBlock;
+program: function (function)*;
+function locals [ TypeSpec *type = nullptr ]: header mainBlock (returnCall)?;
 mainBlock: block;
-block: data code?;
-header  : HEADER_SYM IDENTIFIER call?;
+block: data? code?;
+header: HEADER_SYM dtype=(PARAM_INT|PARAM_FLOAT) IDENTIFIER ('with' params)?;
 data: DECLARATION_SYM declList;
 
 //Declaration section
@@ -30,17 +31,17 @@ statement:
         | ifStm
         | printStm
         | printCharStm
-        | returnStm
         | assignmentStm
         ;
 
-
-
+returnCall: INTEGER'.' returnStm;
 assignmentStm: ASSIGN variable 'as' variable;
 
 //function
-functionCall: FUNCTION IDENTIFIER 'for' variable call?;
-call: 'with' variable ((COMMA | (COMMA? AND)) variable)*;
+functionCall: CALL IDENTIFIER 'for' variable ('with' pass)?;
+pass: variable((COMMA | (COMMA? AND)) variable)*;
+params: param ((COMMA | (COMMA? AND)) param)*;
+param locals [ TypeSpec *type = nullptr ]: dtype=(PARAM_INT|PARAM_FLOAT) IDENTIFIER;
 returnStm: RETURN variable;
 
 //arithmetics 
@@ -75,7 +76,7 @@ variable locals [ TypeSpec *type = nullptr ]: (INTEGER ARRAY_ELEM OF)? IDENTIFIE
 //Keywords
 PERIOD: '.';
 COMMA: ','(' '|NEWLINE);
-FUNCTION: 'See recipe';
+CALL: 'See recipe';
 INT_TYPE: 'kg' | 'L';
 FLOAT_TYPE: 'g' | 'mL';
 ARR_INT_TYPE: 'pieces';
@@ -129,3 +130,6 @@ COMMENT: '(' .*? ')' -> skip;
 
 IDENTIFIER: [a-zA-Z]+;
 INTEGER: [0-9]+;
+
+PARAM_INT: [Ff]'ew';
+PARAM_FLOAT: [Ss]'ome';

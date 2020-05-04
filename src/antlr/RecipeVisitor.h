@@ -25,6 +25,8 @@ public:
    */
     virtual antlrcpp::Any visitProgram(RecipeParser::ProgramContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunction(RecipeParser::FunctionContext *context) = 0;
+
     virtual antlrcpp::Any visitMainBlock(RecipeParser::MainBlockContext *context) = 0;
 
     virtual antlrcpp::Any visitBlock(RecipeParser::BlockContext *context) = 0;
@@ -47,11 +49,17 @@ public:
 
     virtual antlrcpp::Any visitStatement(RecipeParser::StatementContext *context) = 0;
 
+    virtual antlrcpp::Any visitReturnCall(RecipeParser::ReturnCallContext *context) = 0;
+
     virtual antlrcpp::Any visitAssignmentStm(RecipeParser::AssignmentStmContext *context) = 0;
 
     virtual antlrcpp::Any visitFunctionCall(RecipeParser::FunctionCallContext *context) = 0;
 
-    virtual antlrcpp::Any visitCall(RecipeParser::CallContext *context) = 0;
+    virtual antlrcpp::Any visitPass(RecipeParser::PassContext *context) = 0;
+
+    virtual antlrcpp::Any visitParams(RecipeParser::ParamsContext *context) = 0;
+
+    virtual antlrcpp::Any visitParam(RecipeParser::ParamContext *context) = 0;
 
     virtual antlrcpp::Any visitReturnStm(RecipeParser::ReturnStmContext *context) = 0;
 
