@@ -17,15 +17,15 @@ class  RecipeLexer : public antlr4::Lexer {
 public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, T__6 = 7, 
-    T__7 = 8, GOTO = 9, PERIOD = 10, COMMA = 11, FUNCTION = 12, INT_TYPE = 13, 
-    FLOAT_TYPE = 14, ARR_INT_TYPE = 15, ARR_FLOAT_TYPE = 16, ARRAY_ELEM = 17, 
-    OF = 18, HEADER_SYM = 19, DECLARATION_SYM = 20, CODE_SYM = 21, RETURN = 22, 
-    ASSIGN = 23, IF = 24, THEN = 25, ELSE = 26, WHILE = 27, WHILE_DO = 28, 
-    REPEAT = 29, UNTIL = 30, ADD = 31, SUB = 32, MUL = 33, DIV = 34, STEP_SYM = 35, 
-    AND = 36, OR = 37, DEST = 38, PRINT = 39, PRINT_CHAR = 40, IS = 41, 
-    TRUE_SYM = 42, NOT = 43, GT = 44, LT = 45, EQ = 46, GE = 47, LE = 48, 
-    INC = 49, DEC = 50, WS = 51, NEWLINE = 52, COMMENT = 53, IDENTIFIER = 54, 
-    INTEGER = 55
+    T__7 = 8, T__8 = 9, T__9 = 10, GOTO = 11, PERIOD = 12, COMMA = 13, FUNCTION = 14, 
+    INT_TYPE = 15, FLOAT_TYPE = 16, ARR_INT_TYPE = 17, ARR_FLOAT_TYPE = 18, 
+    ARRAY_ELEM = 19, OF = 20, HEADER_SYM = 21, DECLARATION_SYM = 22, CODE_SYM = 23, 
+    RETURN = 24, ASSIGN = 25, IF = 26, THEN = 27, ELSE = 28, WHILE = 29, 
+    WHILE_DO = 30, REPEAT = 31, UNTIL = 32, ADD = 33, SUB = 34, MUL = 35, 
+    DIV = 36, STEP_SYM = 37, AND = 38, OR = 39, DEST = 40, PRINT = 41, PRINT_CHAR = 42, 
+    IS = 43, TRUE_SYM = 44, NOT = 45, GT = 46, LT = 47, EQ = 48, GE = 49, 
+    LE = 50, INC = 51, DEC = 52, WS = 53, NEWLINE = 54, COMMENT = 55, IDENTIFIER = 56, 
+    INTEGER = 57
   };
 
   RecipeLexer(antlr4::CharStream *input);

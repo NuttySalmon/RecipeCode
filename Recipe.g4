@@ -20,6 +20,7 @@ codeLineList: (codeLine)+;
 codeLine: INTEGER '.' statementList PERIOD;
 statementList: statement (THEN statement)*;
 statement:  
+        | 'Done' |'Wait'
         | addSubStm 
         | mulStm
         | divStm
