@@ -59,8 +59,6 @@ public:
     antlrcpp::Any visitIncDecStm(RecipeParser::IncDecStmContext *ctx) override;
     antlrcpp::Any visitWhileStm(RecipeParser::WhileStmContext *ctx) override;
     antlrcpp::Any visitUntilStm(RecipeParser::UntilStmContext *ctx) override;
-    antlrcpp::Any visitFuncDefine(RecipeParser::DeclListContext *ctx) override;
-    antlrcpp::Any visitFuncCall(RecipeParser::FunctionCallContext *ctx) override;
 
 };
 

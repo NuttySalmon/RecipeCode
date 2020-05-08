@@ -12,8 +12,6 @@ using namespace wci::intermediate;
 using namespace wci::intermediate::symtabimpl;
 
 const bool DEBUG_2 = true;
-static unordered_map<string, vector<vector<string>>> fxn_variables_vec;
-
 
 Pass2Visitor::Pass2Visitor() : program_name(""), j_file(nullptr) {}
 
@@ -613,72 +611,4 @@ antlrcpp::Any Pass2Visitor::visitUntilStm(RecipeParser::UntilStmContext *ctx)
     j_file << "\ticonst_1" << endl;
     j_file << "\tif_icmpne " << loopLab << endl;
     return nullptr;
-}
-
-antlrcpp::Any Pass2Visitor::visitFuncDefine(RecipeParser::DeclListContext *ctx) {
-    cout << "--> in FuncDef(): " << ctx->FUNCTION()->getText() << endl;
-	 fxn_name = ctx->FUNCTION()->getText() + "_";
-	 vector<vector<string>> fxn_inputs;
-
-	 j_file << "\tgoto " << fxn_name << "end" << endl;
-	 j_file << ctx->FUNCTION()->getText() << ":" << endl;
-	 j_file << "\tastore_1" << endl;
-
-	 if(ctx->decl(0) != NULL)
-	 {
-		 for(unsigned int i = 0; i < ctx->decl().size(); i++)
-		 {
-			 string type_name = ctx->decl(i)->children[0]->getText();
-			 string var_name = ctx->decl(i)->children[1]->getText();
-			 fxn_inputs.push_back({fxn_name + var_name, type_name});
-		 }
-	 }
-	 fxn_variables_vec.emplace(ctx->IDENTIFIER()->getText(), fxn_inputs);
-
-	 j_file << "\tret 1" << endl;
-	 j_file << fxn_name << "end:" << endl;
-	 fxn_name = "";
-	 return NULL;
-}
-
-antlrcpp::Any Pass2Visitor::visitFuncCall(RecipeParser::FunctionCallContext *ctx) {
-    if(DEBUG_2)
-        cout << "=== Pass 2: visitFuncCall" << endl;
-
-    // visit function id
-
-    
-    if(ctx->IDENTIFIER() != NULL) {
-        int input_count = ctx->IDENTIFIER()->expr().size();
-        
-        vector<vector<string>> fxn_inputs = fxn_variables_vec.find(ctx->FUNCTION()->getText())->second;
-
-        int input_num = fxn_inputs.size();
-
-        int total = 0;
-        if (input_num > input_count) {
-            total = input_count;
-        } else {
-            total = input_num;
-        }
-
-        for (int i = 0; i < total; i++) {
-            string var_name = fxn_inputs[i][0];
-            string type_name = fxn_inputs[i][1];
-
-            string type;
-            if (type_name == 'kg' || type_name == 'L' || type_name == 'pieces') {
-                type = "I";
-            } else if (type_name == 'g' || type_name == 'mL' || type_name == 'packs') {
-                type_name = "F";
-            }
-
-            j_file << "\tputstatic\t" << program_name << "/" << fxn_name <<  var_name << " " << type << endl;
-        }
-
-        // idg this line either
-        j_file << "\tjsr " << context->FUNCTION()->getText() << endl;
-	    return NULL;
-    }
-
 }

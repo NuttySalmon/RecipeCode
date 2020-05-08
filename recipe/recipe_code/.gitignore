@@ -1,0 +1,5 @@
+/.vscode
+/.antlr
+/build
+/bin
+*.class

@@ -141,42 +141,6 @@ antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
     return childrenVisited;
 }
 
-antlrcpp::Any Pass1Visitor::visitFunctionDecl(RecipeParser::DeclContext *ctx) {
-    
-    string func_name = ctx->IDENTIFIER()->toString();
-    SymTabEntry *func_id = symtab_stack->enter_local(func_name);
-    func_id->set_definition((Definition)DF_FUNCTION);
-
-    func_id_list.push_back(func_id);
-    // var_ctx_list.push_back(ctx);
-
-    TypeSpec *type;
-    switch (ctx->dtype->getType())
-    {
-    case RecipeParser::INT_TYPE:
-        type = Predefined::integer_type;
-        break;
-    case RecipeParser::FLOAT_TYPE:
-        type = Predefined::real_type;
-        break;
-    case RecipeParser::ARR_INT_TYPE:
-        type = Predefined::integer_type;
-        break;
-    case RecipeParser::ARR_FLOAT_TYPE:
-        type = Predefined::real_type;
-        break;
-    }
-    
-    
-    for (SymTabEntry *variable_id : variable_id_list) {
-        cout << variable_name << ' ' << ctx->dtype->getType() << endl;
-        ctx->type = type;
-        variable_id->set_typespec(type);
-    }
-    
-    return visitChildren(ctx);
-}
-
 
 
 
