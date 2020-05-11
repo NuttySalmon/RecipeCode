@@ -143,14 +143,18 @@ antlrcpp::Any Pass1Visitor::visitOperand(RecipeParser::OperandContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitFunctionDecl(RecipeParser::DeclContext *ctx) {
     
-    string func_name = ctx->IDENTIFIER()->toString();
-    SymTabEntry *func_id = symtab_stack->enter_local(func_name);
-    func_id->set_definition((Definition)DF_FUNCTION);
+    string func_name = ctx->IDENTIFIER()->toString(); // get function name
+    SymTabEntry *func_id = symtab_stack->enter_local(func_name); // create symtab stack with function name
+    func_id->set_definition((Definition)DF_FUNCTION); // set the function definition of func_id
 
-    func_id_list.push_back(func_id);
+    func_id_list.push_back(func_id); // store func_id
     // var_ctx_list.push_back(ctx);
 
-    TypeSpec *type;
+    
+    TypeSpec *type; 
+    
+    // determine func_id type
+
     switch (ctx->dtype->getType())
     {
     case RecipeParser::INT_TYPE:
@@ -166,12 +170,12 @@ antlrcpp::Any Pass1Visitor::visitFunctionDecl(RecipeParser::DeclContext *ctx) {
         type = Predefined::real_type;
         break;
     }
+
+    // set func_id type
     
-    
-    for (SymTabEntry *variable_id : variable_id_list) {
-        cout << variable_name << ' ' << ctx->dtype->getType() << endl;
-        ctx->type = type;
-        variable_id->set_typespec(type);
+    for (SymTabEntry *id : func_id_list) {
+        
+        id->set_typespec(type);
     }
     
     return visitChildren(ctx);

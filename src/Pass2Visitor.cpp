@@ -616,10 +616,14 @@ antlrcpp::Any Pass2Visitor::visitUntilStm(RecipeParser::UntilStmContext *ctx)
 }
 
 antlrcpp::Any Pass2Visitor::visitFuncDefine(RecipeParser::DeclListContext *ctx) {
-    cout << "--> in FuncDef(): " << ctx->FUNCTION()->getText() << endl;
+    
+
+    // get function name
 	 fxn_name = ctx->FUNCTION()->getText() + "_";
 	 vector<vector<string>> fxn_inputs;
 
+
+    //write to j_file
 	 j_file << "\tgoto " << fxn_name << "end" << endl;
 	 j_file << ctx->FUNCTION()->getText() << ":" << endl;
 	 j_file << "\tastore_1" << endl;
@@ -627,12 +631,14 @@ antlrcpp::Any Pass2Visitor::visitFuncDefine(RecipeParser::DeclListContext *ctx) 
 	 if(ctx->decl(0) != NULL)
 	 {
 		 for(unsigned int i = 0; i < ctx->decl().size(); i++)
-		 {
+		 {    
+             // store function name and type 
 			 string type_name = ctx->decl(i)->children[0]->getText();
 			 string var_name = ctx->decl(i)->children[1]->getText();
 			 fxn_inputs.push_back({fxn_name + var_name, type_name});
 		 }
 	 }
+     // file hash map with {identifier, [function name, type name]} pairs
 	 fxn_variables_vec.emplace(ctx->IDENTIFIER()->getText(), fxn_inputs);
 
 	 j_file << "\tret 1" << endl;
@@ -656,6 +662,8 @@ antlrcpp::Any Pass2Visitor::visitFuncCall(RecipeParser::FunctionCallContext *ctx
         int input_num = fxn_inputs.size();
 
         int total = 0;
+
+        // get max(num_identifier, functions)
         if (input_num > input_count) {
             total = input_count;
         } else {
@@ -663,9 +671,11 @@ antlrcpp::Any Pass2Visitor::visitFuncCall(RecipeParser::FunctionCallContext *ctx
         }
 
         for (int i = 0; i < total; i++) {
-            string var_name = fxn_inputs[i][0];
+            // get func_name and type_name
+            string func_name = fxn_inputs[i][0];
             string type_name = fxn_inputs[i][1];
 
+            // determine type from type_name
             string type;
             if (type_name == 'kg' || type_name == 'L' || type_name == 'pieces') {
                 type = "I";
@@ -673,7 +683,8 @@ antlrcpp::Any Pass2Visitor::visitFuncCall(RecipeParser::FunctionCallContext *ctx
                 type_name = "F";
             }
 
-            j_file << "\tputstatic\t" << program_name << "/" << fxn_name <<  var_name << " " << type << endl;
+            // write to j_file
+            j_file << "\tputstatic\t" << program_name << "/" << fxn_name <<  varfunc_name_name << " " << type << endl;
         }
 
         // idg this line either
