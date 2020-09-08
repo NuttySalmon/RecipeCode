@@ -1,5 +1,5 @@
-# RecipeCode (programming language)
-Recipe-code is an esoteric programming language that could pass as a recipe when you look at it afar (...until you actually look at the ingredients and directions). 
+# RecipeCode compiler language (programming language)
+Recipe-code is an esoteric programming language I created that could pass as a recipe when you look at it afar (...until you actually look at the ingredients and directions). 
 
 This project uses ANTLR 4 to generate scanner and parser, which are used to generate instruction code to be used in JVM.
 
